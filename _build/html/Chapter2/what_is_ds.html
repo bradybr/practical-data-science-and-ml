@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>2. What Is Data Science? &#8212; Practical Data Science and Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Chapter2/what_is_ds';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.1. Data Science Roles" href="ds_roles.html" />
+    <link rel="prev" title="1.2. Objectives" href="../Chapter1/book_objectives.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/althoff_logo.png" class="logo__image only-light" alt="Practical Data Science and Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/althoff_logo.png" class="logo__image only-dark" alt="Practical Data Science and Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Practical Data Science and Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Chapter1/introduction.html">1. Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter1/book_organization.html">1.1. Book Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter1/book_objectives.html">1.2. Objectives</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">2. What Is Data Science?</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ds_roles.html">2.1. Data Science Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds_tools.html">2.2. Tools Of the Trade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds_considerations.html">2.3. Special Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Chapter3/use_case_examples.html">3. Use Case Examples</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/pred_hyd_failure.html">3.1. Predicting Hydraulic Failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/forcst_power.html">3.2. Forecasting Power Consumption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/cust_seg.html">3.3. Customer Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/chair_manif.html">3.4. How Many Chairs Should We Make?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">4. References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/bradybr/practical-data-science-and-ml" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/bradybr/practical-data-science-and-ml/issues/new?title=Issue%20on%20page%20%2FChapter2/what_is_ds.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Chapter2/what_is_ds.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>What Is Data Science?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="what-is-data-science">
+<h1><span class="section-number">2. </span>What Is Data Science?<a class="headerlink" href="#what-is-data-science" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><p>It was impossible to get a conversation going, everybody was talking too much.</p>
+<p>– <cite>Yogi Berra</cite></p>
+</div></blockquote>
+<p>Ask ten different people what Data Science is and you’ll very likely get ten different answers.  It’s a loaded question clouded by buzz words, assumptions, egos, and domain specific interpretations.</p>
+<p>With stability comes standardization, but unfortunately in the case of emerging innovation as with the fields of Artificial Intelligence and Data Science, you get the opposite effect: lack of standardization.  These emerging fields are in a constant state of flux.  Technology evolves enabling new capabilities, academia and businesses create new personas, consensus shifts on what’s in and what’s out under an umbrella term like Data Science, and things are forever being rebranded to recenter the focus after a field gets too messy.</p>
+<p>Words matter.  We use them to compartmentalize and categorize.  We use them to convey information so others can understand our meaning. To the extent that we need overselves and others to comprehend what we’re talking about and understand what’s included and excluded, these words matter.  Beyond this comprehension I would argue, there’s little practical value in endlessly debating and nit-picking the semantics and ownership of which field owns which methodology.</p>
+<p>For our purposes, what <em>really</em> matters at the end of the day is that you’re able to:</p>
+<ul class="simple">
+<li><p>Understand what other people are talking about</p></li>
+<li><p>Convey your message in such a way that others are able to understand what you’re talking about</p></li>
+<li><p>Get to the bottom of what really matters, which is understanding the objectives, value potential, and how to solve a problem</p></li>
+</ul>
+<br><p>Knowing what level of understanding we’re after, let’s start with one of the simplest definitions of Data Science generally seen in the wild.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Data Science</em> is a field of study which analyzes data to find patterns and extract meaningful insights.</p>
+</div>
+<br><p>Seems straightforward enough.  Doesn’t it seem a little broad though?  Does this mean that anyone looking at data and finds anything interesting is doing data science work?  Hmm… probably not.  With this definition, anyone from a busines analyst to the CEO could be engaged in data science work.  While possible, it’s most likely not the case.  There’s probably a more detailed description we can tease out if we add a few layers of contextualization to tighten up the screws.  Going back to the idea of compartmentalization, what additional information might you want to know to help us settle on an understanding of what we’re talking about?</p>
+<p>How about if we knew the following?</p>
+<ul class="simple">
+<li><p>What kinds of projects we solve</p></li>
+<li><p>The specific fields of study and skills involved</p></li>
+</ul>
+ <br>
+<p>Equipped with these questions we should be able to expand on our early definition, starting with the types of projects we work on.</p>
+<h3>What kinds of problems do we solve?</h3><p>The easiest way to make clear what we’re talking about is probably to jump in and show some examples.  We’ll go into more detail in subsequent chapters, but for now you can at least get a taste of the concepts.</p>
+<p>Let’s start with a view of the analytics continuum.  There’s no value judgement below, as significant value can be found anywhere along the continuum; however, there is a natural progression of implied complexity as you move from left to right.  Data scientists mostly <em>want</em> to live on the right side of the graphic, but it’s certainly not unusual to progress through the descriptive, visual, and statistical steps during the course of an actual project.</p>
+<figure class="align-default" id="analytics-craddle-fig">
+<a class="reference internal image-reference" href="../_images/analytics_craddle.png"><img alt="../_images/analytics_craddle.png" src="../_images/analytics_craddle.png" style="width: 700px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Analytics Continuum</span><a class="headerlink" href="#analytics-craddle-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>These lists are non mutually exclusive, and we’ll often say “generally” because there are few hard and fast rules here.  It’s not unusual for a data scientist to be working on a project using only traditional statistical methods.  Again, it’s not important that we’re super strict with definitions and classifications, but more so that we gain a better understanding of what’s commonly considered to be included under the umbrella of Data Science.</p>
+<h5>Descriptive Analytics</h5><p>If we look at <a class="reference internal" href="#analytics-craddle-fig"><span class="std std-numref">Fig. 2.1</span></a>, we can understand that the majority of the traditional analytics produced today falls into the first bucket of trying to explain <em>what happened</em> (Descriptive Analytics).  Why?  Because it’s the most accessible and requires the least amount of specialized knowledge.  Nearly every entry level business associate should be able to take some historical data and summarize it in some interesting way.</p>
+<ul class="simple">
+<li><p>What’s the percentage of sales for this quarter by region?</p></li>
+<li><p>Which late shipment reason code was applied the most often last month?</p></li>
+<li><p>Which customers are paying their invoices late, ranked as a percentage of total sales?</p></li>
+</ul>
+<br><p>How about highlighting your findings with a simple barplot?</p>
+<p>Is there any evidence of chivalry based on the survial rates from the Titanic?  Turns out… maybe.  In the plot below we can see that over 80% of men perished that fateful night, whereas only 26% of the women on board died.  Very interesting.   <em>Women and children first</em> possibly?</p>
+<figure class="align-default" id="titanic-survival-by-sex-fig">
+<a class="reference internal image-reference" href="../_images/titanic_survival_by_sex.png"><img alt="../_images/titanic_survival_by_sex.png" src="../_images/titanic_survival_by_sex.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.2 </span><span class="caption-text">Titanic Survival Rates by Sex</span><a class="headerlink" href="#titanic-survival-by-sex-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This is all the domain of Descriptive Analytics.  Overall, pretty intuitive, first blush questions you might think of when interrogating a data set, which is why it’s the most frequently employed.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Analytics does not have to be complicated, and significant value can often be found by simply uncovering basic information, provided it can be acted upon to affect change.</p>
+</div>
+<h5>Diagnostic Analytics</h5><p>Moving on to trying to understanding <em>why</em> something happend.  Diagnostic Analytics in <a class="reference internal" href="#analytics-craddle-fig"><span class="std std-numref">Fig. 2.1</span></a> shows us this bucket has been the traditional home for the more advanced and mathematically inclined in any organization.  These have historically been engineers, economists, statisticians, research and development (R&amp;D), demand planners, and even MBA’s, to name a few.</p>
+<p>What’s important to point out here, is that this set is working with higher order mathematics more so than the average analyst.  We’ll discuss this further when we get to methodologies, but for now it’s enough to know what really sets this group apart is their statistical prowess.  We do see some crossover into the more data science-sy territory with this group because we often use some of the same math and solvers.  Where we usually diverage is in the end-to-end business continuity, the types of problems we solve, the technology and programming languages we use, and the applications we build.  I know it’s hard to see the distinctions now, but stay tuned.  It will become more clear as we introduce new topics.</p>
+<p>An example for this group wouldn’t be complete without mentioning the workhorse of statistics:  Regression.</p>
+<ul class="simple">
+<li><p>Want to understand the relationship between height and weight?</p></li>
+<li><p>Want to estimate what raising your retail prices will do to sales?</p></li>
+<li><p>Want to understand if a promotion you ran last month influenced your sales?</p></li>
+</ul>
+<br>
+<p>Then welcome to statistics and regression my friend.  There are lots of other methodologies being used with diagnostic analysis, but the main distinction is we’re essentially stopping short of predictions and instead usually making some sort of statistical inference.</p>
+<p>We’ll cover these topics again in later chapters, so don’t feel like you’re missing anything if you don’t quite understand the <em>how</em> behind the ways these questions are answered or the details behind these methods.</p>
+<h5>Predictive Analytics</h5><p>Now we get to the fun stuff (IMHO).  Predictive analytics always felt like the “what’s new and different” when I was first introduced to the field.  Entry-level resources are capable of analyzing data with simple summary statistics, and statistics was burned into my brain as a chore from my college years, but now I was being asked to think about how cool it would be if I was able to predict which specific employees were likely quit next month, or which product had the highest probability of running out of inventory next week.  Taken even further with topics that held more personal interest was really exciting as well.  Could I predict the winner of the upcoming MLB baseball game?  Could I predict which stock had the highest probability of going up in price tomorrow?  How about being able to predict the setlist of a concert I was going to see this summer (trust me, it’s kind of a big deal for this band, and I would the king if I was able to pull it off)?  Super fun stuff!</p>
+<p>This set of analytics is generally where we begin to see separation from what a traditional “math” persona or statistician might be comfortable doing.  We also start throwing around words like “algorithm” and “model” far more frequently at this stage.  You can definitely build diagnostic models, but when we get to the predictive stage we’re now mostly talking about building end-to-end, deployable, and resuable containerized models.  Essentially this means we’re no longer talking about just answering a one-time question or a one-off study like with diagnostics.  Here we may want to frequently run new data through our model and have it continuously spit out new predictions at regular intervals.</p>
+<p>You’ll be introduced to all kinds of new topics when we begin discussing the methodologies and mathematics from this set in future chapters, but for now try to wrap your head around this idea: We start with data as inputs, then we build models to learn patterns and relationships between the subjects of interest, next we project those learned patterns onto new data inputs, which finally produces a prediction of some kind.</p>
+<ul class="simple">
+<li><p>Predicting which consumers have the highest likely of responding to a promotional offer</p></li>
+<li><p>Predicting which piece of manufacturing equipment is likely to break down within the next month</p></li>
+<li><p>Forecasting sales for next quarter</p></li>
+<li><p>Grouping products together to reveal hidden similarities</p></li>
+<li><p>Detecting foreign objects and ingredient contaminants in food manufacturing</p></li>
+</ul>
+ <br><p>For another example, imagine how an anti-theft detection program might “see” crowds of people in a small shopping corridor and predict aberrant behvior.  Computers do not see things the same ways our human eyes and brains do so we need to somehow encode our data into a format our program can understand.  For now, just understand that public places like this often have software running analyzing video feeds for our facial expressions, body movements, and other indicators of specific behaviors.  From a technical point of view it’s very cool, however kind of scary to think about from a personal privacy perspective, right?</p>
+<figure class="align-default" id="crowd-id-fig">
+<a class="reference internal image-reference" href="../_images/crowd_id2.png"><img alt="../_images/crowd_id2.png" src="../_images/crowd_id2.png" style="width: 700px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">Anti-theft detection program</span><a class="headerlink" href="#crowd-id-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<h5>Prescriptive Analytics</h5><p>Now we’ve arrived at the final, and typically the most complex type of analytics: Prescriptive.</p>
+<p>Prescriptive Analytics is another set similar to Diagnostic Analytics, in that it has historically received plenty of attention, albeit from highly specialized practitioners.  These resources tend to be masters or Ph.D. level associates highly skilled in applied statistics, linear algebra, and calculus.  Practically speaking, the field of Operations Research, alternatively known as Management Science, has been the applied faction traditionally focused on linear modeling and optimization.</p>
+<p>Generally, the idea of this set is focused on steering an organization towards better, hopefully optimal, decision making, by using specialized mathematics and analytical techniques.  We want to <em>prescribe</em>, or direct our business stakeholders with information telling them what they should do.  The techniques we use can be anything from simple algebra and linear programs, stochastic optimization, to extremely complex non linear functional solvers.  Regardless of the type or industry, these optimization problems will nearly always have the same components, i.e. input variables, decision variables, an objective function, and optionally, constraints if applicable.  Lots of new terms here we’ll explain in greater detail later, but think of optimization simply as taking in some information (input variables), telling it what answer you would like to get back (decision variables), describing what you would like the solution to minimize or maximize (objective function), and possibly giving it some rules the solution must respect (constraints).</p>
+<p>This type of optimization lends itself well to manufacturing and industries where there are complex operations with many possibilities for the choices or decisions one could make.</p>
+<ul class="simple">
+<li><p>Resource shift scheduling</p></li>
+<li><p>Transporation route planning</p></li>
+<li><p>Production sequencing and scheduling</p></li>
+</ul>
+<br><p>Taken even further to a more complex degree, a field of study known as Reinforcement Learning (RL) is having a moment in the public conciousness right now due to high profile companies such as Tesla.  Any guess as to how those fancy autonomous driving vehicles are learning how to avoid pedestrians and other obstacles?  You guessed it, reinforcement learning (among many other types of math and models).  RL is a type of complex specialized program that learns how to make sequential decisions that lead to the best cumulative benefit over a longer time horizon.  In manufacturing, these learned state-action policies are often used to automatically control extremely complex pieces of machinery without requiring human intervention.</p>
+<figure class="align-default" id="manif-process-fig">
+<a class="reference internal image-reference" href="../_images/manif_process.png"><img alt="../_images/manif_process.png" src="../_images/manif_process.png" style="width: 700px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.4 </span><span class="caption-text">A complex manufacturing operation with parallel and sequential tasks</span><a class="headerlink" href="#manif-process-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>At this stage you’ve been introduced to some fundamental data science methodologies and project types at a very high level.  There’s so much more to expound on and we’ll begin to discuss in more detail in the upcoming sections.</p>
+<p>Let’s pivot now to what makes data science unique from a skills and background point of view.</p>
+<h3>What fields of study and specialized skills are involved?</h3><p>Next up, we’ll take a look at the fields and skills involved with data science.  <a class="reference internal" href="#ds-venn-fig"><span class="std std-numref">Fig. 2.5</span></a> below is a very common Venn diagram illustrating the composition of a unicorn data scientist.  This little graphic will take us a long way towards understanding what we’re talking about, so let’s jump in.</p>
+<figure class="align-default" id="ds-venn-fig">
+<a class="reference internal image-reference" href="../_images/ds_venn.png"><img alt="../_images/ds_venn.png" src="../_images/ds_venn.png" style="width: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.5 </span><span class="caption-text">Data Science Venn Diagram</span><a class="headerlink" href="#ds-venn-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>If data can be thought of as the medium in which we work, then these are the building blocks and tools that allow us to work with that data.  The challenges that obscure an easy definition here are the overlapping fields.  If you hear someone say they they fix car engines, then there’s little question you could classify them as a mechinic.  There may be many variations of specialties as a mechanic, but essentially it’s easy to comprehend what someone who fixes car engines does.  Same goes for if I told you I teach English.  I may provide English lessons via a web course for non English speaking refugees, but I’m still a teacher in the simplest terms.  For us data scientists, there are several overlapping fields front and center so unfortunatley it’s not so cut and dry.</p>
+<h5>Math & Statistics</h5><p>Firstly, <em>Math &amp; Statistics</em> are paramount, as you’re hopefully starting to pick up from the examples thus far.  There are many flavors of mathematical specialties involved, which in my opinion is one of the main points that make us distinct from other analytics practitioners.  Data scientists are expected to be able to work across a large number of disciplines, whereas others may specialize in just one, or maybe two, fields of study.</p>
+<p>There are a few core sets of mathematics which underlie a great deal of the methodologies you’ll come across in the field.  You certainly could get away with being pretty dangerous by just willy nilly using packaged functions and algorithms <em>without</em> understanding what’s going on under the hood; however, if you plan to do more harm than good you really should work at becoming fairly knowledgable and comfortable with the following.</p>
+<ul class="simple">
+<li><p>Probability Theory</p></li>
+<li><p>Information Theory</p></li>
+<li><p>Frequentist/Bayesian Statistics</p></li>
+<li><p>Linear Algebra</p></li>
+<li><p>Calculus</p></li>
+</ul>
+<p>The early pioneers and practitioners of the field primiarly came from this set born out of academia, and were mostly mathematicians and scientists.  They were doing this work by hand and with early generation computers that could only do a tiny fraction of the computations that we take for granted today.</p>
+<p>If you talk to a 20 year veteran of engineering or statistics, you may hear them say they were doing data science work before it was the sexiest job of the 21st century, and that’s because they very well might have been, by way of supervised learning regressions most likely.  At this current and more developed stage of the field however, there are likely pieces of the puzzle missing from these traditional practitioners, which is where we go next.</p>
+<h5>Computer Science</h5><p>Another point of distinction versus the traditional math and statistics breed is <em>Computer Science</em>.  No longer is it sufficient to only understand the math.  Technology is the conduit by which all of our cool mathematical theory sees the light of day.  If the early practitioners came from the math set before, today there’s no doubt that we see a large number of entrants into the field coming from more traditional CS/IS/IT backgrounds.  This is due to the fact that it’s much easier to simply jump straight in and begin using someone else’s prepackaged algorithm and code, versus starting by learning math theory.  The technology behind what we’re talking about is certainly complicated and can be difficult to learn, but from a user perspective though, it’s objectively much easier to learn how to be a user of a technology <em>designed</em> for your use, compared to universal theory and concepts that just <em>are</em>, and do not care if you understand them or not.</p>
+<p>Technology has drastically lowered the bar for entry into the field.  If you can learn a programming language and some basic deployment environment, then you have everything you need right now to build a machine learning model.  It’s probably not a great idea, but you could nonetheless.</p>
+<p>Peruse any data scientist job posting today and you’ll likely see a laundry list of technologies, architecture ecosystems, and programming languages required.  While not exhaustive, below is an example of what you might run across when searching.</p>
+<ul class="simple">
+<li><p>Experience within the Microsoft Azure ecosystem (e.g. Data Lake, Delta Tables, Data Factory, pipelines)</p></li>
+<li><p>Experience with Data Bricks environment</p></li>
+<li><p>Advanced Python, NumPy, Pandas, scikit-Learn, TensorFlow</p></li>
+<li><p>Advanced MLOps capabilities</p></li>
+<li><p>Experience with Snowflake</p></li>
+<li><p>Experience with Kafka</p></li>
+<li><p>Experience with Git/Github code management</p></li>
+<li><p>Experience with DevOps</p></li>
+</ul>
+<p>Kind of scary, isn’t it?  Don’t worry.  Going back to the idea of a unicorn data scientist, it’s actually pretty rare for one person to be extremely proficient in everything.  Technology continues to move at break neck paces, and it takes years of hands on practice to gain experience and expertise.</p>
+<p>We’ll cover aspects of these details later, but for now, just understand that these CS requirements can generally be broken down into categorical buckets like below.</p>
+<ol class="arabic simple">
+<li><p>Programming language</p></li>
+<li><p>Programming environment</p></li>
+<li><p>End-to-end architecture/networking systems</p></li>
+<li><p>Code/Project management systems</p></li>
+</ol>
+<h5>Domain Knowledge</h5><p>The importance of this last major contributing set cannot be overstated.  We’ll discuss this in detail when we get to project overviews, but understand this is one of the main reasons projects fail.  On one hand you have highly skilled problem solvers armed with advanced methodologies, but most likely fairly ignorant of the domain area in which the problem came from.  On the other hand, you have highly competent functional resources who understand how their operations work, but usually have absolutely no idea how to solve their problem with any of the advanced solutions we use.</p>
+<p>It’s very common to find one person working in the data science field that’s skilled in math &amp; statistics as well as the CS space; however, it’s far less common to find an individual extremely capable in math &amp; statistics, CS, <em>and</em> domain expertise.  This of course depends on the type of experience and background of the individual, but as a “jack of all trades” type of generalist data scientist, we’ll rely heavily on bringing in domain expertise from the function we’re working with where the problem and project originated.</p>
+<p>Here’s an example to make this more concrete.  A transporation logistics department has a need for an application that can build consolidated shipments from all of the individual orders that come into their system, all with different requested arrival dates and destinations.  This seems simple enough.  You just need to know the the total weight of each individual order, the maximum weight a truck can hold, and then one of those fancy optimization algorithms, right?  Well, not so fast.  Did you know that Target customer orders cannot be grouped on the same truck as Walmart orders?  And did you know certain products cannot be double stacked on the truck, so you’ll have to leave dead space above them?  And what about having to pull in orders planned to ship over the weekend to ship on Friday’s?  And so on…  If you went ahead and built a solution without taking any of these domain specific condsiderations into account, then I can tell you from experience that your solution will be rejected because it does not meet the needs of your sponsors.</p>
+<p>So unless you plan on working in every single department or role for a few years before you build any projects for them, it’s extremely unlikely you’ll be able to serve as the functional domain expert all of the time.  We will need to work alongside of our project sponsors and functional working teams to make sure we consider all of the exceptions, constraints, and rules we need to know about.</p>
+<p>At this point we’ve covered the outer ring of <a class="reference internal" href="#ds-venn-fig"><span class="std std-numref">Fig. 2.5</span></a>, which are the general fields and knowledge bases.  As we get closer to the center of the diagram we’re starting to get more specialized and data science specific.  We won’t spend too much time on them here since the remainder of the course is mostly dedicating to covering these topics, but let’s at least hit the highlights now because it should help round out our custom Data Science definition we’ve been building towards.</p>
+<h5>Machine Learning</h5><p>As you’ll come to understand further, the application of specialty mathematics is a major part of what we do.  Where math &amp; statistics and computer science overlap gives us what’s known as <em>Machine Learning</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Machine Learning</em> is the application of code, algorithms, and data, giving computers the ability to learn and perform a variety of tasks.</p>
+</div>
+<br><p>Tightly coupled with the types of analytics we’ve already covered, you’ll learn there are classifications of methodologies that allow us to teach our models to learn and find patterns, which ultimately gives us the ability to solve our problems.  For example, to solve a Prediction problem from the Analytics Continuum in <a class="reference internal" href="#analytics-craddle-fig"><span class="std std-numref">Fig. 2.1</span></a>, we may choose to employ what’s known as a <em>Classification</em> algorithm from the Supervised Learning group of machine learning methods.</p>
+<p>Our machine learning methodologies will generally fall into one of the three buckets below.</p>
+<ul class="simple">
+<li><p>Supervised Learning</p></li>
+<li><p>Unsupervised Learning</p></li>
+<li><p>Reinforcement Learning</p></li>
+</ul>
+<p>Supervised Learning is a collection of techinques revolving around the idea of learning from historical observations where you know the answer.  For example, imagine you have a data set consisting of many individual dogs and cats, one animal per row, with characteristics of each individual such as height, weight, tail length, nose length, ear length, etc.  In addition, for supervised learning you should expect some “truth” label that tells you the classification, or answer, for whatever you’re interested in predicting.  In this case, it would be a column named “Specie”, which holds whether each animal is a dog or cat.  Our algorithm would then learn which features allow us to separate between dogs and cats, which we could subsequently use to make predictions on new examples where we <em>do not</em> know the answer, whether it’s a dog or cat.  Unsupervised Learning is similar, in that our algorithms look for relationships and patterns, however here we do not have a ground truth label to learn from.  And lastly, we’ve already discussed Reinforcement Learning briefly.  These are generally more optimization and sequential learning tasks under uncertainty.</p>
+<p>More to come on these topics.</p>
+<h5>Research</h5><p>This one was a little foreign to me coming from a business background.  Where math &amp; statistics overlap with domain expertise, we get <em>Research</em>.  Now this doesn’t mean you’re going to be conducting trials and writing research papers, but it does mean you should understand some of the same tests, methods, and rigor that academic and scientific professionals balance.</p>
+<p>For example, let’s say you’re trying to prove a statistical link between smoking and cancer.  Seems pretty obvious to us today, but did you know that it wasn’t until 1954 that scientists were able to satisfingly prove the causal releationship <span id="id1">[<a class="reference internal" href="../zreferences.html#id2" title="Elizabeth Mendes. The study that helped spur the u.s. stop-smoking movement. American Cancer Society, Jan 2014. URL: https://www.cancer.org/research/acs-research-news/the-study-that-helped-spur-the-us-stop-smoking-movement.html.">Men14</a>]</span>?  It’s a high bar to say something <em>causes</em> something else from a statistical point of view.</p>
+<p>Since you’ll be using a lot of the same statistical methods and making a lot of the same kinds of inferential statements based on your models, there are some well documented protocols we’ll need to be aware of and follow as best we can.  Have you heard of the scientific method?  See <a class="reference internal" href="#scientific-method-fig"><span class="std std-numref">Fig. 2.6</span></a>.</p>
+<figure class="align-default" id="scientific-method-fig">
+<a class="reference internal image-reference" href="../_images/scientific_method.png"><img alt="../_images/scientific_method.png" src="../_images/scientific_method.png" style="width: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.6 </span><span class="caption-text">The Scientific Method</span><a class="headerlink" href="#scientific-method-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>You’ll be introduced to a lot of these related topics as we progress through the course - experimental design, controlled testing, small sample size, confounding and lurking variables, counterfactuals, omitted variable bias, overfitting, repeated trials, hypothesis testing, confidence intervals, just to name a few.  I know, I know.  Sounds scary if you’ve never heard any of this.  Don’t worry though.  We’ll get there.</p>
+<p>Here’s a fun one to round out the topic.  Have you heard people throw the word “correlation” around casually to say something is related to something else?  Well, from a statistics point of view, this word matters.  Hopefully you’ve already learned that there’s a real mathematical formula for correlation.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{ \sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y}) }{%
+        \sqrt{\sum_{i=1}^{n}(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i-\bar{y})^2}}
+\]</div>
+<p>What’s more, the coefficients you get are only trustworthy if the relationship you’re testing is a linear one.  It’s unfortunately way too common to see people report bogus relationships because they aren’t aware of the simple underlying theory.  Check out <span id="id2">[<a class="reference internal" href="../zreferences.html#id3" title="Tyler Vigen. Spurious correlations. 2023. URL: http://www.tylervigen.com/spurious-correlations.">Vig23</a>]</span> to see a ton of ridiculous examples of what’s known as “spurious correlations”, meaning you get false results that look like you’ve proven two independent and unrelated phenomena are related.</p>
+<h5>Software Development</h5><p>Lastly, we get to <em>Software Development</em> where computer science and domain expertise overlap.  What work is involved will of course depend on where you’re working, what technology architecture and systems you’re working with, how large your team is, the roles and responsibilities for each, and which resource is expected to complete certain tasks.</p>
+<p>I personally think “software” is a poor choice of wording here, and if we insist on it, then in my opinion it’s a little too far outside of our scope and solely into CS territory.  If we peel it back a bit and view it through the lens of “application” development, then it definitely hits the mark.  We’ll cover this in greater detail when we get to other data science personas and roles, but for now understand that someone on the data science team will need to own building, testing, deploying, and maintaining the final solution the team has built.</p>
+<p>In my experience, the data scientists on the team are typically expected to be able to build simple prototype web apps, or possibly even the final application given it’s in a well structured environment.  Outside of this, the responsibility for production deployment typically falls to someone more aligned with with what’s known as MLOps or Data Engineering.</p>
+<p>Another point worth mentioning is that we often get so caught up in the process of proving we can solve the problem, that we fail to devote enough time to the user experience.  Someone will need to think through some pretty standard questions when you begin talking about using your solution in practice.</p>
+<ul class="simple">
+<li><p>How will the users interact with our solution?</p></li>
+<li><p>What buttons will they want to push?  Levers they want to pull?</p></li>
+<li><p>Will there need to be any dynamic graphs or visuals?</p></li>
+<li><p>Will it be a web app?</p></li>
+<li><p>Are we deploying in the cloud or on premise?</p></li>
+<li><p>Does it need read/write back functionality?</p></li>
+<li><p>Will it need to be fed a constant stream of new data?</p></li>
+<li><p>And so many more questions.</p></li>
+</ul>
+<h3>What Did We Learn?</h3><p>Whew…  I know all of that was a lot.  It had to be done though to get it out of the way.  Let’s revisit our definition of data science and see if we’ve done any better.</p>
+<p>As originally stated it was extremely vague.  And how about now?  Given what we’ve learned, what would you add or change to make it a little more practical?</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Data Science</em> is a field of study which analyzes data to find patterns and extract meaningful insights.</p>
+</div>
+<br><p>Hopefully at this point you can see it has a lot more to do with a width breadth of mathematics and techinques, various analytical project types, emerging technologies, and end-to-end business connectivity, from idea inception all the way to deployment.</p>
+<p>You should now have a pretty decent grasp of what we’re talking about, at least in general, and enough for us to move on a bit.  We have a few more overview topics to get through and then we’ll jump into some fun hands-on learning.  I promise.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Chapter2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../Chapter1/book_objectives.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1.2. </span>Objectives</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ds_roles.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.1. </span>Data Science Roles</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Brian Brady
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
