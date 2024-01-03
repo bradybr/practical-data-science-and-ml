@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>2.1. Data Science Roles &#8212; Practical Data Science and Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Chapter2/ds_roles';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.2. Tools Of the Trade" href="ds_tools.html" />
+    <link rel="prev" title="2. What Is Data Science?" href="what_is_ds.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/althoff_logo.png" class="logo__image only-light" alt="Practical Data Science and Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/althoff_logo.png" class="logo__image only-dark" alt="Practical Data Science and Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Practical Data Science and Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Chapter1/introduction.html">1. Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter1/book_organization.html">1.1. Book Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter1/book_objectives.html">1.2. Objectives</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="what_is_ds.html">2. What Is Data Science?</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.1. Data Science Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds_tools.html">2.2. Tools Of the Trade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds_considerations.html">2.3. Special Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Chapter3/use_case_examples.html">3. Use Case Examples</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/pred_hyd_failure.html">3.1. Predicting Hydraulic Failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/forcst_power.html">3.2. Forecasting Power Consumption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/cust_seg.html">3.3. Customer Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Chapter3/chair_manif.html">3.4. How Many Chairs Should We Make?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">4. References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/bradybr/practical-data-science-and-ml" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/bradybr/practical-data-science-and-ml/issues/new?title=Issue%20on%20page%20%2FChapter2/ds_roles.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Chapter2/ds_roles.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data Science Roles</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-science-roles">
+<h1><span class="section-number">2.1. </span>Data Science Roles<a class="headerlink" href="#data-science-roles" title="Permalink to this heading">#</a></h1>
+<p>Job titles matter.  They matter to an individual’s self identity, their reward for years of study and experience, and for aided comprehension and understanding of the expectations of the resposibilities tied to a position.  Unfortunately titles do not guarantee any kind of standardization across industries, so we get the same mess we ran into with trying to define what is data science.</p>
+<p>This course will focus mostly on the capabilities of a data scientist and being self sufficient, but it’s a good idea to discuss all of the peripheral roles one would encounter in the real world.  Again, there’s tons of overlap so it’ll be a good idea to undertand what “common” looks like.  Titles, roles, and responsibitliies are constantly evolving with new technologies and business expectations, but what follows are fairly well established at this time in the industry no matter where you find yourself.</p>
+<p>This list could get out of hand if we’re not careful, so let’s try to keep it simple and high-level at this stage.  Below are some of the very common roles and personas you might run across in the field.  We’ll tackle them one by one and highlight what you might expect to see them do.</p>
+<ul class="simple">
+<li><p>Data/Business Analyst</p></li>
+<li><p>Business Architect</p></li>
+<li><p>Data Engineer</p></li>
+<li><p>Machine Learning Engineer/Machine Learning Ops Engineer</p></li>
+<li><p>Data Scientist</p></li>
+</ul>
+<h5>Data / Business Analyst</h5><p>Let’s start with the least standardized in my opinion.  In my nearly 20 years of working in corporate America, these seem to be the most general and open ended in terms of consistency.  The title Business Analyst tends to be more of catch all for hiring entry level associates with less experience without any particular specialty outside of general business knowledge.  Of course this depends on industry, for example, an Analyst working in goverment is a highly educated, skilled, and specialized resource.  Also, consultancy firms do seem to place some weight on the title as experienced and knowledgeable business associates.  So again, expect differences and few standards.</p>
+<p>In terms of data science, we start here because these are generally the front lines of analytics in any business.  After you enter into the corporate workforce, you’ll learn the dirty little secret that even multi billion dollar companies essentially run on Microsoft Excel, PowerPoint, and some drag and drop visual tool like Power BI or Tableau.  Value can be found by anyone in an organization, and not everything requires complicated methods from specialists.  If you can find value by running a report, dumping it in Excel, running some simple descriptive statistics or visual methods, then that’s nothing to sneeze at.  Things do not have to be complicated.</p>
+<figure class="align-default" id="xls-screen-fig">
+<a class="reference internal image-reference" href="../_images/xls_screen.png"><img alt="../_images/xls_screen.png" src="../_images/xls_screen.png" style="width: 700px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.7 </span><span class="caption-text">Simple Excel analytics</span><a class="headerlink" href="#xls-screen-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Going back to our discussion about “What is Data Science?”, recall our definition about anyone working with data and extracting meaningful insights?  Well, that broadness definitely covers this group.  Data and Business Analysts are ubiquitous in common business, spend a signficant amount of time pulling data, synthesize and extract information, reach conculsions, and ultimatley publish their findings in some easily consumable way (hopefully).  It would be unusual to see this group of associates working with higher order mathematics or machine learning though.</p>
+<h5>Business Architect</h5><p>With Business Architects we begin to move towards a specialty within analytics, however mainly from the <em>business</em> side.  These associates tend to be much more knowledgeable about the broad field of analytics though.  This covers a technical understanding of what other roles and personas are doing, as well as the technology and methodolgies involved.  With analysts in general you tend to get a lack of understanding of what data science resources can do, and with data science resources you tend to get a lack of understanding of how the business works.  The Business Architect role typically fills this gap between business strategy and technical execution, and will play in between these parties.</p>
+<p>These associates are generally not the ones performing analytics themselves, but more so work in business management, organizational communicatory, and consultancy capacities.  This is also a role is often missing with companies that are farily immature in their analytics journey, since these responsibilities can be assigned to and performed by other resources (arguably not as well though).</p>
+<h5>Data Engineer</h5><p>Now we get to someone you should definitely run into in any organization actually taking advanced analytics seriously.  Data Engineers are a critical member of any data science team.  These associates tend to be heavy on the CS/IS/IT backgrounds, and in my experience, are generally very light on the advanced math, machine learning, and basic data science methodologies.  This is actually not a bad thing though, seeing as your run of the mill data scientist will not be as proficient in the skills that a data engineer brings to the table.</p>
+<p>So what do they do?</p>
+<ul class="simple">
+<li><p>Data acquisition &amp; storage</p></li>
+<li><p>Data ETL (Extract, Transform, Load), wrangling, munging, and aggregation</p></li>
+<li><p>Database management</p></li>
+<li><p>Create and maintain data storage and pipleine architectures</p></li>
+<li><p>Data governance, security, and compliance</p></li>
+</ul>
+<p>What’s so great about these team members in my experience is that they tend to compensate for the lack of skills held by the more mathematically inclined on the team.  This goes back to the idea that it’s much easier to find a data scientist that has one or two of the three (math &amp; statistics, CS, and domain expertise) main skillsets employed.  So for me personally with my background in business operations supplmented by advanced mathematics, new technology, hardware, networking, and architecture are difficult for me since I’m not a CS person by any stretch of the imagination.  Having someone on my team with these skills is worth its weight in gold.</p>
+<p>Data Engineers historically were the CS folks coming with advanced skills in SQL and probably some of the older languages like COBOL, Pascal, or Fortran.  Today, SQL is still the dominant structured language, and Python has taken over the world as the most used general purpose language.  These are probably the most common of what you’ll see in the wild now.  Even the big data offshoots you’ll run into such as Spark SQL are different flavors of the same thing.  With all of the new era/big data technologies evolving, be prepared to hear about new languages at a pretty constant rate (e.g. MQL, NoSQL, Scala)</p>
+<h5>Machine Learning Engineer / Machine Learning Ops Engineer</h5><p>Those in-the-know out there may have some words for me for lumping these two together, but bare with me.  It’s simply easier to explain how these two are similar and where they differ all at once.  It is unfortunate though that these two are so similarly named since it does creates some confusion we have to deal with, but like everything else up to this point you’ll get differences depending on the industry and company anyway.</p>
+<figure class="align-default" id="ml-ete-fig">
+<a class="reference internal image-reference" href="../_images/ml_ete.png"><img alt="../_images/ml_ete.png" src="../_images/ml_ete.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.8 </span><span class="caption-text">Data Science/ML end-to-end roles and responsibilities</span><a class="headerlink" href="#ml-ete-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>First let’s talk about the overlap here.  ML Engineers actually have more overlap and in common with data scientists than MLOps Engineers if you ask me.  The main difference is that the Engineers are much more capable and focused on the <em>productionized optimization</em> of the models we build, seen more on the center-right side of <a class="reference internal" href="#ml-ete-fig"><span class="std std-numref">Fig. 2.8</span></a>.  These resources tend to be a bit more in the CS circle of our Venn diagram vs. the Math &amp; Statistics set.  In my experience, we see less of them on the upfront business collaboration side of projects vs. the building, iterating, and deploying solutions, but they are definitely capable of owning a project from inception.  They understand how the models should work in the tech stack and architecture we’re dealing with, but better still, how our models and data should work most efficiently and effectively in these environments.  This is their sweet spot.</p>
+<p>MLOps Engineers have their main overlap with the ML Engineers focusing on the same productionization of their models and their deployment.  We can think of these resources as hyper-focused on deployment after the model development, monitoring/maintenance, and iteration cycle of tuning and optimization of the system architecture at scale.  The main points of distinction between ML Engineers and MLOps Engineers is that ML Engineers will tend to be much more involved in the model development cycle or handover from the Data Scientist, vs. the MLOps Engineer who cares mostly about the complete back end deployment.</p>
+<h5>Data Scientist</h5><p>And finally, we arrive at the Data Scientist on the team.  This title is slowly falling out of favor for more specialized versions that take more of the technology and systems architecture into account, like what we see with the rise of ML Engineers.  Data Scientists were the main expansion out of the traditional math set of folks doing this work roughly 15-20 years ago, and were generally the first ones solving business problems using these new machine learning methodologies (outside of highly specialized and isolated pockets).  The general idea was to have these resources quckly proving concepts and value with prototypes without overly worrying about how it was going to be deployed, or whether or not the model was optimized to scale.  At that time, the end-to-end process and landscape looked very different than it does today.  Today we have new cloud architecture, innovation sandboxes, CI/CD processes, data movement pipelines, federated data, and so on.  All of this has created the need for the Data Scientist to evolve.  It’s no longer enough to just be able to build a simple machine learning model on your laptop.</p>
+<p>So where does that leave the Data Scientist today?  Titles come and go, and this one will probably fall by the wayside at some point not so far into the distant future, but the intent of this position is still going strong in my opinion.  What companies desperately need are resources that can interpret the problem context from the functional business person, propose solutions, and then quickly mock up a minimum viable product (MVP) or prototype model to prove the value of a concept (POC).  They need knowledgeable advanced analytics resources that are able to translate complex topics like math and computer algorithms into simple business layman’s terms.  All of these things are still the primary strengths of a Data Scientist and are not in danger of disppearing anytime soon in my opinion.</p>
+<p>A frequent scenario was for the Data Scientist to fill this up front space working with the business sponsor all the way to building a POC prototype, and then handing of their work and models to the ML Engineers to package it up for production deployment.  Today this still fits nicely with the emergence of these new specialized roles on the back end, but I do believe we’ve seen a shift to an expectation of being much more knowledgeable and capable with the technology and architecture further down the workflow chain than we’ve seen historically.</p>
+<p>Of course all of this is fluid and only broad generalizations of what I’ve seen or read about in the industry for the last 10 years up until now.  There’s certainly no reason that an ML/Ops Engineer couldn’t or isn’t working up front with the business, or that an ML Engineer doesn’t work on prototype developments, or that a Data Scientist can’t build a production ready model and see it through deployment at scale, etc.  What I’ve laid out here is a simplified blend of what you may see with a certain sized orgainization, at a specific point in their analytics maturity arc as I’ve been witness to.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The only thing I can guarantee you is that change is the only constant in this field.  Be as open to refreshing your mental models and understanding as possible.</p>
+</div>
+<br><h3>What's your elevator pitch?</h3><p>Have you heard of an elevator pitch?  It’s when you run into someone in an elevator and you need to sell yourself, or in this case explain something, in a very brief period of time, e.g. a 15 second elevator ride.  It’s good advice to have a few of these loaded and ready when you begin running in professional circles.  For example, it’s extremely common to hear something like, <em>“Hey Brian, haven’t seen you in forever.  What have you been up to?”</em>.</p>
+<p>In my case, I have to be able to explain to someone I haven’t seen in 10 years that I work in data science when they have absolutely no idea what that means.  What’s worse, consider that my attempt at explaining what data science is may introduce additional new terms the other party may not be aware of either (i.e. artificial intelligence, machine learning, algorithms, models).  So it’s clearly not something I can give a textbook answer for in my case.</p>
+<p>In case you’re wondering, what I usually tell the uninitiated I do for a living is “I solve high value business problems, by making predictions or telling someone what they <em>should</em> do, using advanced math and computer code.”  Simple, straight forward, and just enough teaser information to hint at the unique specialities behind the scenes that set me apart from the crowd.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>No matter where you go from here or what field you go into, be prepared with how you’ll introduce yourself in a concise and meaningful way so it resonates with the receiver.</p>
+</div>
+<br></section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Chapter2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="what_is_ds.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>What Is Data Science?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ds_tools.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.2. </span>Tools Of the Trade</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Brian Brady
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
