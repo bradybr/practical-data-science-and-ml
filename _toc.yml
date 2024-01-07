@@ -10,9 +10,7 @@ chapters:
   - file: Chapter1/book_objectives
 - file: Chapter2/what_is_ds
   sections:
-# - file: Chapter2/AI
   - file: Chapter2/ds_roles
-# - file: Chapter2/day_in_the_life
   - file: Chapter2/ds_tools
   - file: Chapter2/ds_considerations
 - file: Chapter3/use_case_examples
@@ -21,79 +19,51 @@ chapters:
   - file: Chapter3/forcst_power
   - file: Chapter3/cust_seg
   - file: Chapter3/chair_manif
-- file: Chapter4/process
+- file: Chapter4/ete_overview
   sections:
   - file: Chapter4/crisp_dm
-  - file: Chapter4/bus_value
   - file: Chapter4/proj_ideas
-- file: Chapter5/math
+  - file: Chapter4/bus_value
+- file: Chapter5/proj_workflow
   sections:
-  - file: Chapter5/prob
-  - file: Chapter5/stats
-  - file: Chapter5/dists
-- file: Chapter6/ML
+  - file: Chapter5/data
+    sections:
+    - file: Chapter5/data_types
+    - file: Chapter5/data_acquisition
+    - file: Chapter5/qdr  
+    - file: Chapter5/data_integrity
+  - file: Chapter5/EDA
+    sections:
+    - file: Chapter5/plots
+  - file: Chapter5/wrangling
+  - file: Chapter5/feat_engineering
+  - file: Chapter5/modeling
+  - file: Chapter5/validation
+  - file: Chapter5/UI_UX
+- file: Chapter6/machine_learning
   sections:
-  - file: Chapter6/supervised
-  - file: Chapter6/unsupervised
-  - file: Chapter6/reinforcement
-- file: Chapter7/proj_design
-  sections:
-  - file: Chapter7/data
-  - file: Chapter7/EDA
-  - file: Chapter7/wrangling
-  - file: Chapter7/feature_engineering
-  - file: Chapter7/modeling
-  - file: Chapter7/validation
-  - file: Chapter7/UI_UX
-  - file: Chapter7/deployment
-- file: Chapter8/statistical_inference
-  sections:
-  - file: Chapter8/financial_statements
-  - file: Chapter8/monte_hall_problem
-  - file: Chapter8/greatest_mlb_hitter
-  - file: Chapter8/COVID
-  - file: Chapter8/vampire_prob
-  - file: Chapter8/dimaggio
-- file: Chapter9/stochastic_solvers
-  sections:
-  - file: Chapter9/fair_coin
-  - file: Chapter5/powerball
-  - file: Chapter9/clumsy_dishwasher
-  - file: Chapter9/toothpaste
-  - file: Chapter9/umbrella_quandry
-  - file: Chapter9/seer_correspondence
-- file: Chapter10/classification
-  sections:
-  - file: Chapter10/iris
-  - file: Chapter10/stock_direction
-  - file: Chapter10/employee_productivity
-  - file: Chapter10/hydraulic_failure
-  - file: Chapter10/energy_price_changes
-  - file: Chapter10/malicious_intent
-- file: Chapter11/forecasting
-  sections:
-  - file: Chapter11/ye_sales
-  - file: Chapter11/airline_passengers
-  - file: Chapter11/power_consumption
-- file: Chapter12/clustering
-  sections:
-  - file: Chapter12/cust_segmentation
-  - file: Chapter12/apartment_loc
-  - file: Chapter12/absenteeism
-- file: Chapter13/optimization
-  sections:
-  - file: Chapter13/which_products
-  - file: Chapter13/knapsack_problem
-  - file: Chapter13/prisoners_dilemma
-- file: Chapter14/reinf_learning
-  sections:
-  - file: Chapter14/n_arm_bandit
-  - file: Chapter14/tic_tac_toe
-- file: Chapter15/odds_n_ends
-  sections:
-  - file: Chapter15/sentiment
-  - file: Chapter15/chatbot
-  - file: Chapter15/association_rules
-  - file: Chapter15/recommender_systems
-  - file: Chapter15/image_detection
+  - file: Chapter6/stats_inf
+  - file: Chapter6/supervised_learning
+    sections:
+    - file: Chapter6/classification
+    - file: Chapter6/forecasting
+  - file: Chapter6/unsupervised_learning
+    sections:
+    - file: Chapter6/clustering
+    - file: Chapter6/PCA
+  - file: Chapter6/optim
+    sections:
+    - file: Chapter6/combinatorics
+    - file: Chapter6/linear_programs
+    - file: Chapter6/genetic_algos
+  - file: Chapter6/reinf_learning
+  - file: Chapter6/odds_n_ends
+    sections:
+    - file: Chapter6/stoch_solvers
+    - file: Chapter6/nlp
+    - file: Chapter6/assoc_rules
+    - file: Chapter6/rec_systems
+    - file: Chapter6/img_detection
+- file: Chapter7/math
+- file: Chapter8/next
 - file: zreferences

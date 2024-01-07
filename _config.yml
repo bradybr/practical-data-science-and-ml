@@ -3,6 +3,7 @@
 title: Practical Data Science and Machine Learning
 author: Brian Brady
 logo: images/althoff_logo.png
+copyright: "2024"
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -27,5 +28,11 @@ repository:
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
-  use_issues_button: true
-  use_repository_button: true
+  use_issues_button: false
+  use_repository_button: false
+  
+sphinx:
+  config:
+    html_baseurl: 'https://bradybr.github.io/practical-data-science-and-ml/intro'
+  extra_extensions:
+    - sphinx_sitemap
