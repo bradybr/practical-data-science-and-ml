@@ -1,0 +1,69 @@
+# Table of contents
+format: jb-book
+root: intro
+options:
+  numbered: true
+chapters:
+- file: Chapter1/introduction
+  sections:
+  - file: Chapter1/book_organization
+  - file: Chapter1/book_objectives
+- file: Chapter2/what_is_ds
+  sections:
+  - file: Chapter2/ds_roles
+  - file: Chapter2/ds_tools
+  - file: Chapter2/ds_considerations
+- file: Chapter3/use_case_examples
+  sections:
+  - file: Chapter3/pred_hyd_failure
+  - file: Chapter3/forcst_power
+  - file: Chapter3/cust_seg
+  - file: Chapter3/chair_manif
+- file: Chapter4/ete_overview
+  sections:
+  - file: Chapter4/crisp_dm
+  - file: Chapter4/proj_ideas
+  - file: Chapter4/bus_value
+- file: Chapter5/proj_workflow
+  sections:
+  - file: Chapter5/data
+    sections:
+    - file: Chapter5/data_types
+    - file: Chapter5/data_acquisition
+    - file: Chapter5/qdr  
+    - file: Chapter5/data_integrity
+  - file: Chapter5/EDA
+    sections:
+    - file: Chapter5/plots
+  - file: Chapter5/wrangling
+  - file: Chapter5/feat_engineering
+  - file: Chapter5/modeling
+  - file: Chapter5/validation
+  - file: Chapter5/UI_UX
+- file: Chapter6/machine_learning
+  sections:
+  - file: Chapter6/stats_inf
+  - file: Chapter6/supervised_learning
+    sections:
+    - file: Chapter6/classification
+    - file: Chapter6/forecasting
+  - file: Chapter6/unsupervised_learning
+    sections:
+    - file: Chapter6/clustering
+    - file: Chapter6/PCA
+  - file: Chapter6/optim
+    sections:
+    - file: Chapter6/combinatorics
+    - file: Chapter6/linear_programs
+    - file: Chapter6/genetic_algos
+  - file: Chapter6/reinf_learning
+  - file: Chapter6/odds_n_ends
+    sections:
+    - file: Chapter6/stoch_solvers
+    - file: Chapter6/nlp
+    - file: Chapter6/assoc_rules
+    - file: Chapter6/rec_systems
+    - file: Chapter6/img_detection
+- file: Chapter7/math
+- file: Chapter8/next
+- file: zreferences

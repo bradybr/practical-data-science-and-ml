@@ -5,8 +5,6 @@
 
 
 
-
-
 ```{figure} ../images/ideation_ex.png
 ---
 width: 900px
