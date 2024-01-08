@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,7 +79,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
 
@@ -122,20 +122,12 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <header>
   
-    <div class="bd-header navbar navbar-expand-lg bd-navbar">
-    </div>
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
   
-  </header>
-
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
-      
-      
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -403,7 +395,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article">
+                <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="what-is-data-science">
 <h1><span class="section-number">2. </span>What Is Data Science?<a class="headerlink" href="#what-is-data-science" title="Permalink to this heading">#</a></h1>
@@ -567,7 +559,7 @@ document.write(`
 <p>Supervised Learning is a collection of techinques revolving around the idea of learning from historical observations where you know the answer.  For example, imagine you have a data set consisting of many individual dogs and cats, one animal per row, with characteristics of each individual such as height, weight, tail length, nose length, ear length, etc.  In addition, for supervised learning you should expect some “truth” label that tells you the classification, or answer, for whatever you’re interested in predicting.  In this case, it would be a column named “Specie”, which holds whether each animal is a dog or cat.  Our algorithm would then learn which features allow us to separate between dogs and cats, which we could subsequently use to make predictions on new examples where we <em>do not</em> know the answer, whether it’s a dog or cat.  Unsupervised Learning is similar, in that our algorithms look for relationships and patterns, however here we do not have a ground truth label to learn from.  And lastly, we’ve already discussed Reinforcement Learning briefly.  These are generally more optimization and sequential learning tasks under uncertainty.</p>
 <p>More to come on these topics.</p>
 <h5>Research</h5><p>This one was a little foreign to me coming from a business background.  Where math &amp; statistics overlap with domain expertise, we get <em>Research</em>.  Now this doesn’t mean you’re going to be conducting trials and writing research papers, but it does mean you should understand some of the same tests, methods, and rigor that academic and scientific professionals balance.</p>
-<p>For example, let’s say you’re trying to prove a statistical link between smoking and cancer.  Seems pretty obvious to us today, but did you know that it wasn’t until 1954 that scientists were able to satisfingly prove the causal releationship <span id="id1">[]</span>?  It’s a high bar to say something <em>causes</em> something else from a statistical point of view.</p>
+<p>For example, let’s say you’re trying to prove a statistical link between smoking and cancer.  Seems pretty obvious to us today, but did you know that it wasn’t until 1954 that scientists were able to satisfingly prove the causal releationship <span id="id1">[<a class="reference internal" href="../zreferences.html#id2" title="Elizabeth Mendes. The study that helped spur the u.s. stop-smoking movement. American Cancer Society, Jan 2014. URL: https://www.cancer.org/research/acs-research-news/the-study-that-helped-spur-the-us-stop-smoking-movement.html.">Men14</a>]</span>?  It’s a high bar to say something <em>causes</em> something else from a statistical point of view.</p>
 <p>Since you’ll be using a lot of the same statistical methods and making a lot of the same kinds of inferential statements based on your models, there are some well documented protocols we’ll need to be aware of and follow as best we can.  Have you heard of the scientific method?  See <a class="reference internal" href="#scientific-method-fig"><span class="std std-numref">Fig. 2.6</span></a>.</p>
 <figure class="align-default" id="scientific-method-fig">
 <a class="reference internal image-reference" href="../_images/scientific_method.png"><img alt="../_images/scientific_method.png" src="../_images/scientific_method.png" style="width: 400px;" /></a>
@@ -582,7 +574,7 @@ document.write(`
 \frac{ \sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y}) }{%
         \sqrt{\sum_{i=1}^{n}(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i-\bar{y})^2}}
 \]</div>
-<p>What’s more, the coefficients you get are only trustworthy if the relationship you’re testing is a linear one.  It’s unfortunately way too common to see people report bogus relationships because they aren’t aware of the simple underlying theory.  Check out <span id="id2">[]</span> to see a ton of ridiculous examples of what’s known as “spurious correlations”, meaning you get false results that look like you’ve proven two independent and unrelated phenomena are related.</p>
+<p>What’s more, the coefficients you get are only trustworthy if the relationship you’re testing is a linear one.  It’s unfortunately way too common to see people report bogus relationships because they aren’t aware of the simple underlying theory.  Check out <span id="id2">[<a class="reference internal" href="../zreferences.html#id3" title="Tyler Vigen. Spurious correlations. 2023. URL: http://www.tylervigen.com/spurious-correlations.">Vig23</a>]</span> to see a ton of ridiculous examples of what’s known as “spurious correlations”, meaning you get false results that look like you’ve proven two independent and unrelated phenomena are related.</p>
 <h5>Software Development</h5><p>Lastly, we get to <em>Software Development</em> where computer science and domain expertise overlap.  What work is involved will of course depend on where you’re working, what technology architecture and systems you’re working with, how large your team is, the roles and responsibilities for each, and which resource is expected to complete certain tasks.</p>
 <p>I personally think “software” is a poor choice of wording here, and if we insist on it, then in my opinion it’s a little too far outside of our scope and solely into CS territory.  If we peel it back a bit and view it through the lens of “application” development, then it definitely hits the mark.  We’ll cover this in greater detail when we get to other data science personas and roles, but for now understand that someone on the data science team will need to own building, testing, deploying, and maintaining the final solution the team has built.</p>
 <p>In my experience, the data scientists on the team are typically expected to be able to build simple prototype web apps, or possibly even the final application given it’s in a well structured environment.  Outside of this, the responsibility for production deployment typically falls to someone more aligned with with what’s known as MLOps or Data Engineering.</p>
@@ -664,8 +656,6 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
-              
             
           </div>
           <footer class="bd-footer-content">
@@ -709,8 +699,8 @@ By Brian Brady
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

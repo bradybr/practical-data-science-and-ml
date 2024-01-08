@@ -22,7 +22,7 @@ chapters:
 - file: Chapter4/ete_overview
   sections:
   - file: Chapter4/crisp_dm
-  - file: Chapter4/proj_ideas
+  - file: Chapter4/proj_scoping
   - file: Chapter4/bus_value
 - file: Chapter5/proj_workflow
   sections:

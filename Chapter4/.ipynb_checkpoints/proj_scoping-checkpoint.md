@@ -1,7 +1,15 @@
-# Idea First & Project Ideation
+# Project Scoping
 
 
 
+
+<h3>So how does it all work?</h3>
+
+Business Need
+Objectives
+Deliverables
+Scope
+ROI/Value
 
 
 
