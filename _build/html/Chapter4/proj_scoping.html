@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>4.2. Project Scoping &#8212; Practical Data Science and Machine Learning</title>
+    <title>4.2. Project Ideation &amp; Scoping &#8212; Practical Data Science and Machine Learning</title>
   
   
   
@@ -62,11 +62,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Chapter4/proj_scoping';</script>
     <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter4/proj_scoping.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4.3. Understanding Business Value" href="bus_value.html" />
+    <link rel="next" title="5. Project Workflow" href="../Chapter5/proj_workflow.html" />
     <link rel="prev" title="4.1. CRISP-DM" href="crisp_dm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -190,8 +192,7 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="ete_overview.html">4. The Process Cycle</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="crisp_dm.html">4.1. CRISP-DM</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Project Scoping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bus_value.html">4.3. Understanding Business Value</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Project Ideation &amp; Scoping</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Chapter5/proj_workflow.html">5. Project Workflow</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -381,7 +382,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Project Scoping</h1>
+    <h1>Project Ideation & Scoping</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -395,20 +396,78 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="project-scoping">
-<h1><span class="section-number">4.2. </span>Project Scoping<a class="headerlink" href="#project-scoping" title="Permalink to this heading">#</a></h1>
-<h3>So how does it all work?</h3>
-<p>Business Need
-Objectives
-Deliverables
-Scope
-ROI/Value</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="project-ideation-scoping">
+<h1><span class="section-number">4.2. </span>Project Ideation &amp; Scoping<a class="headerlink" href="#project-ideation-scoping" title="Permalink to this heading">#</a></h1>
+<p>Project Scoping mostly refers to what we go through during the project ideation phases and the first Business Understanding phase of the CRISP-DM framework.  It’s critical to be able to work with your business domain experts to generate lots of project ideas.  Most of them will go nowhere, but having a long list to talk about and choose from will spark new ideas, and can keep you from getting tunnel vision by focusing on just the one idea the business brought to us.</p>
+<p>Just as important as being able to build a robust backlog of potential project ideas, is to be able to qauntify the estimated return on investment (ROI) and value of a project, which ultimately allows us to prioritize the list of projects so we can select which ones to work on.  Ugh.  This one… oh boy.  Just typing about it gives me the cold sweats.</p>
+<p>Unfortunately you may find that this value estimation step can be a royal pain in your behind when you work for a large company.  Technical support teams like a data science group, that have large budgets and human resource payrolls are typically expected to constantly justify their existence.  Said another way, your executives will want to know what incremental value your team is brining to the organization.  This means being able to calculate the value of all of the projects we complete.  Sounds easy enough?  Just wait.  It’s like herding cats trying to pin down a business person to give you even a vague ballpark estimate.  Trust me.  Way harder than it sounds.</p>
+<p>This may all sound obvious, but let me assure you companies waste thousands of hours each year talking about and working on projects that should have been a no-brainer to skip.  Developing skills in these two areas of 1) Project Ideation, and 2) Project Scoping will set you head and shoulders above your peers and make you a stand out star to your leadership team.</p>
+<h3>Project Ideation</h3>
+<p>Let’s start with how you should go about coming up with new project ideas.</p>
+<p>The best way in my experience is to have the data science team play facilitator, moderator, and consultancy roles up front.  Let the busines experts do what they do best, which is talk about what they know - the business.  This is where the projects come from, not from the data science domain.  This point can’t be overstated so I’ll reiterate.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The data science projects should originate from the business domains, not the data science teams.</p>
+</div>
+<p>What this means is the data science resources are never the project sponsors.  We never solve problems for ourselves.  The project problem will always come from some other function within the organziation, and we’re just the tool that supplies the solution.  Remember, we’re the skilled problem solvers armed with advanced methodologies, but most likely know very little about what the business teams care about.  There’s no point in us working on something that a business team doesn’t care about just because <em>we</em> think it’s important.  Believe it or not, this point is overlooked far too often and we try to push our solutions without support from the functional business owners.  It never works.  Never.</p>
+<p>So let’s start here.  Take a look at <a class="reference internal" href="#ideation-ex-fig"><span class="std std-numref">Fig. 4.2</span></a>.  It’s a simple and logical progression of how you can get the ideas flowing.  The key is to move from one question to the next flushing out each topic that came from your business expert.</p>
 <figure class="align-default" id="ideation-ex-fig">
 <a class="reference internal image-reference" href="../_images/ideation_ex.png"><img alt="../_images/ideation_ex.png" src="../_images/ideation_ex.png" style="width: 900px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">Example of an ideation session with a project sponsor</span><a class="headerlink" href="#ideation-ex-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+<p>We start with finding out what Jim’s <strong>Responsibilities</strong> are.  Why?  Well, there’s no point in talking about supply chain project with Jim since he’s in Sales.  His responsibilities are what he cares about.  People care about what they’re incentivized to care about.  Get him to spit out all of the things he’s responsible for.  Everything.  Stream of conciousness stuff here with no value judgements.  Don’t worry about the quality of the information you’re compiling just yet.  You’re simply trying to list out everything Jim cares about.</p>
+<p>Next, we go through his responsibilities list one by one and ask the same question for each:  What are all the <strong>Decisions</strong> you make that have to do with this Responsibility?  Why are we asking this question?  Because at the end of the day, this is what we can help with.  My data science solution can either somehow help him make a better decision than he can alone, or it might actually fully automate the decision entirely freeing Jim up to work on other things.  Tied to each decision Jim makes should also be considerations for what data or <strong>Inputs</strong> he uses to make each.  Maybe we won’t end up making his ultimate Decision for him, but we might be able to supply him superior data or inputs that he can then use to still make a better decision than he could without us.  So for each Decision he makes we then go through and ask about what data or inputs he uses for each.</p>
+<p>After the Decisions and Inputs, we’re on to one of the most important ideas:  <strong>Value</strong> estimates.  Again, this is a tough one, but we’ve got to try.  My suggestion is to come up with simple ways to attach ballpark estimates.  We don’t need to be perfect here.  Just values we can use to compare and rank each idea.  So if it’s a time savings kind of project, use a simple formula like</p>
+<div class="math notranslate nohighlight">
+\[
+total\:annual\:$\:savings = avg\:hrs\:saved\:\times\:avg\:$\:per\:hr\:\times\:2080\:annual\:hrs 
+\]</div>
+<br>
+<p>Ok great, we hopefully have a long list of potential <strong>Decisions</strong> and <strong>data inputs</strong> we could predict, forecast, or optimize in some way with <strong>Value</strong> estimates attached for each. Now what? Now we get to the fun stuff.  We get to start doing what <em>we</em> do!  We get to start asking a whole bunch of <strong>What if</strong> questions for the ideas that filtered to the top based on the value estimates we compiled.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>What if we could predict…?  Would it be helpful to you if we could optimize…?  What resources, human, capital, or otherwise, would you allocate differently if I could forecast… for you?</em>  And so on.</p>
+</div>
+<p>At this point you should be starting to see some serious potential for a good idea to work up a proof of concept with.  Hopefully this is resonating and you can visualize how this might work in the real world.</p>
+<h3>What Should We Document Before Starting a Project?</h3>
+<p>At this point consider you’ve gone through the ideation stage and you have a project you want to have a more detailed exploratory fact finding session with.  Remember when we were talking about domain expertise in Chapter 2 <a class="reference internal" href="../Chapter2/what_is_ds.html"><span class="doc">What Is Data Science?</span></a> and one of the main reasons why projects fail?  Well here we are.  I find my self wanting to tell you every step is critical, but I can’t help myself.  This one really is critical.</p>
+<p>If you don’t have these next topics very clear right from the get-go, you will have nothing but trouble when the rubber meets the road and you start working.  You want to be crystal clear and make sure everyone agrees on what you’re going to go off and do, otherwise you’ll be smacked in the face with what’s known as scope creep and you’ll get side tracked very easily.</p>
+<p>So let’s go through the 5 points I recommend you always include in your early project scoping sessions using a simple example to illustrate.</p>
+<ol class="arabic simple">
+<li><p>Business Need</p></li>
+<li><p>Objectives &amp; Success Criteria</p></li>
+<li><p>Deliverables</p></li>
+<li><p>Scope</p></li>
+<li><p>ROI/Value</p></li>
+</ol>
+<h5>Business Need</h5>
+<p>Our shipping distribution center currently uses a manual process to evaluate daily customer orders and group them into consolidated shipments.  It’s a time consuming, manual process, and prone to sub optimization due to the soft decision guidelines and single point of failure (Transportation Clerk’s responsibility).</p>
+<p>The transporation team is interested in creating a solution that will automate the truck grouping, sequencing, and optimization tasks, while maintaining or increasing the current level of truck utilization.</p>
+<h5>Objectives & Success Criteria</h5>
+<ol class="arabic simple">
+<li><p>Determine if opportunities for efficiencies or cost reduction exist</p></li>
+<li><p>Build an automated solution capable of evaluating daily orders and grouping them into shipments, observing the max weight and cube capacity constraints</p></li>
+<li><p>Must surpass current 60% avg cube utilization rate over 3 month period</p></li>
+</ol>
+<h5>Deliverables</h5>
+<ol class="arabic simple">
+<li><p>POC recommendation</p></li>
+<li><p>Production Web App/UI</p></li>
+</ol>
+<h5>Scope</h5>
+<ul class="simple">
+<li><p>Western regional routes and 3rd party consolidators only</p></li>
+<li><p>All products</p></li>
+</ul>
+<h5>ROI/Value</h5>
+<ul class="simple">
+<li><p>$160,000 in full truck load savings vs. LTL (less than truck load)</p></li>
+<li><p>$10,000 in time savings (100 hrs/yr &#64; $100/hr)</p></li>
+</ul>
+<h3>What Did We Learn?</h3>
+<p>Hopefully a sound understanding of all the ways your project could go sideways if you don’t fully flush out what a good project looks like right from the beginning.  There are a million ways to get off track, but you’ll increase your odds of success and working on the right projects if you’re intentional and thoughtful in collecting as much information as possible before you commit any resources against an idea that hasn’t been properly vetted.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -451,11 +510,11 @@ ROI/Value</p>
       </div>
     </a>
     <a class="right-next"
-       href="bus_value.html"
+       href="../Chapter5/proj_workflow.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4.3. </span>Understanding Business Value</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Project Workflow</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
