@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>4.3. Understanding Business Value &#8212; Practical Data Science and Machine Learning</title>
+    <title>4. The Process Cycle &#8212; Practical Data Science and Machine Learning</title>
   
   
   
@@ -62,12 +62,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Chapter4/bus_value';</script>
-    <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter4/bus_value.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Chapter4/ete_overview';</script>
+    <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter4/ete_overview.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5. Project Workflow" href="../Chapter5/proj_workflow.html" />
-    <link rel="prev" title="4.2. Idea First &amp; Project Ideation" href="proj_ideas.html" />
+    <link rel="next" title="4.1. CRISP-DM" href="crisp_dm.html" />
+    <link rel="prev" title="3.4. How Many Chairs Should We Make?" href="../Chapter3/chair_manif.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -188,10 +188,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Chapter3/chair_manif.html">3.4. How Many Chairs Should We Make?</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="process.html">4. Process Overview</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">4. The Process Cycle</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="crisp_dm.html">4.1. CRISP-DM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="proj_ideas.html">4.2. Idea First &amp; Project Ideation</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.3. Understanding Business Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj_scoping.html">4.2. Project Ideation &amp; Scoping</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Chapter5/proj_workflow.html">5. Project Workflow</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -299,7 +298,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/Chapter4/bus_value.md" target="_blank"
+      <li><a href="../_sources/Chapter4/ete_overview.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -381,7 +380,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Understanding Business Value</h1>
+    <h1>The Process Cycle</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -395,8 +394,23 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="understanding-business-value">
-<h1><span class="section-number">4.3. </span>Understanding Business Value<a class="headerlink" href="#understanding-business-value" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="the-process-cycle">
+<h1><span class="section-number">4. </span>The Process Cycle<a class="headerlink" href="#the-process-cycle" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><p>Even if you’re on the right track, you’ll get run over if you just sit there.</p>
+<p>– <cite>Will Rogers</cite></p>
+</div></blockquote>
+<p>Being truly great at something is an interesting thing.  Consider the dedication and effort it takes to become really amazing in some pursuit?  Like the best in the world.  All of the impressive feats of human accomplishment, innovation, and achievements we tend to revere as a society, are often born from obsession.  Someone, or a group of people, were so singularly focused devoting an unbelievable amount of time towards their endeavor that the results can be staggering, and often paradigm shifting.  These achivements come at great personal expense unfortunately.  It’s time spent away from our loved ones, a drain on our mental and physical health, and can easily ruin personal relationships.  Think Bobby Fischer of the chess world, Steve Jobs and Steve Wozniak with Apple, or Albert Einstein.  All interesting origin stories and histories if you have the time…  Sadly, most people simply aren’t willing, or able, to invest in that kind of ruthless dedication to become the world’s best at something so these feats will continue to be outlier behavior.</p>
+<p>I find the subject of becoming truly great at something super interesting, but I digress.  I actually have a point here.  When you find something you enjoy doing and spend a lot of time becoming good at it, you tend to want to do it.  When you want to use a hammer, everything looks like a nail.  In our context, this means we often get so excited about being able to solve a challenging and cool problem that we fail to devote enough time and due dillegence to the project ideation, condsideration, and valuation steps.  We want to get right to solving the problem after hearing the idea versus thinking about properly weighing the <em>worth</em> of the idea.</p>
+<p>There have been plenty of times in my career where I’ve wanted to work on something that did not make any sense from an objective business point of view, and it was difficult for me to admit it and move on.  These two notions of <strong>fun</strong> and <strong>valuable</strong> can often be at odds in the real world.  Fun and cool does not always guarantee it’s something we should do.  Unfortunately this is a basic fact of corporate life.  The good news is that just by virtue of <em>what</em> we do, our projects are usually pretty fun and cool anyway.  However we do need an objective measuring stick to guide us so we don’t get tripped up working on non value added projects.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Your time will increasingly become the most precious commodity in your life as you get older.  Use it wisely.</p>
+</div>
+<br>
+<p>Luckily there are some well known frameworks and standard operating procedures we can leverage to make sure we’re working on the right things, and in the right order, so we reduce the chance of surprises down the road.</p>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -430,20 +444,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="proj_ideas.html"
+       href="../Chapter3/chair_manif.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">4.2. </span>Idea First &amp; Project Ideation</p>
+        <p class="prev-next-title"><span class="section-number">3.4. </span>How Many Chairs Should We Make?</p>
       </div>
     </a>
     <a class="right-next"
-       href="../Chapter5/proj_workflow.html"
+       href="crisp_dm.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">5. </span>Project Workflow</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>CRISP-DM</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
