@@ -29,7 +29,6 @@ chapters:
     sections:
     - file: Chapter5/data_types
     - file: Chapter5/data_acquisition
-    - file: Chapter5/qdr  
     - file: Chapter5/data_integrity
   - file: Chapter5/EDA
     sections:
