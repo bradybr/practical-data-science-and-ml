@@ -6,7 +6,7 @@ Just as important as being able to build a robust backlog of potential project i
 
 Unfortunately you may find that this value estimation step can be a royal pain in your behind when you work for a large company.  Technical support teams like a data science group with large budgets and human resource payrolls are typically expected to constantly justify their existence.  Said another way, your executives will want to know what incremental value your team is brining to the organization.  This means being able to calculate the value of all of the projects we complete.  Sounds easy enough?  Just wait.  It's like herding cats trying to pin down a business person to give you even a vague ballpark estimate.  Trust me.  Way harder than it sounds.
 
-This may all sound obvious, but let me assure you companies waste thousands of hours each year talking about and working on projects that should have been a no-brainer to skip.  Developing skills in these two areas of 1) Project Ideation, and 2) Project Scoping will set you head and shoulders above your peers and make you a stand out star to your leadership team.
+This may all sound obvious, but let me assure you companies waste thousands of hours each year talking about and working on projects that should have been a no-brainer to skip.  Developing skills in these two areas of 1) Project Ideation, and 2) Project Scoping will set you head and shoulders above your peers and make you look like a rockstar to your leadership team.
 
 <h3>Project Ideation</h3>
 
