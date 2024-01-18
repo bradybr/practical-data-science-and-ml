@@ -66,8 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter5/data_acquisition.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5.1.3. Quality Data Report (QDR)" href="qdr.html" />
-    <link rel="prev" title="5.1.1. Data Types" href="data_types.html" />
+    <link rel="next" title="5.2. Exploratory Data Analysis (EDA)" href="EDA.html" />
+    <link rel="prev" title="5.1.1. Data Formats &amp; Types" href="data_types.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -195,14 +195,14 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="proj_workflow.html">5. Project Workflow</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="data.html">5.1. Data</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="data_types.html">5.1.1. Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_types.html">5.1.1. Data Formats &amp; Types</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">5.1.2. Data Acquisition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qdr.html">5.1.3. Quality Data Report (QDR)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.1.4. Data Integrity</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="EDA.html">5.2. Exploratory Data Analysis (EDA)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.1. Plots &amp; Visuals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.2.1. Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="desc_summaries.html">5.2.2. Descriptive Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.3. Plots &amp; Graphs</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wrangling.html">5.3. Data Wrangling</a></li>
@@ -396,6 +396,465 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-acquisition">
 <h1><span class="section-number">5.1.2. </span>Data Acquisition<a class="headerlink" href="#data-acquisition" title="Permalink to this heading">#</a></h1>
+<p>Time to talk about how we go about getting real data.  There’s tons of different ways, and new ones being created all of the time.  These are by far the most popular for our domain.  Some require specialized infrastructures and environements, and others are great for learning and testing.  For our purposes, we’re going to focus on the learning and testing aspects using real-world datasets publically available.</p>
+<p>We’ll cover the following for this section.</p>
+<ul class="simple">
+<li><p>Downloading files</p></li>
+<li><p>Database/Warehouse</p></li>
+<li><p>APIs</p></li>
+</ul>
+<h3>Downloading Files</h3><p>By far the most common way you’ll get data is by simple downloading of your files, until you start dealing with more sophisticated production ready infrastructures in the real-world anyway.  There are tons of different file extensions you will run into in the wild so there’s no hope we could be exhaustive here, but we can review a couple of the most common ones which should cover you for the majority of use cases.</p>
+<p>In practice, you’ll occasionally run into new extensions you’ve never worked with before, and even errors running the most basic ingestion methods like <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> due to encoding issues or unknown formatting problems in the file.  Python package documentation, <a href="https://stackoverflow.com/">stackoverflow</a>, and Google will continue to be your best friends when you run into errors or new files types.  You can generally bet that someone else has run into the same problem you’re having and that the Q&amp;A is out on the internet somewhere.</p>
+<p>The workhorse of this acquisition group is overwhelmingly going to be our trusty <a href="https://pandas.pydata.org/docs/index.html">Pandas</a> library.  It can be leveraged for a huge variety of different types of files and is extremely flexible.</p>
+<p>Off we go!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<h5>CSV/Excel/TXT Files</h5><p>Businesses run on Excel.  I can’t say this enough.  It is the most common data storage and analytics tool for a reason.  It simply works and is super intuitive.  Excel puts some very sophisticated tools in the hands of non-technical resources, and it’s the lowest and cheapest bar to entry for analytics.  Most companies will use it for these reasons, so skills are transferable from company to company and there’s no lock out due to commercial licensing.</p>
+<p>We already saw this in the <a class="reference internal" href="data_types.html"><span class="doc">Data Formats &amp; Types</span></a> section, but let’s again read in a CSV/Excel file from our Github storage.  To do so we’ll use pandas <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> method.  This is an <em>extremely</em> common way to read in data as you’ll quickly learn.  Here we’re pointing to our Github repository, but you will most often have your files in local storage on your computer so you’ll just point the URL path to your working directory or local file.  Simple as that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in Davis height/weight data from Github as a .csv file</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/bradybr/practical-data-science-and-ml/blob/main/datasets/Davis.csv?raw=true&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>weight</th>
+      <th>height</th>
+      <th>reported_weight</th>
+      <th>reported_height</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>M</td>
+      <td>77</td>
+      <td>182</td>
+      <td>77.0</td>
+      <td>180.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>F</td>
+      <td>58</td>
+      <td>161</td>
+      <td>51.0</td>
+      <td>159.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F</td>
+      <td>53</td>
+      <td>161</td>
+      <td>54.0</td>
+      <td>158.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>M</td>
+      <td>68</td>
+      <td>177</td>
+      <td>70.0</td>
+      <td>175.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F</td>
+      <td>59</td>
+      <td>157</td>
+      <td>59.0</td>
+      <td>155.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>M</td>
+      <td>76</td>
+      <td>170</td>
+      <td>76.0</td>
+      <td>165.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>M</td>
+      <td>76</td>
+      <td>167</td>
+      <td>77.0</td>
+      <td>165.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>M</td>
+      <td>69</td>
+      <td>186</td>
+      <td>73.0</td>
+      <td>180.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>M</td>
+      <td>71</td>
+      <td>178</td>
+      <td>71.0</td>
+      <td>175.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>M</td>
+      <td>65</td>
+      <td>171</td>
+      <td>64.0</td>
+      <td>170.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>There are a ton of parameters with this function, so definitely read the documentation and do some Googling when you run into any difficulties.  For example, let’s see what happens if we read in our file as a “tab-delimited” text file.  To do that we’ll use the separator argument <code class="docutils literal notranslate"><span class="pre">sep</span> <span class="pre">=</span> <span class="pre">&quot;\t&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> call.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in Davis height/weight data from Github as a .txt file</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/bradybr/practical-data-science-and-ml/blob/main/datasets/Davis.csv?raw=true&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex,weight,height,reported_weight,reported_height</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>M,77,182,77.0,180.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>F,58,161,51.0,159.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F,53,161,54.0,158.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>M,68,177,70.0,175.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F,59,157,59.0,155.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>M,76,170,76.0,165.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>M,76,167,77.0,165.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>M,69,186,73.0,180.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>M,71,178,71.0,175.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>M,65,171,64.0,170.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Interesting.  It looks like we do need to understand if our file is comma, tab, semicolon, or otherwise separated.  If our file was semicolon delimited, we would have written <code class="docutils literal notranslate"><span class="pre">sep</span> <span class="pre">=</span> <span class="pre">&quot;;&quot;</span></code>, but as it turns out, this one matched the default with comma separated so it was able to parse it out into a dataframe as-is.</p>
+<p>If you have a true .xls file instead of a .csv file, then check out <code class="docutils literal notranslate"><span class="pre">pd.read_excel()</span></code> function, which handles the specialities which come with the more complex file type.</p>
+<h5>XML/HTML Tables</h5><p>Reading data from the internet can often be very finicky and challenging.  Technology often gets involved, and you also need to know a little bit about the language of the internet: HTML.</p>
+<p>The most painful part is that a method which worked yesterday can easily break tomorrow.  Sites can change their HTML code anytime so you always have to stay on your toes.  It’s also a burden on the sites resources you’re trying to reach so it’s quite common to have your IP address blocked if you abuse requesting information too often.  Specific types of sites are more sensitive to this than others, specifically ones that believe their data is a competitive advantage or proprietary in some way.  There are constant legal battles going on regarding whether or not the data belongs in the public domain after it’s been published.</p>
+<p>To illustrate, we’ll read in a standing table from Wikipedia that shouldn’t give us any trouble.  The code below queries a specific Wikipedia page listing all of the public companies currently listed in the <a href="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies">S&amp;P500</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">certifi</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># URL path</span>
+<span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;https://en.wikipedia.org/wiki/List_of_S%26P_500_companies&quot;</span><span class="p">)</span>
+
+<span class="c1"># Open URL &amp; parse table content</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">cafile</span> <span class="o">=</span> <span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">())</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convert to dataframe</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">])))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Security</th>
+      <th>GICS Sector</th>
+      <th>GICS Sub-Industry</th>
+      <th>Headquarters Location</th>
+      <th>Date added</th>
+      <th>CIK</th>
+      <th>Founded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MMM</td>
+      <td>3M</td>
+      <td>Industrials</td>
+      <td>Industrial Conglomerates</td>
+      <td>Saint Paul, Minnesota</td>
+      <td>1957-03-04</td>
+      <td>66740</td>
+      <td>1902</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AOS</td>
+      <td>A. O. Smith</td>
+      <td>Industrials</td>
+      <td>Building Products</td>
+      <td>Milwaukee, Wisconsin</td>
+      <td>2017-07-26</td>
+      <td>91142</td>
+      <td>1916</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ABT</td>
+      <td>Abbott</td>
+      <td>Health Care</td>
+      <td>Health Care Equipment</td>
+      <td>North Chicago, Illinois</td>
+      <td>1957-03-04</td>
+      <td>1800</td>
+      <td>1888</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ABBV</td>
+      <td>AbbVie</td>
+      <td>Health Care</td>
+      <td>Biotechnology</td>
+      <td>North Chicago, Illinois</td>
+      <td>2012-12-31</td>
+      <td>1551152</td>
+      <td>2013 (1888)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ACN</td>
+      <td>Accenture</td>
+      <td>Information Technology</td>
+      <td>IT Consulting &amp; Other Services</td>
+      <td>Dublin, Ireland</td>
+      <td>2011-07-06</td>
+      <td>1467373</td>
+      <td>1989</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>498</th>
+      <td>YUM</td>
+      <td>Yum! Brands</td>
+      <td>Consumer Discretionary</td>
+      <td>Restaurants</td>
+      <td>Louisville, Kentucky</td>
+      <td>1997-10-06</td>
+      <td>1041061</td>
+      <td>1997</td>
+    </tr>
+    <tr>
+      <th>499</th>
+      <td>ZBRA</td>
+      <td>Zebra Technologies</td>
+      <td>Information Technology</td>
+      <td>Electronic Equipment &amp; Instruments</td>
+      <td>Lincolnshire, Illinois</td>
+      <td>2019-12-23</td>
+      <td>877212</td>
+      <td>1969</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>ZBH</td>
+      <td>Zimmer Biomet</td>
+      <td>Health Care</td>
+      <td>Health Care Equipment</td>
+      <td>Warsaw, Indiana</td>
+      <td>2001-08-07</td>
+      <td>1136869</td>
+      <td>1927</td>
+    </tr>
+    <tr>
+      <th>501</th>
+      <td>ZION</td>
+      <td>Zions Bancorporation</td>
+      <td>Financials</td>
+      <td>Regional Banks</td>
+      <td>Salt Lake City, Utah</td>
+      <td>2001-06-22</td>
+      <td>109380</td>
+      <td>1873</td>
+    </tr>
+    <tr>
+      <th>502</th>
+      <td>ZTS</td>
+      <td>Zoetis</td>
+      <td>Health Care</td>
+      <td>Pharmaceuticals</td>
+      <td>Parsippany, New Jersey</td>
+      <td>2013-06-21</td>
+      <td>1555280</td>
+      <td>1952</td>
+    </tr>
+  </tbody>
+</table>
+<p>503 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p>This example is taking advantage of a known “table” structure on a webpage.  Often however you’ll need parse an entire page and crawl through the HTML nodes by parent, children, and various tags to find exactly what you’re looking for.  This is referred to as <em>web scraping</em> and <em>parsing</em>.  You will definitely need to do some googling and researching a bit with lots of trial and error when you begin to work with scraping web data for real.</p>
+<p>There’s much more you can do with the topic of web scrapping and accessing XML and HTML structures, but this is a bit beyond the scope of our lessons.  If you’re interested, definitely check out Beautiful Soup, Selenium, and Scrappy libraries, just to name a few…</p>
+<h5>JSON Data</h5><p>Closely coupled with internet data is the JSON structure type.  JSON stands for JavaScript Object Notation, and is a simple and convenient way to store and transport data in a text format.  You may run into this one with websites who choose to make their data publically available for download.  It’s also very common to send and receive data this way in industrialized cloud infrastructures within large companies.</p>
+<p>Below we’ll retrieve the <a href="https://www.eia.gov/outlooks/steo/data/browser/">US Department of Energy’s Short-Term Engergy Outlook</a> for Petroleum using their API call which returns data in a JSON format.  You’ll need to sign up for your own API Key password if you’d like to try and replicate yourself.</p>
+<p>Notice how the data returned in a format that looks very much like a Python dictionary?  Pretty cool, huh?  The JSON format is very close to native Python language and should hopefully be pretty easy to deal with after you’ve access it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.eia.gov/v2/petroleum/move/wkly/data/?frequency=weekly&amp;data[0]=value&amp;facets[series][]=WCREXUS2&amp;sort[0][column]=period&amp;sort[0][direction]=desc&amp;offset=0&amp;length=5000&amp;api_key=&quot;</span> <span class="o">+</span> <span class="n">pw</span> <span class="o">+</span> <span class="s2">&quot;&amp;start=2024-01-01&quot;</span>
+<span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;response&#39;: {&#39;total&#39;: 1,
+  &#39;dateFormat&#39;: &#39;YYYY-MM-DD&#39;,
+  &#39;frequency&#39;: &#39;weekly&#39;,
+  &#39;data&#39;: [{&#39;period&#39;: &#39;2024-01-05&#39;,
+    &#39;duoarea&#39;: &#39;NUS-Z00&#39;,
+    &#39;area-name&#39;: &#39;U.S.&#39;,
+    &#39;product&#39;: &#39;EPC0&#39;,
+    &#39;product-name&#39;: &#39;Crude Oil&#39;,
+    &#39;process&#39;: &#39;EEX&#39;,
+    &#39;process-name&#39;: &#39;Exports&#39;,
+    &#39;series&#39;: &#39;WCREXUS2&#39;,
+    &#39;series-description&#39;: &#39;U.S. Exports of Crude Oil (Thousand Barrels per Day)&#39;,
+    &#39;value&#39;: 3322,
+    &#39;units&#39;: &#39;MBBL/D&#39;}]},
+ &#39;request&#39;: {&#39;command&#39;: &#39;/v2/petroleum/move/wkly/data/&#39;,
+  &#39;params&#39;: {&#39;frequency&#39;: &#39;weekly&#39;,
+   &#39;data&#39;: [&#39;value&#39;],
+   &#39;facets&#39;: {&#39;series&#39;: [&#39;WCREXUS2&#39;]},
+   &#39;sort&#39;: [{&#39;column&#39;: &#39;period&#39;, &#39;direction&#39;: &#39;desc&#39;}],
+   &#39;offset&#39;: 0,
+   &#39;length&#39;: 5000,
+   &#39;api_key&#39;: &#39;73aa6102f0b10664045a49a5f9789e24&#39;,
+   &#39;start&#39;: &#39;2024-01-01&#39;}},
+ &#39;apiVersion&#39;: &#39;2.1.4&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<h5>Database/Warehouse Data</h5><p>Retrieving data stored in some kind of structured relational database is also extremely common.  You may have a free version like MySQL setup for your personal use, or maybe a more powerful commerical cloud based offering like Microsoft Azure and Data Lake.  This is a deep and specific subject due to the techologies, installations, and authorizations required, which are also a bit outside of the scope for these lessons.</p>
+<p>Since we’ll be dealing mostly with downloading files or accessing data via Python libraries, we’ll leave this as an exercise for the reader to investigate further in his or her own time.  Below is the link to the popular and free MySQL offering where you can read more about connecting with Python.</p>
+<p>And remember when we suggested learning the SQL language might be a good thing when discussing programming languages?  This is where it will come into play.  These relational databases are extremely common for warehousing enterprise data, and SQL is by far the most popular programming language to work with these data repositories.  SQL is also the foundational language behind many of the big data cloud computing languages like Spark, so it will absolutely pay divends to learn it if you really want to enter the workforce in the field.</p>
+<p><a href="https://dev.mysql.com/doc/connector-python/en/connector-python-introduction.html">MySQL Python Connector</a></p>
+<figure class="align-default" id="mysql-connector-fig">
+<a class="reference internal image-reference" href="../_images/mysql_connector.png"><img alt="../_images/mysql_connector.png" src="../_images/mysql_connector.png" style="width: 900px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.2 </span><span class="caption-text">MySQL Python Connector Introduction documentation</span><a class="headerlink" href="#mysql-connector-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<h5>APIs</h5><p>We’ve actually just seen an example of an API call to retrieve data from the Department of Energy.  API stands for Application Programming Interface, and are standard protocols which allow programs and applications to communicate with each other.  They are essentially end-to-end connection points that have been set up to faciliate the transfer of data using request calls and responses.</p>
+<p>The DOE call above is just one example, however API’s have become very common with the explosion of business monetization of data as a core competency.  Social media sites like Twitter, Facebook, and the like, as well as other companies working with popular consumable data such as weather, stock prices, etc. are commonly utilizing this technology.  Companies typically open these up to what are known as the “Developer” community.  You can sign up for an account and receive API Keys and authentication tokens which allow you to begin accessing data straight away.  Because this data is often a revenue stream for the provider, unfortunatly you will frequently run into a paywall for good data though.  Hard to blame them, seeing as they’ve incurred all of the expenses towards collecting and hosting the data, so it does seem only fair that they’re compensated for it somehow.</p>
+<p>We won’t go into any more detail here since we’ve already shown an example and due to needing to create developer profiles.  Our work for this course will be mostly with downloaded files or through Python packages.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -434,15 +893,15 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5.1.1. </span>Data Types</p>
+        <p class="prev-next-title"><span class="section-number">5.1.1. </span>Data Formats &amp; Types</p>
       </div>
     </a>
     <a class="right-next"
-       href="qdr.html"
+       href="EDA.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">5.1.3. </span>Quality Data Report (QDR)</p>
+        <p class="prev-next-title"><span class="section-number">5.2. </span>Exploratory Data Analysis (EDA)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

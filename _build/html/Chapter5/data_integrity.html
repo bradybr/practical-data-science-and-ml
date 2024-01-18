@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>5.1.3. Data Integrity &#8212; Practical Data Science and Machine Learning</title>
+    <title>5.2.2. Data Integrity &#8212; Practical Data Science and Machine Learning</title>
   
   
   
@@ -66,8 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter5/data_integrity.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5.2. Exploratory Data Analysis (EDA)" href="EDA.html" />
-    <link rel="prev" title="5.1.2. Data Acquisition" href="data_acquisition.html" />
+    <link rel="next" title="5.2.3. Plots &amp; Graphs" href="plots.html" />
+    <link rel="prev" title="5.2.1. Data Charactersitics" href="data_characteristics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -194,14 +194,15 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="proj_workflow.html">5. Project Workflow</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="data.html">5.1. Data Types</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="data_types.html">5.1.1. Data Types</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="data.html">5.1. Data</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_types.html">5.1.1. Data Formats &amp; Types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="data_acquisition.html">5.1.2. Data Acquisition</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">5.1.3. Data Integrity</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="EDA.html">5.2. Exploratory Data Analysis (EDA)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.1. Plots &amp; Visuals</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="EDA.html">5.2. Exploratory Data Analysis (EDA)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_characteristics.html">5.2.1. Data Charactersitics</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">5.2.2. Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.3. Plots &amp; Graphs</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wrangling.html">5.3. Data Wrangling</a></li>
@@ -394,7 +395,526 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-integrity">
-<h1><span class="section-number">5.1.3. </span>Data Integrity<a class="headerlink" href="#data-integrity" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">5.2.2. </span>Data Integrity<a class="headerlink" href="#data-integrity" title="Permalink to this heading">#</a></h1>
+<p>Coming out of the last section where we began showing some of the data challenges you’ll run across, hopefully you’re starting to understand it’s not just <em>read in the data and get to modeling</em>.  There’s so much time devoted to getting the data, checking it, summarizing, asking questions, fixing issues, then rinse and repeat.  Real-world data is super messy and there’s no one size fits all methodology.  Nearly every dataset will be unique and have some kind of peculiarities specific to the domain and data collections method.</p>
+<p>Remember talking about “garbage in, garbage out”?  If your data is riddled with holes and untrustworthy data, then your entire model and project won’t be worth a darn.  So again, be sure to give this EDA step all the attention it requires.</p>
+<p>Since you’ve already seen how to identify most of these issues, we’re going to jump straight into addressing them.  In this section we’ll cover the most common issues you’ll run across.  There are others to be sure, but they’ll be less common and more domain specific in most cases.</p>
+<ul class="simple">
+<li><p>Duplicate records</p></li>
+<li><p>Missing values/records</p></li>
+<li><p>Anomalous values/Outliers</p></li>
+<li><p>Sensoring</p></li>
+</ul>
+<p>Below we’ll speed up getting our data back into our environment and ready to tackle the integrity issues.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import libraries</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Read in the data from github repository</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/bradybr/practical-data-science-and-ml/blob/main/datasets/sleep_study.csv?raw=true&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a list of the features you want to change and recast them using &quot;.astype()&quot;</span>
+<span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+<span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+<span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>F</td>
+      <td>38.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>96.8</td>
+      <td>227.5</td>
+      <td>25.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>M</td>
+      <td>72.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>245.6</td>
+      <td>644.2</td>
+      <td>86.7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>F</td>
+      <td>95.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>279.4</td>
+      <td>465.6</td>
+      <td>31.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>M</td>
+      <td>37.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>60.0</td>
+      <td>109.0</td>
+      <td>19.7</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>F</td>
+      <td>80.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>89.4</td>
+      <td>113.3</td>
+      <td>38.6</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>872</td>
+      <td>F</td>
+      <td>17.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>42.1</td>
+      <td>87.7</td>
+      <td>42.3</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>873</td>
+      <td>F</td>
+      <td>64.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>128.5</td>
+      <td>268.8</td>
+      <td>23.4</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>874</td>
+      <td>F</td>
+      <td>27.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>43.2</td>
+      <td>84.1</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>875</td>
+      <td>F</td>
+      <td>69.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>246.8</td>
+      <td>237.6</td>
+      <td>44.1</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>876</td>
+      <td>M</td>
+      <td>27.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>320.2</td>
+      <td>313.3</td>
+      <td>112.8</td>
+    </tr>
+  </tbody>
+</table>
+<p>877 rows × 9 columns</p>
+</div></div></div>
+</div>
+<h3>Duplicate Records</h3><p>Let’s deal with the easiest ones first.  Remember we had a few duplicate observations?  Well, we spoke with our business expert, and she said there’s no data generation or reason for those to exist and they are in fact real duplicate records.  We can go ahead and delete them.</p>
+<p>Easy enough.  Let’s find them again and then we’ll use the <code class="docutils literal notranslate"><span class="pre">.drop_duplicates()</span></code> function to drop them from our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check for duplicate observations</span>
+<span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>88</th>
+      <td>89</td>
+      <td>F</td>
+      <td>53.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>141.0</td>
+      <td>186.6</td>
+      <td>107.1</td>
+    </tr>
+    <tr>
+      <th>238</th>
+      <td>238</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete the duplicate records &amp; check the dimensions of the dataset</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(875, 9)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Success!  We only lost two of our observations and we’re down to 875 records.  On to the missing values!</p>
+<h3>Missing Values/Records</h3><p>Ok, so we have some missing values to deal with now.  Let’s deal with the easy ones first.  We again asked our business domain expert to help us understand the data collection and participant intake process to reign in how these might have occurred.  Here’s what we found out.</p>
+<ul class="simple">
+<li><p><strong>Age:</strong>  Participants self reported their age on their intake applications when applying for the study.  Any missing values were not followed up on when the study actually started.</p></li>
+<li><p><strong>Study End Date:</strong> All dates should be 4/9/2023.  Any date after 4/9/2023 is invalid and a data entry mistake.</p></li>
+<li><p><strong>Sleep Pattern Minutes:</strong>  Missing values in sleep recordings were accidental technician omissions.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count NA&#39;s by feature</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>id                     0
+gender                 0
+age                    1
+country                0
+study_begin            0
+study_end             13
+active_mins            4
+sleep_disturb_mins     6
+sleep_rem_mins         9
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete the 1 observation with a missing age</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set all of the end dates to &#39;4/9/2023&#39;</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;study_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;4/9/2023&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, for the missing sleep pattern mintues… There are few enough that we could just delete them and it probably wouldn’t materially change anything in our analysis, hopefully.  On the other hand, it is just a few of them so we could take a shot at imputation because we would not be creating a large number of artificial values.  For this example it’s probalbly a toss up as to whether or not it matters either way; however, you will definitely see more complicated and difficult decisions in the real world.  When you’re considering deleting information, which should be a last resort, you should get in the habit of understanding what you’re deleting.  For example, you may be deleting observations that are unique values in other features and you’d be losing visibility to this group entirely, or maybe they are very important interactions somewhere else in the values under study.  Point is, try not to get in the habit of just deleting data without analyzing a bit and thinking it through.</p>
+<p>Let’s give imputation a try so you can see how it might work.</p>
+<p>There are tons of different ways you could go about imputing missing values, from very simple, to unnecessarily complex.  We’ll try somewhere in the middle.</p>
+<p>And that’s it.  If we re-run our <code class="docutils literal notranslate"><span class="pre">is.na().sum()</span></code> counts we should see the fruits of our labor with all of the missing values taken care of.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count NA&#39;s by feature</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>id                    0
+gender                0
+age                   0
+country               0
+study_begin           0
+study_end             0
+active_mins           4
+sleep_disturb_mins    6
+sleep_rem_mins        9
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<h3>Anomalous Values/Outliers</h3><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print numeric summary stats</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>874.000000</td>
+      <td>870.000000</td>
+      <td>868.000000</td>
+      <td>865.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>54.243707</td>
+      <td>215.427126</td>
+      <td>311.946313</td>
+      <td>121.906127</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>23.669669</td>
+      <td>820.035360</td>
+      <td>817.874558</td>
+      <td>826.779150</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>35.000000</td>
+      <td>81.325000</td>
+      <td>146.750000</td>
+      <td>26.500000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>54.000000</td>
+      <td>130.500000</td>
+      <td>227.050000</td>
+      <td>43.800000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>74.000000</td>
+      <td>199.625000</td>
+      <td>322.875000</td>
+      <td>69.300000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>146.000000</td>
+      <td>9999.000000</td>
+      <td>9999.000000</td>
+      <td>9999.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print categorical summary stats</span>
+<span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span><span class="s1">&#39;country&#39;</span><span class="p">,</span><span class="s1">&#39;study_begin&#39;</span><span class="p">,</span><span class="s1">&#39;study_end&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>874</td>
+      <td>874</td>
+      <td>874</td>
+      <td>874</td>
+      <td>874</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>874</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>1</td>
+      <td>F</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>1</td>
+      <td>612</td>
+      <td>344</td>
+      <td>874</td>
+      <td>874</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete static and non-informative </span>
+<span class="n">dat</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;study_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;study_end&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -428,20 +948,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="data_acquisition.html"
+       href="data_characteristics.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5.1.2. </span>Data Acquisition</p>
+        <p class="prev-next-title"><span class="section-number">5.2.1. </span>Data Charactersitics</p>
       </div>
     </a>
     <a class="right-next"
-       href="EDA.html"
+       href="plots.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">5.2. </span>Exploratory Data Analysis (EDA)</p>
+        <p class="prev-next-title"><span class="section-number">5.2.3. </span>Plots &amp; Graphs</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

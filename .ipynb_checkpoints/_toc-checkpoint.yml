@@ -29,9 +29,10 @@ chapters:
     sections:
     - file: Chapter5/data_types
     - file: Chapter5/data_acquisition
-    - file: Chapter5/data_integrity
   - file: Chapter5/EDA
     sections:
+    - file: Chapter5/data_characteristics
+    - file: Chapter5/data_integrity
     - file: Chapter5/plots
   - file: Chapter5/wrangling
   - file: Chapter5/feat_engineering

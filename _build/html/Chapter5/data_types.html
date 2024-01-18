@@ -197,11 +197,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="data.html">5.1. Data</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">5.1.1. Data Formats &amp; Types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="data_acquisition.html">5.1.2. Data Acquisition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.1.3. Data Integrity</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="EDA.html">5.2. Exploratory Data Analysis (EDA)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.1. Plots &amp; Visuals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_characteristics.html">5.2.1. Data Charactersitics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.2.2. Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.3. Plots &amp; Graphs</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wrangling.html">5.3. Data Wrangling</a></li>
@@ -397,30 +398,231 @@ document.write(`
 <h1><span class="section-number">5.1.1. </span>Data Formats &amp; Types<a class="headerlink" href="#data-formats-types" title="Permalink to this heading">#</a></h1>
 <p>Like the title says - Data Formats &amp; Types.  The data you’ll run across carries structures and hierarchies we should be aware of, and there are different types of ways information can be recorded which are required for certain types of analysis and modeling.</p>
 <p>Let’s start with unit structures and nested hierarchies contained in the data.</p>
-<h3>Data Formats</h3><p>What do we mean by data formats?  These are structures in the data that can be thought of as how the data relates to itself.  There are two very common ones you should think about straight away when you start working with project sponsors and scoping out your projects.</p>
+<h3>Data Formats</h3><p>What do we mean by data formats?  These are structures in the data that can be thought of as how the data relates to itself.  Whenever the conversation turns to talking about what kind of data is available for your project, you should immediately start asking questions about what’s know as the unit, or level, of analysis to understand how to analyze the data properly.  After that, we want to start thinking about the “shape” of our data, i.e. wide vs. long.</p>
 <ul class="simple">
 <li><p>Unit of Analysis</p></li>
 <li><p>Wide vs. Long Data</p></li>
 </ul>
-<h5>Unit of Analysis</h5><p><em>Unit of analysis</em>, or level of analysis, is generally the first thing we want to understand when we start analyzing the structure of our data.  I like to think of it as at a minimum, of having some kind of subject, e.g. by Customer, by Region, or by Manufacturer.  If our data has been prefiltered down to just one Customer, then you’ll only have one unit/level, but it’s still the highest <em>object</em> level that everything else in the data relates to.</p>
-<p>For example, if we have a sales report and we have a column called “Customer”, then I would say our data scope is “sales, by Customer”.  We may also see nested hierarchies such as “by Customer, by Region”.  So you might see something like - Costco as the customer, and then there are 3 Regions, Midwest, Northeast, and South, that all roll up to the Costco header level.  You will also frequently run into having a time frame or frequency in your data as well.  So it might be something like “by Customer, by Region, by Day”.</p>
-<p>These are all examples of the unit of analysis that map to whatever the data in your set actually is.  If it’s a daily sales report, then it’s “sales, by Customer, by Region, by Day”.  Each Customer-Region will have sales for each day in the overall time span horizon of your data set.</p>
-<p>It’ll be much easier to grasp if we jump in and look at some actual data.  Below we read in the iris data set from the well-known UCI ML Data Set repository <span id="id1">[<a class="reference internal" href="../zreferences.html#id11" title="UC Irvine. 2024. URL: https://archive.ics.uci.edu/.">Irv24</a>]</span>.  This classic data set is about as simple as it gets.</p>
+<p>This is all stuff you can hopefully cover early when you start working with project sponsors and scoping out the details.</p>
+<h5>Unit of Analysis</h5><p><em>Unit of analysis</em>, or level of analysis, is generally the first thing we want to understand when we start analyzing the structure of our data.  You can think of this as the details contained in a <em>row</em> of data.  It always made sense to me to also think of it as having some kind of subject, e.g. by Customer, by Region, or by Manufacturer.  If our data has been prefiltered down to just one Customer, then you’ll only have one unit/level, but it’s still the highest <em>object</em> level that everything else in the data relates to.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unit of Analysis is the lowest grain of the dataset, conveying what information is recorded in a row of data.</p>
+</div>
+<p>For example, if we have a sales report and we have a column called “Customer”, then I would say our data scope is “Sales, by Customer”.  We may also see nested hierarchies such as “by Customer, by Region”.  So you might see something like - Costco as the customer, and then there are 3 Regions, Midwest, Northeast, and South, that all roll up to the Costco header level.  You will also frequently run into having a time frame or frequency in your data as well.  So it might be something like “by Customer, by Region, by Day”.</p>
+<p>These are all examples of the unit of analysis that map to whatever the data in your set actually is.  If it’s a daily sales report, then it’s “Sales, by Customer, by Region, by Day”.  Each Customer-Region will have sales for each day for the overall time horizon of your data set.</p>
+<p>It’ll be much easier to grasp if we jump in and look at some actual data.  Below we read in the classic Iris flower dataset from the <code class="docutils literal notranslate"><span class="pre">pydataset</span></code> library and take a look.  This one is about as simple as it gets.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import libraries</span>
-<span class="kn">from</span> <span class="nn">ucimlrepo</span> <span class="kn">import</span> <span class="n">fetch_ucirepo</span><span class="p">,</span> <span class="n">list_available_datasets</span>
+<span class="kn">from</span> <span class="nn">pydataset</span> <span class="kn">import</span> <span class="n">data</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotnine</span> <span class="k">as</span> <span class="nn">gg</span>
 
-<span class="c1"># Uncomment below to see which datasets are available</span>
-<span class="c1">#list_available_datasets()</span>
+<span class="c1"># Uncomment to see available datasets</span>
+<span class="c1">#ds = data()</span>
 
-<span class="c1"># Import &amp; extract the Iris data set</span>
-<span class="n">dat_in</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="mi">53</span><span class="p">)</span>
-<span class="n">dat</span> <span class="o">=</span> <span class="n">dat_in</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;original&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># Print the documentation for the iris dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;iris&quot;</span><span class="p">,</span> <span class="n">show_doc</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iris
 
-<span class="c1"># Replace the spaces in the column names with underscores (a good habit to get into)</span>
-<span class="n">dat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+PyDataset Documentation (adopted from R Documentation. The displayed examples are in R)
+
+## Edgar Anderson&#39;s Iris Data
+
+### Description
+
+This famous (Fisher&#39;s or Anderson&#39;s) iris data set gives the measurements in
+centimeters of the variables sepal length and width and petal length and
+width, respectively, for 50 flowers from each of 3 species of iris. The
+species are _Iris setosa_, _versicolor_, and _virginica_.
+
+### Usage
+
+    iris
+    iris3
+
+### Format
+
+`iris` is a data frame with 150 cases (rows) and 5 variables (columns) named
+`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`, and `Species`.
+
+`iris3` gives the same data arranged as a 3-dimensional array of size 50 by 4
+by 3, as represented by S-PLUS. The first dimension gives the case number
+within the species subsample, the second the measurements with names `Sepal
+L.`, `Sepal W.`, `Petal L.`, and `Petal W.`, and the third the species.
+
+### Source
+
+Fisher, R. A. (1936) The use of multiple measurements in taxonomic problems.
+_Annals of Eugenics_, **7**, Part II, 179–188.
+
+The data were collected by Anderson, Edgar (1935). The irises of the Gaspe
+Peninsula, _Bulletin of the American Iris Society_, **59**, 2–5.
+
+### References
+
+Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) _The New S Language_.
+Wadsworth &amp; Brooks/Cole. (has `iris3` as `iris`.)
+
+### See Also
+
+`matplot` some examples of which use `iris`.
+
+### Examples
+
+    dni3 &lt;- dimnames(iris3)
+    ii &lt;- data.frame(matrix(aperm(iris3, c(1,3,2)), ncol = 4,
+                            dimnames = list(NULL, sub(&quot; L.&quot;,&quot;.Length&quot;,
+                                            sub(&quot; W.&quot;,&quot;.Width&quot;, dni3[[2]])))),
+        Species = gl(3, 50, labels = sub(&quot;S&quot;, &quot;s&quot;, sub(&quot;V&quot;, &quot;v&quot;, dni3[[3]]))))
+    all.equal(ii, iris) # TRUE
+
+
+None
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see from the documentation above that this set is 150 observations of individual flowers, recording 4 measurements and 1 variable indicating the specific Specie of flower.  Now let’s go ahead and read it into our environment and take a look.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in the data and print 10 rows</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;iris&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sepal.Length</th>
+      <th>Sepal.Width</th>
+      <th>Petal.Length</th>
+      <th>Petal.Width</th>
+      <th>Species</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>105</th>
+      <td>6.5</td>
+      <td>3.0</td>
+      <td>5.8</td>
+      <td>2.2</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>6.2</td>
+      <td>3.4</td>
+      <td>5.4</td>
+      <td>2.3</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>5.0</td>
+      <td>3.2</td>
+      <td>1.2</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>6.9</td>
+      <td>3.1</td>
+      <td>4.9</td>
+      <td>1.5</td>
+      <td>versicolor</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>5.8</td>
+      <td>2.8</td>
+      <td>5.1</td>
+      <td>2.4</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>5.6</td>
+      <td>2.7</td>
+      <td>4.2</td>
+      <td>1.3</td>
+      <td>versicolor</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>6.0</td>
+      <td>2.7</td>
+      <td>5.1</td>
+      <td>1.6</td>
+      <td>versicolor</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>5.4</td>
+      <td>3.4</td>
+      <td>1.5</td>
+      <td>0.4</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>5.4</td>
+      <td>3.4</td>
+      <td>1.7</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>6.3</td>
+      <td>2.3</td>
+      <td>4.4</td>
+      <td>1.3</td>
+      <td>versicolor</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This one is pretty straightforward.  What do you think?  What would you say the unit of analysis is?  What does each row correspond to?</p>
+<p>If you asked me, I’d say it’s -</p>
+<blockquote>
+<div><p>Measurements, by <strong>Flower</strong> (each row are the measurements for just one flower)</p>
+</div></blockquote>
+<br>
+<p>Ok, that was an easy one.  How about the Gasoline Consumption dataset below from the same <code class="docutils literal notranslate"><span class="pre">pydataset</span></code> library?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment to see available datasets</span>
+<span class="c1">#ds = data()</span>
+
+<span class="c1"># Read-in the Gasoline dataset</span>
+<span class="c1">#data(&quot;Gasoline&quot;, show_doc = True)</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;Gasoline&quot;</span><span class="p">)</span>
 <span class="n">dat</span>
 </pre></div>
 </div>
@@ -444,53 +646,59 @@ document.write(`
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>sepal_length</th>
-      <th>sepal_width</th>
-      <th>petal_length</th>
-      <th>petal_width</th>
-      <th>class</th>
+      <th>country</th>
+      <th>year</th>
+      <th>lgaspcar</th>
+      <th>lincomep</th>
+      <th>lrpmg</th>
+      <th>lcarpcap</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>5.1</td>
-      <td>3.5</td>
-      <td>1.4</td>
-      <td>0.2</td>
-      <td>Iris-setosa</td>
-    </tr>
-    <tr>
       <th>1</th>
-      <td>4.9</td>
-      <td>3.0</td>
-      <td>1.4</td>
-      <td>0.2</td>
-      <td>Iris-setosa</td>
+      <td>AUSTRIA</td>
+      <td>1960</td>
+      <td>4.173244</td>
+      <td>-6.474277</td>
+      <td>-0.334548</td>
+      <td>-9.766840</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>4.7</td>
-      <td>3.2</td>
-      <td>1.3</td>
-      <td>0.2</td>
-      <td>Iris-setosa</td>
+      <td>AUSTRIA</td>
+      <td>1961</td>
+      <td>4.100989</td>
+      <td>-6.426006</td>
+      <td>-0.351328</td>
+      <td>-9.608622</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>4.6</td>
-      <td>3.1</td>
-      <td>1.5</td>
-      <td>0.2</td>
-      <td>Iris-setosa</td>
+      <td>AUSTRIA</td>
+      <td>1962</td>
+      <td>4.073177</td>
+      <td>-6.407308</td>
+      <td>-0.379518</td>
+      <td>-9.457257</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>5.0</td>
-      <td>3.6</td>
-      <td>1.4</td>
-      <td>0.2</td>
-      <td>Iris-setosa</td>
+      <td>AUSTRIA</td>
+      <td>1963</td>
+      <td>4.059509</td>
+      <td>-6.370679</td>
+      <td>-0.414251</td>
+      <td>-9.343155</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>AUSTRIA</td>
+      <td>1964</td>
+      <td>4.037689</td>
+      <td>-6.322247</td>
+      <td>-0.445335</td>
+      <td>-9.237739</td>
     </tr>
     <tr>
       <th>...</th>
@@ -499,61 +707,1680 @@ document.write(`
       <td>...</td>
       <td>...</td>
       <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>145</th>
-      <td>6.7</td>
-      <td>3.0</td>
-      <td>5.2</td>
-      <td>2.3</td>
-      <td>Iris-virginica</td>
+      <th>338</th>
+      <td>U.S.A.</td>
+      <td>1974</td>
+      <td>4.798626</td>
+      <td>-5.328694</td>
+      <td>-1.231467</td>
+      <td>-7.617558</td>
     </tr>
     <tr>
-      <th>146</th>
-      <td>6.3</td>
-      <td>2.5</td>
-      <td>5.0</td>
-      <td>1.9</td>
-      <td>Iris-virginica</td>
+      <th>339</th>
+      <td>U.S.A.</td>
+      <td>1975</td>
+      <td>4.804932</td>
+      <td>-5.346190</td>
+      <td>-1.200377</td>
+      <td>-7.607010</td>
     </tr>
     <tr>
-      <th>147</th>
-      <td>6.5</td>
-      <td>3.0</td>
-      <td>5.2</td>
-      <td>2.0</td>
-      <td>Iris-virginica</td>
+      <th>340</th>
+      <td>U.S.A.</td>
+      <td>1976</td>
+      <td>4.814891</td>
+      <td>-5.297946</td>
+      <td>-1.154682</td>
+      <td>-7.574748</td>
     </tr>
     <tr>
-      <th>148</th>
-      <td>6.2</td>
-      <td>3.4</td>
-      <td>5.4</td>
-      <td>2.3</td>
-      <td>Iris-virginica</td>
+      <th>341</th>
+      <td>U.S.A.</td>
+      <td>1977</td>
+      <td>4.811032</td>
+      <td>-5.256606</td>
+      <td>-1.175910</td>
+      <td>-7.553458</td>
     </tr>
     <tr>
-      <th>149</th>
-      <td>5.9</td>
-      <td>3.0</td>
-      <td>5.1</td>
-      <td>1.8</td>
-      <td>Iris-virginica</td>
+      <th>342</th>
+      <td>U.S.A.</td>
+      <td>1978</td>
+      <td>4.818454</td>
+      <td>-5.221232</td>
+      <td>-1.212062</td>
+      <td>-7.536176</td>
     </tr>
   </tbody>
 </table>
-<p>150 rows × 5 columns</p>
+<p>342 rows × 6 columns</p>
 </div></div></div>
 </div>
-<h5>Long Data</h5><h5>Wide Data</h5><h3>Data Types</h3><p>What are the types of data we may encounter?</p>
+<p>What do you think?  Can you see the categorical and hierarchical levels in the data?  If I was working on this project, I would say the unit of analysis for our data is</p>
+<blockquote>
+<div><p>“Gas Consumption, by <strong>Country</strong>, by <strong>Year</strong>”</p>
+</div></blockquote>
+<p>Did you come up with the same?</p>
+<p>Maybe you’re asking why understanding this level of analysis thing matters?  Well, there are a number of super important reasons.  First and foremost, you need to know how to read the data so you can analyze what’s being recorded.  One of the first things you might want to do is some exploratory summary descriptive kind of views.  You’ll have a very difficult time knowing how to ask your questions and look at the data if you don’t know how it’s structured.</p>
+<p>For the gasoline consumption example above, we can ask a few basic investigatory questions now that we understand it’s “Gas Consumption, by <strong>Country</strong>, by <strong>Year</strong>”.  We’ll cover this in much more detail in the upcoming <a class="reference internal" href="EDA.html"><span class="doc">Exploratory Data Analysis (EDA)</span></a> section, but for now see if you can follow along without too much explanation.</p>
+<p>See if you can spot the difference between the “grouping” conditions we pivot the data on versus the “values” we want to analyze.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count how many records each country has for each year</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">)[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>country</th>
+      <th>AUSTRIA</th>
+      <th>BELGIUM</th>
+      <th>CANADA</th>
+      <th>DENMARK</th>
+      <th>FRANCE</th>
+      <th>GERMANY</th>
+      <th>GREECE</th>
+      <th>IRELAND</th>
+      <th>ITALY</th>
+      <th>JAPAN</th>
+      <th>NETHERLA</th>
+      <th>NORWAY</th>
+      <th>SPAIN</th>
+      <th>SWEDEN</th>
+      <th>SWITZERL</th>
+      <th>TURKEY</th>
+      <th>U.K.</th>
+      <th>U.S.A.</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1960</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1961</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1962</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1963</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1964</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1965</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1966</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1967</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1968</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1969</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1970</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1971</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1972</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1973</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1974</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1975</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1976</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1977</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1978</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now we know that every country has at least one record for every year, what if we wanted to aggregate the data in some way?  You’d need to know what levels you want to roll your values up to.  See below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the mean gasoline consumption for each country over all of the years</span>
+<span class="n">agg_dat</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;country&#39;</span><span class="p">])[</span><span class="s1">&#39;lgaspcar&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;lgaspcar&#39;</span><span class="p">:</span> <span class="s1">&#39;avg_lgaspcar&#39;</span><span class="p">},</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">agg_dat</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;avg_lgaspcar&#39;</span><span class="p">],</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>avg_lgaspcar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>15</th>
+      <td>TURKEY</td>
+      <td>5.766355</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>GREECE</td>
+      <td>4.878679</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CANADA</td>
+      <td>4.862402</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>U.S.A.</td>
+      <td>4.819075</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>JAPAN</td>
+      <td>4.699642</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>SWITZERL</td>
+      <td>4.237586</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>IRELAND</td>
+      <td>4.225560</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>DENMARK</td>
+      <td>4.189886</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>NORWAY</td>
+      <td>4.109773</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>NETHERLA</td>
+      <td>4.080338</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>AUSTRIA</td>
+      <td>4.056487</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>SPAIN</td>
+      <td>4.055314</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>SWEDEN</td>
+      <td>4.006055</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>U.K.</td>
+      <td>3.984685</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>BELGIUM</td>
+      <td>3.922286</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>GERMANY</td>
+      <td>3.893389</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>FRANCE</td>
+      <td>3.815198</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>ITALY</td>
+      <td>3.729646</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the average gasoline consumption for each country</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">agg_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;avg_lgaspcar&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;reorder(country, avg_lgaspcar)&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span> <span class="o">=</span> <span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ylab</span><span class="p">(</span><span class="s2">&quot;Gasoline Consumption (log)&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Avg Gasoline Consumption 1960-1978&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">coord_flip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4a5bfb67cafb9810c461112579a0944a15b7ce396e25023e049ae4c9799f5d7a.png" src="../_images/4a5bfb67cafb9810c461112579a0944a15b7ce396e25023e049ae4c9799f5d7a.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This dataset is pretty simple too so no doubt you would have been able to figure all of this out without having to realize that you were actually considering the unit of analysis as you were going along, but at least notice all of the things we needed to know about our data for a simple aggregation and a basic plot.</p>
+<p>When our data starts to get more complicated, and I promise it will in the real world, you will absolutely want to make sure you take adequate time in the beginning scoping stages of your project to think about what levels you have so you can be better prepared to ask great questions and interrogate your data properly.</p>
+<h5>Wide vs. Long Data</h5><p>Next up we’ll take a look at some of the common data <em>shapes</em> you’ll run into.</p>
+<p>Basically the idea here is that data can be recorded in a couple of different ways.  Different structures require different operations for creating new data, aggregating, building graphs and plots, modeling, and many other data munging techniques.  None of these formats are right or wrong necessarily, but as you’ll come to learn it’s really just a function of how the data was generated/stored coupled with what we need to do with it, and if those two align or not.  If they do not align, well, then you’ll need to do something about it by reshaping the data somehow.  This is where we go next.</p>
+<p>Let’s see what we’re talking about by creating a small synthetic set to illustrate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;2024-01-02&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;2024-01-03&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+                    <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;History&quot;</span><span class="p">,</span> <span class="s2">&quot;Science&quot;</span><span class="p">,</span> <span class="s2">&quot;Math&quot;</span><span class="p">,</span> <span class="s2">&quot;Art&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="mi">12</span><span class="p">)})</span>
+<span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>class</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2024-01-01</td>
+      <td>History</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2024-01-01</td>
+      <td>Science</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2024-01-01</td>
+      <td>Math</td>
+      <td>97</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2024-01-01</td>
+      <td>Art</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2024-01-02</td>
+      <td>History</td>
+      <td>97</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2024-01-02</td>
+      <td>Science</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2024-01-02</td>
+      <td>Math</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2024-01-02</td>
+      <td>Art</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2024-01-03</td>
+      <td>History</td>
+      <td>93</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2024-01-03</td>
+      <td>Science</td>
+      <td>96</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2024-01-03</td>
+      <td>Math</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2024-01-03</td>
+      <td>Art</td>
+      <td>95</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Want to venture a guess as to whether this is <em>wide</em> or <em>long</em> data?</p>
+<p>That’s correct!  I have no doubt you said <em>long</em> data.  Good job.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Long data consists of one row per unit of analysis per time period.  Therefore, each subject will have multiple rows (if there are multiple other levels in the unit of analysis.</p>
+</div>
+<p>We’re introducing a really useful construct published by a well known practioner in the field named Hadley Wickham.  If you don’t know who he is, you should definitely look him up.  While he works with the R programming language, he’s contributed an unbelievable amount of ideas, best practices, and coding methodologies that have permeated the field, regardless of which language you use.  One of those ideas is the notion of “tidy” data.  See <span id="id1">[<a class="reference internal" href="../zreferences.html#id12" title="Hadley Wickham. Tidy data. Sep 2014. URL: https://vita.had.co.nz/papers/tidy-data.pdf.">Wic14</a>]</span> for more details.</p>
+<p>Tidy data is designed to make doing data analysis easier.  It’s really great for plotting and graphing as you’ll learn soon, and lends itself really well to filtering and querying because all of the levels are contained in one column (e.g. Class) vs. having to write a statement for <em>each</em> column of the levels if they were all broken out into their own column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This would require a loop or at least 2 or 3 statements if the data was wide instead of long</span>
+<span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Math&#39;</span><span class="p">,</span> <span class="s1">&#39;Art&#39;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>class</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>2024-01-01</td>
+      <td>Math</td>
+      <td>97</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2024-01-01</td>
+      <td>Art</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2024-01-02</td>
+      <td>Math</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2024-01-02</td>
+      <td>Art</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2024-01-03</td>
+      <td>Math</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2024-01-03</td>
+      <td>Art</td>
+      <td>95</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>So how about <em>wide</em> data then?  I’m sure you can already imagine what it might look like.  Imagine casting all of the individual levels of a variable out into their own columns.  So each Class will now have their own column, and the value will be the Score.  Pretty simple.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Wide data will have each subject’s information spread out horizontally in a single row, with each variable in a separate column, vs. having repeated rows for all of the additional variable levels of analysis.</p>
+</div>
+<p>Instead of creating a new wide set to illustrate, let’s introduce the topic of <em>pivoting</em> and transform our long data we’ve already created.  We’ll use the pandas <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> function coupled with <code class="docutils literal notranslate"><span class="pre">unstack()</span></code> to cast a long set into wide.  Alternatively, you could have used the <code class="docutils literal notranslate"><span class="pre">pivot()</span></code> function as well.  Using the <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> method though will make it much easier to deal with naming and accessing the nested elements created when you get started pivoting your data.  It can actually get pretty complicated, so finding a simple and reuseable syntax you like is worth its weight in gold.  You’ll learn there’s no one way to do anything in this field so pick whatever works for you!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape our long dataset into wide</span>
+<span class="n">wide_dat</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span>
+                <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span><span class="s1">&#39;class&#39;</span><span class="p">])[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+                <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
+<span class="c1">#wide_dat = dat.pivot(index = [&#39;date&#39;], columns = [&#39;class&#39;], values = [&#39;score&#39;])</span>
+<span class="n">wide_dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>Art</th>
+      <th>History</th>
+      <th>Math</th>
+      <th>Science</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2024-01-01</td>
+      <td>91.0</td>
+      <td>100.0</td>
+      <td>97.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2024-01-02</td>
+      <td>99.0</td>
+      <td>97.0</td>
+      <td>94.0</td>
+      <td>98.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2024-01-03</td>
+      <td>95.0</td>
+      <td>93.0</td>
+      <td>94.0</td>
+      <td>96.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now what about reshaping from wide to long data?  Again we’ll turn to a pandas function called <code class="docutils literal notranslate"><span class="pre">stack()</span></code>.  Let’s see it in action by undoing what we just did, and recasting our <code class="docutils literal notranslate"><span class="pre">wide_dat</span></code> back into a long format.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pivot the data from wide to long with &quot;stack&quot;</span>
+<span class="n">long_dat</span> <span class="o">=</span> <span class="p">(</span><span class="n">wide_dat</span>
+                <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span><span class="s1">&#39;class&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;score&#39;</span><span class="p">}))</span>
+<span class="n">long_dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>class</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2024-01-01</td>
+      <td>Art</td>
+      <td>91.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2024-01-01</td>
+      <td>History</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2024-01-01</td>
+      <td>Math</td>
+      <td>97.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2024-01-01</td>
+      <td>Science</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2024-01-02</td>
+      <td>Art</td>
+      <td>99.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2024-01-02</td>
+      <td>History</td>
+      <td>97.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2024-01-02</td>
+      <td>Math</td>
+      <td>94.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2024-01-02</td>
+      <td>Science</td>
+      <td>98.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2024-01-03</td>
+      <td>Art</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2024-01-03</td>
+      <td>History</td>
+      <td>93.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2024-01-03</td>
+      <td>Math</td>
+      <td>94.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2024-01-03</td>
+      <td>Science</td>
+      <td>96.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Nicely done.  You’ll come to understand that this topic of data structures and formats can actually become super complicated and difficult to deal with.  This is why we spend so much of our time working and massaging the data.  It often takes quite a bit of effort to get it in the right shape for the analysis we want to perform.</p>
+<h3>Data Types</h3><p>Moving on to Data Types!  In addition to all of the shapes and formats our data may take, there are several different types of data we will encounter.  We’ll discuss the properties of each in more detail when we get to the <a class="reference internal" href="../Chapter6/machine_learning.html"><span class="doc">Machine Learning</span></a> section, so here we’ll only introduce the types and cover a high level view of the following.</p>
 <ul class="simple">
 <li><p>Cross sectional</p></li>
 <li><p>Time series</p></li>
 <li><p>Panel</p></li>
 <li><p>Text</p></li>
 </ul>
-<p>There are other more exotic data to be sure, but this will cover the common ones you’ll deal with the most often.</p>
-<h5>Cross Sectional</h5><h5>Time Series</h5><h5>Panel</h5><h5>Text</h5></section>
+<p>Most of the data will fall into the category of “structured” data, think rows and columns (like Excel), with Text data being the most common exception usually coming in “unstructred” blocks of text.  There are other more exotic data to be sure, but this will cover the common ones you’ll deal with the most often.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import libraries</span>
+<span class="kn">from</span> <span class="nn">pydataset</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotnine</span> <span class="k">as</span> <span class="nn">gg</span>
+<span class="kn">import</span> <span class="nn">warnings</span> 
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<h5>Cross Sectional</h5><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Cross Sectional data refers to variables and measures recorded at the same point in time.</p>
+</div>
+<p>Recall our iris dataset from earlier?  It’s a classic example of a cross-sectional data set because it’s a collection of measurements (lengths and widths) for multiple flowers, all recorded at the same time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in the data and print 10 rows</span>
+<span class="c1">#data(&quot;iris&quot;, show_doc = True)</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;iris&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sepal.Length</th>
+      <th>Sepal.Width</th>
+      <th>Petal.Length</th>
+      <th>Petal.Width</th>
+      <th>Species</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>51</th>
+      <td>7.0</td>
+      <td>3.2</td>
+      <td>4.7</td>
+      <td>1.4</td>
+      <td>versicolor</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>4.8</td>
+      <td>3.4</td>
+      <td>1.6</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>5.5</td>
+      <td>2.4</td>
+      <td>3.7</td>
+      <td>1.0</td>
+      <td>versicolor</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>7.7</td>
+      <td>3.8</td>
+      <td>6.7</td>
+      <td>2.2</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>5.8</td>
+      <td>2.8</td>
+      <td>5.1</td>
+      <td>2.4</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>6.9</td>
+      <td>3.1</td>
+      <td>5.1</td>
+      <td>2.3</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>6.4</td>
+      <td>2.7</td>
+      <td>5.3</td>
+      <td>1.9</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>6.3</td>
+      <td>2.9</td>
+      <td>5.6</td>
+      <td>1.8</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>7.3</td>
+      <td>2.9</td>
+      <td>6.3</td>
+      <td>1.8</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>5.4</td>
+      <td>3.9</td>
+      <td>1.7</td>
+      <td>0.4</td>
+      <td>setosa</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot a bivariate scatterplot with a linear fit line</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Petal.Length&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;Petal.Width&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#4E68EC&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ec3b89e54bf9e405ecfe536ea4bcb2b60cde83b56d6cfa3c8a4c3fcc057af9d6.png" src="../_images/ec3b89e54bf9e405ecfe536ea4bcb2b60cde83b56d6cfa3c8a4c3fcc057af9d6.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<h5>Time Series</h5><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Time Series data refers to a subject and variables recorded at different points in time (usually at regular intervals).</p>
+</div>
+<p>When we’re dealing with what’s known as <em>univariate</em> (only a single dependent variable), the data tends to be very simple.  We usually just have a column or two with categorical fields like “Customer” or “Region”, then some kind of time variable such as “Day”, “Month”, or “Year”, and then some numeric value of interest like “Sales”, “Profit”, or maybe “Earnings”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in the Johnson &amp; Johnson quarterly earnings data and print the first 4 years</span>
+<span class="c1">#data(&quot;JohnsonJohnson&quot;, show_doc = True)</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;JohnsonJohnson&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;quarter&#39;</span><span class="p">,</span> <span class="s1">&#39;JohnsonJohnson&#39;</span><span class="p">:</span> <span class="s1">&#39;earnings&#39;</span><span class="p">})[</span><span class="mi">1</span><span class="p">:</span><span class="mi">17</span><span class="p">]</span>
+<span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>quarter</th>
+      <th>earnings</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>1960.25</td>
+      <td>0.63</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1960.50</td>
+      <td>0.85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1960.75</td>
+      <td>0.44</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1961.00</td>
+      <td>0.61</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1961.25</td>
+      <td>0.69</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1961.50</td>
+      <td>0.92</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1961.75</td>
+      <td>0.55</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1962.00</td>
+      <td>0.72</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1962.25</td>
+      <td>0.77</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1962.50</td>
+      <td>0.92</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1962.75</td>
+      <td>0.60</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1963.00</td>
+      <td>0.83</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1963.25</td>
+      <td>0.80</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1963.50</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1963.75</td>
+      <td>0.77</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1964.00</td>
+      <td>0.92</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Time series data is a fun one to display graphically.  Time across the x-axis, and the numeric value in the y-axis.  You will build this kind of graph frequently when you get into real time series projects.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot a trend line for quarterly earnings</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;quarter&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;earnings&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#4E68EC&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/de3af40cefc090d197ddb0447a34e01614f44a247e8d7284be7579ff2138d94c.png" src="../_images/de3af40cefc090d197ddb0447a34e01614f44a247e8d7284be7579ff2138d94c.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<h5>Panel</h5><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Panel, or longitudinal, data refers to variables and measures across multiple cross sections at different points in time.</p>
+</div>
+<p>And we’ve already seen an example of Panel data as well.  Remember the Gas Consumption dataset from before?  Recall how the unit of analysis was “Gas Consumption, by <strong>Country</strong>, by <strong>Year</strong>”?  Well, that’s panel data.  Multiple cross-sections of subjects recorded at multiple points in time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in the data and print the first 10 rows</span>
+<span class="c1">#data(&quot;Gasoline&quot;, show_doc = True)</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;Gasoline&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>year</th>
+      <th>lgaspcar</th>
+      <th>lincomep</th>
+      <th>lrpmg</th>
+      <th>lcarpcap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>AUSTRIA</td>
+      <td>1960</td>
+      <td>4.173244</td>
+      <td>-6.474277</td>
+      <td>-0.334548</td>
+      <td>-9.766840</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AUSTRIA</td>
+      <td>1961</td>
+      <td>4.100989</td>
+      <td>-6.426006</td>
+      <td>-0.351328</td>
+      <td>-9.608622</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AUSTRIA</td>
+      <td>1962</td>
+      <td>4.073177</td>
+      <td>-6.407308</td>
+      <td>-0.379518</td>
+      <td>-9.457257</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUSTRIA</td>
+      <td>1963</td>
+      <td>4.059509</td>
+      <td>-6.370679</td>
+      <td>-0.414251</td>
+      <td>-9.343155</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>AUSTRIA</td>
+      <td>1964</td>
+      <td>4.037689</td>
+      <td>-6.322247</td>
+      <td>-0.445335</td>
+      <td>-9.237739</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>AUSTRIA</td>
+      <td>1965</td>
+      <td>4.033983</td>
+      <td>-6.294668</td>
+      <td>-0.497061</td>
+      <td>-9.123903</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>AUSTRIA</td>
+      <td>1966</td>
+      <td>4.047537</td>
+      <td>-6.252545</td>
+      <td>-0.466838</td>
+      <td>-9.019822</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>AUSTRIA</td>
+      <td>1967</td>
+      <td>4.052911</td>
+      <td>-6.234581</td>
+      <td>-0.505883</td>
+      <td>-8.934403</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>AUSTRIA</td>
+      <td>1968</td>
+      <td>4.045507</td>
+      <td>-6.206894</td>
+      <td>-0.522413</td>
+      <td>-8.847967</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>AUSTRIA</td>
+      <td>1969</td>
+      <td>4.046355</td>
+      <td>-6.153140</td>
+      <td>-0.559111</td>
+      <td>-8.788686</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot by Country, by Year</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;lgaspcar&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;country&quot;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_line</span><span class="p">()</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">scale_color_discrete</span><span class="p">(</span><span class="n">guide</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ylab</span><span class="p">(</span><span class="s2">&quot;Gasoline Consumption (log)&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Gasoline Consumption Trends 1960-1978&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">90</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3b9acb58cbf1a461875fc3c3ff36070df3e353d07f96b1c21dfb4662882d10b0.png" src="../_images/3b9acb58cbf1a461875fc3c3ff36070df3e353d07f96b1c21dfb4662882d10b0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<h5>Text</h5><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Text data refers to any sort of written data stored in a text format.</p>
+</div>
+<p>Text data can come in a variety of formats.  It can be in a corpus, which is a collection of text or audio, a simple column in a file with one or a few words, or you might see it as below, which is free form text in the form of sentences.  Let’s read in a public dataset from the UCI Repository <span id="id2">[<a class="reference internal" href="../zreferences.html#id11" title="UC Irvine. 2024. URL: https://archive.ics.uci.edu/.">Irv24</a>]</span> listing email text for spam classification.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in SMS Spam Collection text from Github</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/bradybr/practical-data-science-and-ml/blob/main/datasets/SMS%20Spam%20Collection.csv?raw=true&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;unicode_escape&#39;</span><span class="p">)[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Ci...
+1                                                                 Ok lar... Joking wif u oni...
+2     Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 t...
+3                                             U dun say so early hor... U c already then say...
+4                                 Nah I don&#39;t think he goes to usf, he lives around here though
+5     FreeMsg Hey there darling it&#39;s been 3 week&#39;s now and no word back! I&#39;d like some fun y...
+6                 Even my brother is not like to speak with me. They treat me like aids patent.
+7     As per your request &#39;Melle Melle (Oru Minnaminunginte Nurungu Vettam)&#39; has been set as...
+8     WINNER!! As a valued network customer you have been selected to receivea £900 prize re...
+9     Had your mobile 11 months or more? U R entitled to Update to the latest colour mobiles...
+10    I&#39;m gonna be home soon and i don&#39;t want to talk about this stuff anymore tonight, k? I...
+11    SIX chances to win CASH! From 100 to 20,000 pounds txt&gt; CSH11 and send to 87575. Cost ...
+12    URGENT! You have won a 1 week FREE membership in our £100,000 Prize Jackpot! Txt the w...
+13    I&#39;ve been searching for the right words to thank you for this breather. I promise i wo...
+14                                                          I HAVE A DATE ON SUNDAY WITH WILL!!
+Name: text, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Concatenate and count the frequencies for each word</span>
+<span class="n">sentence_ls</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">word_ls</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sentence_ls</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">word_freq</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_ls</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word_ls</span><span class="p">]</span>
+
+<span class="c1"># Create dataframe</span>
+<span class="n">word_freq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">word_ls</span><span class="p">,</span> <span class="n">word_freq</span><span class="p">)))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;frequency&#39;</span><span class="p">})</span>
+<span class="n">word_freq_df</span> <span class="o">=</span> <span class="n">word_freq_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">word_freq_df</span> <span class="o">=</span> <span class="n">word_freq_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;frequency&#39;</span><span class="p">],</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">word_freq_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>word</th>
+      <th>frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>12</th>
+      <td>to</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>you</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>I</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>a</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>and</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>the</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>for</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>i</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>your</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>in</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot top 50 word frequencies</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">word_freq_df</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;reorder(word, frequency)&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;frequency&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;identity&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;#4E68EC&#39;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_y</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="mi">7</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">coord_flip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bc54f42db8dcd6798101f0ad6dbdc5d5570f0c6406f97d8d28d8ab51b69c40e7.png" src="../_images/bc54f42db8dcd6798101f0ad6dbdc5d5570f0c6406f97d8d28d8ab51b69c40e7.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interesting.  We’ve plotted the most commonly used words in all of the emails, but notice how many of the words are uninformative?  A lot of the words you see in the list are known as “stop” words.  When you get into working with text for real, you’ll learn that there’s a <em>ton</em> of preprocessing that needs to happen before you can properly analzye your data.  We’ll need to remove stop words, deal with special characters and punctutations, truncate words down to their root, and more!</p>
+<p>This at least gives you a basic feel for looking at text, doing some simple manipulations, and plotting basic count frequencies.  More to come.</p>
+<h3>What Did We Learn?</h3><p>I know this was a long section, but hopefully you’re starting to get a taste for what some real data looks like, how to interpret a few format types you’ll see, how to perform a few simple manipulations in Python code, and even what kinds of use cases these datasets may line up with.</p>
+<p>There’s always so much more detail we could go into, but we will see more of these as we work through the hands on sections that dig into project steps and methogologies.</p>
+</section>
 
     <script type="text/x-thebe-config">
     {
