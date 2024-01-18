@@ -1755,4 +1755,3 @@ id,gender,age,country,study_begin,study_end,active_mins,sleep_disturb_mins,sleep
 874,F,27,Italy,4/3/2021,4/9/2023,43.2,84.1,18.0
 875,F,69,Spain,4/3/2021,4/9/2023,246.8,237.6,44.1
 876,M,27,USA,4/3/2021,4/9/2023,320.2,313.3,112.8
->>>>>>> a88565f1b199e54c4427b5e2037fc22addb9df2e
