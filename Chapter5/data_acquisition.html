@@ -798,7 +798,7 @@ document.write(`
 <p>503 rows × 8 columns</p>
 </div></div></div>
 </div>
-<p>This example is taking advantage of a known “table” structure on a webpage.  Often however you’ll need parse an entire page and crawl through the HTML nodes by parent, children, and various tags to find exactly what you’re looking for.  This is referred to as <em>web scraping</em> and <em>parsing</em>.  You will definitely need to do some googling and researching a bit with lots of trail and error when you begin to work with scraping web data for real.</p>
+<p>This example is taking advantage of a known “table” structure on a webpage.  Often however you’ll need parse an entire page and crawl through the HTML nodes by parent, children, and various tags to find exactly what you’re looking for.  This is referred to as <em>web scraping</em> and <em>parsing</em>.  You will definitely need to do some googling and researching a bit with lots of trial and error when you begin to work with scraping web data for real.</p>
 <p>There’s much more you can do with the topic of web scrapping and accessing XML and HTML structures, but this is a bit beyond the scope of our lessons.  If you’re interested, definitely check out Beautiful Soup, Selenium, and Scrappy libraries, just to name a few…</p>
 <h5>JSON Data</h5><p>Closely coupled with internet data is the JSON structure type.  JSON stands for JavaScript Object Notation, and is a simple and convenient way to store and transport data in a text format.  You may run into this one with websites who choose to make their data publically available for download.  It’s also very common to send and receive data this way in industrialized cloud infrastructures within large companies.</p>
 <p>Below we’ll retrieve the <a href="https://www.eia.gov/outlooks/steo/data/browser/">US Department of Energy’s Short-Term Engergy Outlook</a> for Petroleum using their API call which returns data in a JSON format.  You’ll need to sign up for your own API Key password if you’d like to try and replicate yourself.</p>
@@ -837,15 +837,14 @@ document.write(`
    &#39;length&#39;: 5000,
    &#39;api_key&#39;: &#39;73aa6102f0b10664045a49a5f9789e24&#39;,
    &#39;start&#39;: &#39;2024-01-01&#39;}},
- &#39;apiVersion&#39;: &#39;2.1.5&#39;,
- &#39;ExcelAddInVersion&#39;: &#39;2.1.0&#39;}
+ &#39;apiVersion&#39;: &#39;2.1.4&#39;}
 </pre></div>
 </div>
 </div>
 </div>
 <h5>Database/Warehouse Data</h5><p>Retrieving data stored in some kind of structured relational database is also extremely common.  You may have a free version like MySQL setup for your personal use, or maybe a more powerful commerical cloud based offering like Microsoft Azure and Data Lake.  This is a deep and specific subject due to the techologies, installations, and authorizations required, which are also a bit outside of the scope for these lessons.</p>
 <p>Since we’ll be dealing mostly with downloading files or accessing data via Python libraries, we’ll leave this as an exercise for the reader to investigate further in his or her own time.  Below is the link to the popular and free MySQL offering where you can read more about connecting with Python.</p>
-<p>And remember when we suggested learning the SQL language might be a good thing when discussing programming languages?  This is where it will come into play.  These relational databases are extremely common for warehousing enterprise data, and SQL is by far the most popular programming language to work with these data repositories.</p>
+<p>And remember when we suggested learning the SQL language might be a good thing when discussing programming languages?  This is where it will come into play.  These relational databases are extremely common for warehousing enterprise data, and SQL is by far the most popular programming language to work with these data repositories.  SQL is also the foundational language behind many of the big data cloud computing languages like Spark, so it will absolutely pay divends to learn it if you really want to enter the workforce in the field.</p>
 <p><a href="https://dev.mysql.com/doc/connector-python/en/connector-python-introduction.html">MySQL Python Connector</a></p>
 <figure class="align-default" id="mysql-connector-fig">
 <a class="reference internal image-reference" href="../_images/mysql_connector.png"><img alt="../_images/mysql_connector.png" src="../_images/mysql_connector.png" style="width: 900px;" /></a>
@@ -854,7 +853,7 @@ document.write(`
 </figcaption>
 </figure>
 <h5>APIs</h5><p>We’ve actually just seen an example of an API call to retrieve data from the Department of Energy.  API stands for Application Programming Interface, and are standard protocols which allow programs and applications to communicate with each other.  They are essentially end-to-end connection points that have been set up to faciliate the transfer of data using request calls and responses.</p>
-<p>The DOE call above is just one example, however API’s have become very common with the explosion of business monetization of data as a core competency.  Social media sites like Twitter, Facebook, and the like, as well as other companies working with popular consumable data such as weather, stock prices, etc. are commonly utilizing this technology today.  Companies typically open these up to what are known as the “Developer” community.  You can sign up for an account and receive API Keys and authentication tokens which allow you to begin accessing data straight away.  Because this data is often a revenue stream for the provider, unfortunatly you will frequently run into a paywall for good data though.  Hard to blame them, seeing as they’ve incurred all of the expenses towards collecting and hosting the data, so it does seem only fair that they’re compensated for it somehow.</p>
+<p>The DOE call above is just one example, however API’s have become very common with the explosion of business monetization of data as a core competency.  Social media sites like Twitter, Facebook, and the like, as well as other companies working with popular consumable data such as weather, stock prices, etc. are commonly utilizing this technology.  Companies typically open these up to what are known as the “Developer” community.  You can sign up for an account and receive API Keys and authentication tokens which allow you to begin accessing data straight away.  Because this data is often a revenue stream for the provider, unfortunatly you will frequently run into a paywall for good data though.  Hard to blame them, seeing as they’ve incurred all of the expenses towards collecting and hosting the data, so it does seem only fair that they’re compensated for it somehow.</p>
 <p>We won’t go into any more detail here since we’ve already shown an example and due to needing to create developer profiles.  Our work for this course will be mostly with downloaded files or through Python packages.</p>
 </section>
 

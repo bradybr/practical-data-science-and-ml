@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="5.3. Data Wrangling" href="wrangling.html" />
-    <link rel="prev" title="5.2.2. Descriptive Statistics" href="desc_summaries.html" />
+    <link rel="prev" title="5.2.2. Data Integrity" href="data_integrity.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -200,8 +200,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="EDA.html">5.2. Exploratory Data Analysis (EDA)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.2.1. Data Integrity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="desc_summaries.html">5.2.2. Descriptive Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_characteristics.html">5.2.1. Data Charactersitics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.2.2. Data Integrity</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">5.2.3. Plots &amp; Graphs</a></li>
 </ul>
 </li>
@@ -396,6 +396,17 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="plots-graphs">
 <h1><span class="section-number">5.2.3. </span>Plots &amp; Graphs<a class="headerlink" href="#plots-graphs" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="c1">#sns.pairplot(dat.iloc[:,1:], hue = &#39;gender&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -429,12 +440,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="desc_summaries.html"
+       href="data_integrity.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5.2.2. </span>Descriptive Statistics</p>
+        <p class="prev-next-title"><span class="section-number">5.2.2. </span>Data Integrity</p>
       </div>
     </a>
     <a class="right-next"

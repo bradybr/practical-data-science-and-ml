@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>5.2.1. Data Integrity &#8212; Practical Data Science and Machine Learning</title>
+    <title>5.2.2. Data Integrity &#8212; Practical Data Science and Machine Learning</title>
   
   
   
@@ -66,8 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter5/data_integrity.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5.2.2. Descriptive Statistics" href="desc_summaries.html" />
-    <link rel="prev" title="5.2. Exploratory Data Analysis (EDA)" href="EDA.html" />
+    <link rel="next" title="5.2.3. Plots &amp; Graphs" href="plots.html" />
+    <link rel="prev" title="5.2.1. Data Charactersitics" href="data_characteristics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -200,8 +200,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="EDA.html">5.2. Exploratory Data Analysis (EDA)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">5.2.1. Data Integrity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="desc_summaries.html">5.2.2. Descriptive Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_characteristics.html">5.2.1. Data Charactersitics</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">5.2.2. Data Integrity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.3. Plots &amp; Graphs</a></li>
 </ul>
 </li>
@@ -395,18 +395,1594 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-integrity">
-<h1><span class="section-number">5.2.1. </span>Data Integrity<a class="headerlink" href="#data-integrity" title="Permalink to this heading">#</a></h1>
-<p>Unfortunately as we’ve said before, it’s not just read in the data and get to modeling.  There’s so much time devoted to getting the data, checking it, summarizing, asking questions, fixing issues, then rinse and repeat.  Real-world data is super messy and there’s no one size fits all methodology.  Nearly every dataset will be unique and have some kind of peculiarities specific to the domain and data collections method.</p>
-<p>Luckily for us there are definitely some standard best practices so we won’t be figthing in the dark.  We at least always know where we should start, and then we let the findings guide us from there.  Assessing the quality and integrity of your data is ridiculously critical to the success of your project so I caution you to not take it too lightly.  Remember talking about “garbage in, garbage out”?  If your data is riddled with holes and untrustworthy data, then your entire model and project won’t be worth a darn.  You can bank on it.</p>
-<p>In this section we’ll cover the most common issues you’ll see with your data.  There are others to be sure, but they’ll be less common and more domain specific in most cases.</p>
+<h1><span class="section-number">5.2.2. </span>Data Integrity<a class="headerlink" href="#data-integrity" title="Permalink to this heading">#</a></h1>
+<p>Coming out of the last section where we began showing some of the data challenges you’ll run across, and hopefully you’re starting to understand it’s not just <em>read in the data and get to modeling</em>.  There’s so much time devoted to getting the data, checking it, summarizing, asking questions, fixing issues, then rinse and repeat.  Real-world data is super messy and there’s no one size fits all methodology.  Nearly every dataset will be unique and have some kind of peculiarities specific to the domain and data collections method.</p>
+<p>Remember talking about “garbage in, garbage out”?  If your data is riddled with holes and untrustworthy data, then your entire model and project won’t be worth a darn.  So again, be sure to give this EDA step all the attention it requires.</p>
+<p>Since you’ve already seen how to identify most of these issues, we’re going to jump straight into addressing them.  In this section we’ll cover the most common issues you’ll run across.  There are others to be sure, but they’ll be less common and more domain specific in most cases.</p>
 <ul class="simple">
-<li><p>Missing Values</p></li>
-<li><p>Missing Records</p></li>
-<li><p>Duplicate Records</p></li>
-<li><p>Winsorizing/Placeholders</p></li>
-<li><p>Outliers</p></li>
+<li><p>Duplicate records</p></li>
+<li><p>Missing values/records</p></li>
+<li><p>Anomalous values/Outliers</p></li>
 <li><p>Sensoring</p></li>
 </ul>
+<p>Below we’ll speed up getting our data back into our environment and ready to tackle the integrity issues.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotnine</span> <span class="k">as</span> <span class="nn">gg</span>
+
+<span class="c1"># Read in the data from github repository</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/bradybr/practical-data-science-and-ml/blob/main/datasets/sleep_study.csv?raw=true&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a list of the features you want to change and recast them using &quot;.astype()&quot;</span>
+<span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+<span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+<span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>F</td>
+      <td>38.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>96.8</td>
+      <td>227.5</td>
+      <td>25.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>M</td>
+      <td>72.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>245.6</td>
+      <td>644.2</td>
+      <td>86.7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>F</td>
+      <td>95.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>279.4</td>
+      <td>465.6</td>
+      <td>31.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>M</td>
+      <td>37.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>60.0</td>
+      <td>109.0</td>
+      <td>19.7</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>F</td>
+      <td>80.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>89.4</td>
+      <td>113.3</td>
+      <td>38.6</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>872</td>
+      <td>F</td>
+      <td>17.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>42.1</td>
+      <td>87.7</td>
+      <td>42.3</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>873</td>
+      <td>F</td>
+      <td>64.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>128.5</td>
+      <td>268.8</td>
+      <td>23.4</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>874</td>
+      <td>F</td>
+      <td>27.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>43.2</td>
+      <td>84.1</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>875</td>
+      <td>F</td>
+      <td>69.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>246.8</td>
+      <td>237.6</td>
+      <td>44.1</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>876</td>
+      <td>M</td>
+      <td>27.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>320.2</td>
+      <td>313.3</td>
+      <td>112.8</td>
+    </tr>
+  </tbody>
+</table>
+<p>877 rows × 9 columns</p>
+</div></div></div>
+</div>
+<h3>Duplicate Records</h3><p>Let’s deal with the easiest ones first.  Remember we had a few duplicate observations?  Well, we spoke with our business expert, and she said there’s no reason for those to exist and they are in fact real duplicate records.  We can go ahead and delete them.</p>
+<p>Easy enough.  Let’s find them again and then we’ll use the <code class="docutils literal notranslate"><span class="pre">.drop_duplicates()</span></code> function to drop them from our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check for duplicate observations</span>
+<span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>88</th>
+      <td>89</td>
+      <td>F</td>
+      <td>53.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>141.0</td>
+      <td>186.6</td>
+      <td>107.1</td>
+    </tr>
+    <tr>
+      <th>238</th>
+      <td>238</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete the duplicate records &amp; check the dimensions of the dataset</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(875, 9)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Success!  We only lost two of our observations and we’re down to 875 records.  On to the missing values!</p>
+<h3>Missing Values/Records</h3><p>Ok, so we have some missing values to deal with now.  Let’s deal with the easy ones first.  We again asked our business domain expert to help us understand the data collection and participant intake process to reign in how these might have occurred.  Here’s what we found out.</p>
+<ul class="simple">
+<li><p><strong>Age:</strong>  Participants self reported their age on their intake applications when applying for the study.  Any missing values were not followed up on when the study actually started.</p></li>
+<li><p><strong>Study End Date:</strong> All dates should be 4/9/2023.  Any date after 4/9/2023 is invalid and a data entry mistake.</p></li>
+<li><p><strong>Sleep Pattern Minutes:</strong>  Missing values in sleep recordings were accidental technician omissions.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count NA&#39;s by feature</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>id                     0
+gender                 0
+age                    1
+country                0
+study_begin            0
+study_end             13
+active_mins            4
+sleep_disturb_mins     6
+sleep_rem_mins         9
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Age is an easy decision to remove for me.  It’s just one missing value.  Yes we’ll be losing a little information on the sleep variables side, but I can live with losing just one person.  If I were in doubt, it’s possible to run a machine learning operation or some hypothesis tests to see if we could infer whether this person is more likely to be a male or female.  We know there are nearly 70% females in the study, so that right there could be our best guess at the moment if we wanted to impute the value so we could keep the participant.</p>
+<p>Yes it’s only one person so it’s not likely to hurt much if we get it wrong, but <em>because</em> it’s only one person is exactly the reason I’m going to go ahead and remove the observation.  For me, it’s not worth the possibility of introducing <em>any</em> potential for bias if we get it wrong, just for the benefit of having only one more observation.</p>
+<p>So let’s go with this logic and remove the one observation missing the participant’s age.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete the 1 observation with a missing age</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Study End Data is an easy one too.  The business sponsor told us it should be the same date for all observations.  So let’s set it manually.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set all of the missing end dates to &#39;4/9/2023&#39;</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;study_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;4/9/2023&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, for the missing sleep pattern mintues… There are few enough that we could just delete them and it probably wouldn’t materially change anything in our analysis, hopefully.  On the other hand, it is just a few of them so we could take a shot at imputation because we would not be creating a large number of artificial values.  For this example it’s probalbly a toss up as to whether or not it matters either way; however, you will definitely see more complicated and difficult decisions in the real world.</p>
+<p>When you’re considering deleting information, which should be a last resort, you should get in the habit of understanding what you’re deleting.  For example, you may be removing observations that are unique values in other features and you’d be losing visibility to this group entirely, or maybe they are very important interactions somewhere else in the values under study.</p>
+<p>Let’s print all of the rows with any missing values so we can see what we’re really talking about.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print all rows with any NA/NaN&#39;s</span>
+<span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>79</th>
+      <td>81</td>
+      <td>F</td>
+      <td>69.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>392.5</td>
+      <td>NaN</td>
+      <td>58.8</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>134</td>
+      <td>F</td>
+      <td>90.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>112.8</td>
+      <td>240.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>135</th>
+      <td>136</td>
+      <td>F</td>
+      <td>80.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>227.6</td>
+      <td>NaN</td>
+      <td>46.9</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>173</td>
+      <td>F</td>
+      <td>23.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>NaN</td>
+      <td>385.7</td>
+      <td>63.7</td>
+    </tr>
+    <tr>
+      <th>203</th>
+      <td>204</td>
+      <td>F</td>
+      <td>85.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>290</th>
+      <td>290</td>
+      <td>M</td>
+      <td>92.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>268.3</td>
+      <td>449.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>320</th>
+      <td>320</td>
+      <td>F</td>
+      <td>92.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>277.4</td>
+      <td>450.7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>354</td>
+      <td>F</td>
+      <td>28.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>NaN</td>
+      <td>274.4</td>
+      <td>83.1</td>
+    </tr>
+    <tr>
+      <th>423</th>
+      <td>423</td>
+      <td>F</td>
+      <td>35.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>80.9</td>
+      <td>NaN</td>
+      <td>24.8</td>
+    </tr>
+    <tr>
+      <th>459</th>
+      <td>459</td>
+      <td>F</td>
+      <td>91.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>68.1</td>
+      <td>83.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>531</th>
+      <td>531</td>
+      <td>F</td>
+      <td>88.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>652</th>
+      <td>652</td>
+      <td>M</td>
+      <td>91.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>160.7</td>
+      <td>346.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>688</th>
+      <td>688</td>
+      <td>F</td>
+      <td>70.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>372.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>781</th>
+      <td>781</td>
+      <td>F</td>
+      <td>44.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>162.2</td>
+      <td>199.7</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Hmm… we can see some observations are missing all three values, some are missing two, and some just one.  There doesn’t seem to be any rhyme or reason to it.</p>
+<p>Maybe there’s a pattern by gender that we could exploit.  If there’s some diffence between the two genders, then we could simply use the mean or median values of each group to impute.  We’ll get to plotting in the next section, but let’s jump ahead a bit and see if we can visually spot any differences between the two groups.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape the data into a stacked-long format</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;country&#39;</span><span class="p">])</span>
+
+<span class="c1"># Filter to only the minute columns &amp; update the value column from an object to a float</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[</span><span class="n">plt_dat</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">])]</span>
+<span class="n">plt_dat</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+<span class="c1"># Remove the extreme age and minute outliers (we&#39;ll deal with them next)</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[(</span><span class="n">plt_dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">plt_dat</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">2500</span><span class="p">)]</span>
+
+<span class="c1"># Plot the density distributions by Gender</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">plt_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Minutes&#39;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Average Sleep Minutes by Gender&#39;</span><span class="p">)</span> <span class="o">+</span>    
+     <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a493547ef44da7d3cf67ec4e98aff4063f6b4ab75b8bbd8590a957000c295d5c.png" src="../_images/a493547ef44da7d3cf67ec4e98aff4063f6b4ab75b8bbd8590a957000c295d5c.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interesting.  There are actually some minor and subtle, but noticeable, differences between the two genders if we look at the figure above.  For starters, the men were definitely more restless as observed by their flatter “active_mins” distribution, plus a flatter and almost multimodal distribution for “disturbed sleep”, compared to the women’s group.  The differences in their REM sleep are minor, and would probably call for a bit more rigorous hypothesis testing.</p>
+<p>Next, we check to see if they actual medians support our visual findings by calculating the overall medians compared to the medians for each gender.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Calculate the overall median for each sleep pattern</span>
+<span class="n">overall</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span><span class="p">)[[</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">]]</span>
+                                           <span class="o">.</span><span class="n">median</span><span class="p">()</span>
+                                           <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="kc">True</span><span class="p">:</span> <span class="s1">&#39;overall&#39;</span><span class="p">}))</span>
+
+<span class="c1">#Calculate the overall median for each sleep pattern, by gender</span>
+<span class="n">gender</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">)[[</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">]]</span>
+                                  <span class="o">.</span><span class="n">median</span><span class="p">()</span>
+                                  <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                                  <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">)</span>
+                                  <span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span><span class="p">))</span>
+
+<span class="c1"># Concatenate the overall and by-gender medians together</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">overall</span><span class="p">,</span> <span class="n">gender</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>overall</th>
+      <td>130.50</td>
+      <td>227.05</td>
+      <td>43.8</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>128.85</td>
+      <td>223.80</td>
+      <td>40.8</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>132.75</td>
+      <td>234.45</td>
+      <td>47.3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Huh.  How about that?  There absolutely is a noticeable difference if we would have used the overall vs. the by-gender median.  Whether or not it’s a statistically significant difference is another matter entirely though… more on this topic later.</p>
+<p>For our purposes now, this is enough to conclude that a simple way to fill in the missing sleep pattern minutes would be to calculate the median values for each gender group, and then impute those values into the missing observations. I’m going to use the median instead of mean here because we know it’s robust to outliers, whereas using the mean would be significantly skewed by our extreme values.</p>
+<p>We could also have chosen to deal with our extreme values first, prior to dealing with imputations.  There’s no right or wrong way, and I’ll frequent flip the order of procedures depending on whatever seems to make sense for the data at hand.  My general preference is to start by removing anything I can, rows or columns, as soon as possible.  It’ll only get in the way and cloud your EDA work so the faster you can get rid of useless data the better.</p>
+<p>Let’s try our median-gender group imputation method below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Impute the median value for all sleep minute NAs using the median value for each gender group</span>
+<span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">]</span>
+<span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">)[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;median&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nice!</p>
+<p>And that should be it.  If we re-run our <code class="docutils literal notranslate"><span class="pre">is.na().sum()</span></code> counts we should see the fruits of our labor with all of the missing values taken care of.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count NA&#39;s by feature</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>id                    0
+gender                0
+age                   0
+country               0
+study_begin           0
+study_end             0
+active_mins           0
+sleep_disturb_mins    0
+sleep_rem_mins        0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>There’s no end to the various methods available for imputing missing information, from very simple, to unnecessarily complex.  What we did is somewhere in the middle.  We could have also leveraged add-on Python packages that run machine learning models to predict missing values, or we could have tried some kind of unsupervised similarity methodology to see, from a mathematical point of view, which other participants look most like ours with the missing information.  No matter which you choose, they generally all do the same thing: Learning or estimating from the information available in the dataset in some way, and then generalizing and projecting those learnings onto the missing observations.</p>
+<p>In my experience though, most often it’s not really worth the effort to go to super complicated lengths to impute values.  It ends up either going too far and introducing harmful bias to our analysis, or we could have simply removed the observation(s) without losing meaningful information, or it was complete overkill because a simple method would have worked just fine.  At the end of the day, you’ll have to find what works for you in a given situation.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Try not to get into the habit of simply deleting data or imputing without analyzing a bit first and thinking critically about the implications.  You run the risk of losing valueable information on one hand, versus watering down your analysis on the other.</p>
+</div>
+<h3>Anomalous Values/Outliers</h3><p>Now on to the last general step of dealing with extreme values before I would start thinking about investigating variable relationships, information content, and much more robust analysis.  Extreme values are problematic for several reasons.  First, they may seriously distort the range of values for a feature, thus likely skewing any analysis we perform.  Secondly, many of the algorithms we’re going to use will give undue weight to values that are more extreme.</p>
+<p>This is a tough one because there’s often very interesting information in the tails of our distributions so we’d rather not willy nilly delete everything that seems extreme; however, we need to be very careful that we don’t let these outliers bias our models.</p>
+<p>Ideally we’d love for all of our data features to be i.i.d. from a standard normal distribution, although we shouldn’t hold our breath.  The best we can hope for is that we tamp down the values that will unnecessarily distort our analysis without losing too much interesting information in the process, which will ultimately give our models the best chance of finding a viable solution.</p>
+<p>Where do we start then?  Maybe we should start with a general understanding of what are considered “outliers”.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Generally an outlier is consider to be 1.5x +/- the inner quartile range (IQR) of a feature.</p>
+</div>
+<p>What’s an inner quartile range you’re asking?  Glad you asked.  If we look at our descriptive table summary below, you’ll see the min and max values, and the 25th, 50th, and 75th percentiles.  These numbers encompass the entire range of values a feature takes in your dataset.  The inner quartile range is from the 25th to 75% percentile.  Therefore, to find the “fences” for the upper and lower outlier bounds, we need to calculate 1.5x the 25th and 75th percentile numbers, and then add and subtract them to get the outlier bounds.  Anything beyond these numbers can be thought of as a bit beyond the normal central tendencies of our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>874.000000</td>
+      <td>874.000000</td>
+      <td>874.00000</td>
+      <td>874.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>54.243707</td>
+      <td>215.030892</td>
+      <td>311.34119</td>
+      <td>121.085812</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>23.669669</td>
+      <td>818.175434</td>
+      <td>815.09168</td>
+      <td>822.545767</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.00000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>35.000000</td>
+      <td>81.475000</td>
+      <td>147.70000</td>
+      <td>26.650000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>54.000000</td>
+      <td>130.150000</td>
+      <td>224.20000</td>
+      <td>43.400000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>74.000000</td>
+      <td>199.175000</td>
+      <td>321.97500</td>
+      <td>68.350000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>146.000000</td>
+      <td>9999.000000</td>
+      <td>9999.00000</td>
+      <td>9999.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Like everything else, there are tons of different methods and ways we could go about addressing the extreme values in our data.  The plan is to discuss a few popular options for how it could be done, and then we’ll settle on one that makes sense for this specific data.</p>
+<p>Here’s a list of what we <em>could</em> possibly do to our outliers, and we’ll discuss them in turn.</p>
+<ul class="simple">
+<li><p>Fix the incorrect value</p></li>
+<li><p>Impute/transform the value</p></li>
+<li><p>Delete the entire observation (row)</p></li>
+<li><p>Delete the entire feature (column)</p></li>
+</ul>
+<p>Beyond our summaries, at this point we would definitely be ploting our features and distributions as well, but we’ll mainly save that for the next section when we can cover them in greater detail.  For now we’ll just look at what’s know as a boxplot.  Boxplots are graphical representations of a feature’s value range, highlighted by their percentiles (horizontal lines).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape the data into a stacked-long format</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span><span class="s1">&#39;country&#39;</span><span class="p">])</span>
+
+<span class="c1"># Filter to only the age and minute columns &amp; update the value column from an object to a float</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[</span><span class="n">plt_dat</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">])]</span>
+<span class="n">plt_dat</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot boxplot distributions</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">plt_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;factor(variable)&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;gender&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Feature Distibutions - (All values)&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/685257de57feaeef54cdcc8c21f90af43c2da34f273236aaecbd70a390b3e6a3.png" src="../_images/685257de57feaeef54cdcc8c21f90af43c2da34f273236aaecbd70a390b3e6a3.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see above, the outliers at the top of the graph are making it nearly impossible to actually see the range of our values at the bottom of graph.  They are clearly so far out of the normal range that something is probably wrong.  Here we would start by going right back to the source with our business domain expert.  We would take our Data Quality Report and some examples and ask direct questions about how or if these values could be real.  Some of them will be obvious they’re incorrect, while others may require someone with more knowledge about the topic to help.  Let’s say we do so, and here’s what we found out.</p>
+<ul class="simple">
+<li><p><strong>Age:</strong> They don’t know why there are nonsense ages like 0 and 146 are showing up, but they know for sure that the minimum and maximum ages in the study were 16 and 100, respectively.</p></li>
+<li><p><strong>All Sleep Minute variables:</strong>  The 9999 were placeholders that were never followed up on and the actual values have been lost.  We do know for a fact that no one in the study slept more than 17 hours total on average.</p></li>
+</ul>
+<p>Given this feedback, we have a little work to do.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>874.000000</td>
+      <td>874.000000</td>
+      <td>874.00000</td>
+      <td>874.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>54.243707</td>
+      <td>215.030892</td>
+      <td>311.34119</td>
+      <td>121.085812</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>23.669669</td>
+      <td>818.175434</td>
+      <td>815.09168</td>
+      <td>822.545767</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.00000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>35.000000</td>
+      <td>81.475000</td>
+      <td>147.70000</td>
+      <td>26.650000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>54.000000</td>
+      <td>130.150000</td>
+      <td>224.20000</td>
+      <td>43.400000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>74.000000</td>
+      <td>199.175000</td>
+      <td>321.97500</td>
+      <td>68.350000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>146.000000</td>
+      <td>9999.000000</td>
+      <td>9999.00000</td>
+      <td>9999.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We’ll start with the age feature and go from there.  How many people are we talking about less than 16 and great than 100 years of age?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter to less than 16 or greater than 100</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">)</span>
+<span class="n">dat</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>83</th>
+      <td>85</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>10.0</td>
+      <td>10.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>171</td>
+      <td>F</td>
+      <td>146.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>98.8</td>
+      <td>201.5</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>188</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>135.7</td>
+      <td>473.0</td>
+      <td>130.6</td>
+    </tr>
+    <tr>
+      <th>237</th>
+      <td>238</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>272</th>
+      <td>272</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>92.2</td>
+      <td>358.4</td>
+      <td>62.3</td>
+    </tr>
+    <tr>
+      <th>310</th>
+      <td>310</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>162.7</td>
+      <td>286.7</td>
+      <td>92.0</td>
+    </tr>
+    <tr>
+      <th>312</th>
+      <td>312</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>154.3</td>
+      <td>413.4</td>
+      <td>122.0</td>
+    </tr>
+    <tr>
+      <th>382</th>
+      <td>382</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>54.9</td>
+      <td>57.2</td>
+      <td>31.0</td>
+    </tr>
+    <tr>
+      <th>442</th>
+      <td>442</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>455</th>
+      <td>455</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>729</th>
+      <td>729</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>786</th>
+      <td>786</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>139.3</td>
+      <td>198.2</td>
+      <td>123.6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check how many observations were in our filter mask</span>
+<span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
+</div>
+<p>It would appear we’re talking about only 12 participants with age irregularities.  We could of course remove them, but I’d rather see if we can salvage the ones that look like they have real sleep pattern minutes.  There are several with both age discrepancies <em>and</em> clearly incorrect static values of just ‘2’ across the board.  For these, it’s just too much synthetic data if we try to impute over these values with proxies so we will remove them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete rows where Age = 0 &amp; all the sleep minutes = 2 by index</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dat</span><span class="p">[(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">active_mins</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_disturb_mins</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_rem_mins</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="p">[(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>83</th>
+      <td>85</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>10.0</td>
+      <td>10.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>171</td>
+      <td>F</td>
+      <td>146.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>98.8</td>
+      <td>201.5</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>188</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>135.7</td>
+      <td>473.0</td>
+      <td>130.6</td>
+    </tr>
+    <tr>
+      <th>272</th>
+      <td>272</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>USA</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>92.2</td>
+      <td>358.4</td>
+      <td>62.3</td>
+    </tr>
+    <tr>
+      <th>310</th>
+      <td>310</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Spain</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>162.7</td>
+      <td>286.7</td>
+      <td>92.0</td>
+    </tr>
+    <tr>
+      <th>312</th>
+      <td>312</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>154.3</td>
+      <td>413.4</td>
+      <td>122.0</td>
+    </tr>
+    <tr>
+      <th>382</th>
+      <td>382</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>54.9</td>
+      <td>57.2</td>
+      <td>31.0</td>
+    </tr>
+    <tr>
+      <th>786</th>
+      <td>786</td>
+      <td>M</td>
+      <td>0.0</td>
+      <td>Poland</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>139.3</td>
+      <td>198.2</td>
+      <td>123.6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We’ll take a simple gamble on the remaining age issues to keep from having to remove another 8 observations.  We’ll assume that anything less than 16 should be the minimum, and anything over 100 should be the maximum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Impute for less than 16 and greater than 100</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;age&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>age</th>
+      <td>870.0</td>
+      <td>54.568966</td>
+      <td>23.021363</td>
+      <td>16.0</td>
+      <td>35.0</td>
+      <td>54.0</td>
+      <td>74.0</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Awesome!  Age looks to be all taken care of now.  Let’s turn our attention to the sleep minutes.  We know that all of the 9999 placeholders are bogus and we have no expectation of collecting the real data.  So what can we do?  We can either impute or transform them in some way, or delete the observations.  Let’s see how many are involved before we decide.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter to all of the 9999 values</span>
+<span class="n">dat</span><span class="p">[(</span><span class="n">dat</span><span class="o">.</span><span class="n">active_mins</span> <span class="o">==</span> <span class="mi">9999</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_disturb_mins</span> <span class="o">==</span> <span class="mi">9999</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_rem_mins</span> <span class="o">==</span> <span class="mi">9999</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+      <th>active_mins</th>
+      <th>sleep_disturb_mins</th>
+      <th>sleep_rem_mins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>115</th>
+      <td>116</td>
+      <td>F</td>
+      <td>94.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>180</td>
+      <td>F</td>
+      <td>24.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>197</td>
+      <td>F</td>
+      <td>78.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+    </tr>
+    <tr>
+      <th>630</th>
+      <td>630</td>
+      <td>F</td>
+      <td>38.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+    </tr>
+    <tr>
+      <th>661</th>
+      <td>661</td>
+      <td>F</td>
+      <td>33.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+    </tr>
+    <tr>
+      <th>751</th>
+      <td>751</td>
+      <td>F</td>
+      <td>95.0</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+      <td>9999.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>These values highlight an important distinction between outliers and <em>extreme</em> values.  Outliers are typically regarded as real data and could actually be the values you want to study.  Extreme values could possibly be real, however they are so far outside of what’s considered normal for a model that’s trying to learn what “typical” looks like.  You may want to see them, but most often we’re working with models that learn “on the averages” what “normal” conditions and behaviors are.  These extreme values typically hamper that effort.</p>
+<p>In our case, they’re not even really extreme values, so much as they’re completely fake data used as placeholders to indicate the researcher did not have the results when it was time to record their observations.  Because of that, there’s really nothing I’d recommend we try to do to guess what they might have been.  Unfortunatley it’s another case of dropping these participant observations from our set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete 9999 placeholder observations</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dat</span><span class="p">[(</span><span class="n">dat</span><span class="o">.</span><span class="n">active_mins</span> <span class="o">==</span> <span class="mi">9999</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_disturb_mins</span> <span class="o">==</span> <span class="mi">9999</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_rem_mins</span> <span class="o">==</span> <span class="mi">9999</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Looking good!  One more thing we need to check now.  Remember our business sponsor told us no one slept more than 17 hours total on average?  Let’s make sure that’s what we see in the data by creating a “sleep_total_mins” variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a &quot;total&quot; sleep minutes variable</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;sleep_total_mins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+
+<span class="c1"># Check if any of the toal sleep minutes add up to more than 17 hours</span>
+<span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">sleep_total_mins</span> <span class="o">&gt;</span> <span class="mi">17</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<p>Whew… all good there.</p>
+<p>Now let’s take a look at our boxplot now and see if our distributions make a little more sense.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape the data into a stacked-long format</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span><span class="s1">&#39;country&#39;</span><span class="p">])</span>
+
+<span class="c1"># Filter to only the age and minute columns &amp; update the value column from an object to a float</span>
+<span class="n">plt_dat</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[</span><span class="n">plt_dat</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;active_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_disturb_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_rem_mins&#39;</span><span class="p">,</span><span class="s1">&#39;sleep_total_mins&#39;</span><span class="p">])]</span>
+<span class="n">plt_dat</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt_dat</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot boxplot distributions</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">plt_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;factor(variable)&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;gender&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span> <span class="o">+</span> 
+     <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Numeric Feature Distibutions&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b4ddf5d82b96386baaadb405ec41ef7c574b9b72453e200f3dfdfbd077dd9fd3.png" src="../_images/b4ddf5d82b96386baaadb405ec41ef7c574b9b72453e200f3dfdfbd077dd9fd3.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We definitely have a few remaining variables beyond our 1.5x inner quartile range fence, but for now I think we’ll leave them alone and deal with them when we get to the <a class="reference internal" href="feat_engineering.html"><span class="doc">Feature Engineering</span></a> and transformations section.  Hopefully they’ll get smoothed out then, or we may apply what’s known as a “clamp transformation” by imputing to the 1.5x IQR values.  Stay tuned.</p>
+<p>Lastley, don’t forget that we need to handle the categorical variables which shouldn’t take too long.  Let’s print them below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print categorical summary stats</span>
+<span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span><span class="s1">&#39;country&#39;</span><span class="p">,</span><span class="s1">&#39;study_begin&#39;</span><span class="p">,</span><span class="s1">&#39;study_end&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>country</th>
+      <th>study_begin</th>
+      <th>study_end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>864</td>
+      <td>864</td>
+      <td>864</td>
+      <td>864</td>
+      <td>864</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>864</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>1</td>
+      <td>F</td>
+      <td>Italy</td>
+      <td>4/3/2021</td>
+      <td>4/9/2023</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>1</td>
+      <td>606</td>
+      <td>338</td>
+      <td>864</td>
+      <td>864</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Ok, looks like all we need to deal with are the dates.  We’ve already discussed that removing any feature which is completely static, or exactly the same for every observation, should be removed because it holds no information.  You may want to peel these off and hold them as meta data of some sort so you don’t lose the information entirely, but for our analysis and modeling purposes, get them out of the way by dropping them.</p>
+<p>From the table above, we can see that only the dates are completely static because they only have one unqiue value count.  Get rid of them!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;study_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;study_end&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 864 entries, 0 to 876
+Data columns (total 8 columns):
+ #   Column              Non-Null Count  Dtype  
+---  ------              --------------  -----  
+ 0   id                  864 non-null    object 
+ 1   gender              864 non-null    object 
+ 2   age                 864 non-null    float64
+ 3   country             864 non-null    object 
+ 4   active_mins         864 non-null    float64
+ 5   sleep_disturb_mins  864 non-null    float64
+ 6   sleep_rem_mins      864 non-null    float64
+ 7   sleep_total_mins    864 non-null    float64
+dtypes: float64(5), object(3)
+memory usage: 60.8+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>And that’s finally it for now!  Nicely done.  I’m sure this seemed like a ton of stuff all over the place thrown at you, but it does become more habitual the more you practice.  And usually you’ll jump in and just start noticing things that look odd, start investigating, and it’ll lead you right to where you need to go.  We also did most of this without the aid of plots and graphs, which are a <em>huge</em> benefit to our EDA work.  It would have simply been too much to try and teach EDA plus plots at the same time.  This is where we head next!</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -440,20 +2016,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="EDA.html"
+       href="data_characteristics.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5.2. </span>Exploratory Data Analysis (EDA)</p>
+        <p class="prev-next-title"><span class="section-number">5.2.1. </span>Data Charactersitics</p>
       </div>
     </a>
     <a class="right-next"
-       href="desc_summaries.html"
+       href="plots.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">5.2.2. </span>Descriptive Statistics</p>
+        <p class="prev-next-title"><span class="section-number">5.2.3. </span>Plots &amp; Graphs</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

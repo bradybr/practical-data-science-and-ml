@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://bradybr.github.io/practical-data-science-and-ml/intro/Chapter5/EDA.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5.2.1. Data Integrity" href="data_integrity.html" />
+    <link rel="next" title="5.2.1. Data Charactersitics" href="data_characteristics.html" />
     <link rel="prev" title="5.1.2. Data Acquisition" href="data_acquisition.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -200,8 +200,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">5.2. Exploratory Data Analysis (EDA)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.2.1. Data Integrity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="desc_summaries.html">5.2.2. Descriptive Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_characteristics.html">5.2.1. Data Charactersitics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_integrity.html">5.2.2. Data Integrity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plots.html">5.2.3. Plots &amp; Graphs</a></li>
 </ul>
 </li>
@@ -396,6 +396,21 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="exploratory-data-analysis-eda">
 <h1><span class="section-number">5.2. </span>Exploratory Data Analysis (EDA)<a class="headerlink" href="#exploratory-data-analysis-eda" title="Permalink to this heading">#</a></h1>
+<p>This should be a fun one.  We’ve finally got our data in hand and now we get to see what we’re working with.</p>
+<p>I can’t tell you how many times I’ve been burned in a project because I didn’t take my time exploring the data before jumping into trying to solve the problem.  It’s always fun to get your hands on the data and start playing around, but once you start seeing all of the problematic challenges lurking about that need your attention, it’s very easy to get burned out and start looking for any excuse to move on.  Null values are not sexy.  Missing records are not exciting.  Duplicate observations are not fun.  But all of them are important to deal with, trust me.</p>
+<p>The devil is in the details as they say, and you can’t know what’s hidding in plain sight waiting to bite you in the behind if you don’t spend the time looking for it.</p>
+<figure class="align-default" id="wolf-fig">
+<a class="reference internal image-reference" href="../_images/wolf.png"><img alt="../_images/wolf.png" src="../_images/wolf.png" style="width: 600px;" /></a>
+</figure>
+<p>Exploratoy Data Analysis (EDA) is a really broad and non standard topic.  Every dataset and problem is different so there’s no way to create a one size fits all solution unfortunately.  But again, luckily there’s a general framework we can follow that should hopefully point us in the right direction and help us figure out what actions we need to take.</p>
+<p>Generally speaking, EDA involves the following:</p>
+<ol class="arabic simple">
+<li><p>Investigating and understanding the charactersitics of our data and features (variables)</p></li>
+<li><p>Uncovering any potential issues or anamolies that we need to address in some way</p></li>
+</ol>
+<p>There are some general best practices we’ll cover here where we can always start, and then hopefully these methods will shine some light on where we need to go next.  What you need to do to address your specific issues will vary from project to project however.</p>
+<p>Let me caution you again from being too eager to move on from this stage.  There are serious penalties for not being diligent here.  Little issues may seem innocuous at the time, but I can assure you they will add up and confuse your models.  Your ability to solve the problem at hand will suffer due to anything less than a thorough examination of your data.</p>
+<p>Good luck!</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -440,11 +455,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="data_integrity.html"
+       href="data_characteristics.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">5.2.1. </span>Data Integrity</p>
+        <p class="prev-next-title"><span class="section-number">5.2.1. </span>Data Charactersitics</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
