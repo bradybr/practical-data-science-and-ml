@@ -723,7 +723,7 @@ dtype: int64
 </div>
 </div>
 </div>
-<p>Now, for the missing sleep pattern mintues… There are few enough that we could just delete them and it probably wouldn’t materially change anything in our analysis, hopefully.  On the other hand, it is just a few of them so we could take a shot at imputation because we would not be creating a large number of artificial values.  For this example it’s probalbly a toss up as to whether or not it matters either way; however, you will definitely see more complicated and difficult decisions in the real world.</p>
+<p>Now, for the missing sleep pattern mintues… There are few enough that we could just delete them and it probably wouldn’t materially change anything in our analysis, hopefully.  On the other hand, it is just a few of them so we could take a shot at imputation because we would not be creating a large number of artificial values.  For this example it’s probably a toss up as to whether or not it matters either way; however, you will definitely see more complicated and difficult decisions in the real world.</p>
 <p>When you’re considering deleting information, which should be a last resort, you should get in the habit of understanding what you’re deleting.  For example, you may be removing observations that are unique values in other features and you’d be losing visibility to this group entirely, or maybe they are very important interactions somewhere else in the values under study.</p>
 <p>Let’s print all of the rows with any missing values so we can see what we’re really talking about.</p>
 <div class="cell docutils container">
@@ -1076,7 +1076,7 @@ dtype: int64
 <p>In my experience though, most often it’s not really worth the effort to go to super complicated lengths to impute values.  It ends up either going too far and introducing harmful bias to our analysis, or we could have simply removed the observation(s) without losing meaningful information, or it was complete overkill because a simple method would have worked just fine.  At the end of the day, you’ll have to find what works for you in a given situation.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Try not to get into the habit of simply deleting data or imputing without analyzing a bit first and thinking critically about the implications.  You run the risk of losing valueable information on one hand, versus watering down your analysis on the other.</p>
+<p>Try not to get into the habit of simply deleting data or imputing without analyzing a bit first and thinking critically about the implications.  You run the risk of losing valuable information on one hand, versus watering down your analysis on the other.</p>
 </div>
 <h3>Anomalous Values/Outliers</h3><p>Now on to the last general step of dealing with extreme values before I would start thinking about investigating variable relationships, information content, and much more robust analysis.  Extreme values are problematic for several reasons.  First, they may seriously distort the range of values for a feature, thus likely skewing any analysis we perform.  Secondly, many of the algorithms we’re going to use will give undue weight to values that are more extreme.</p>
 <p>This is a tough one because there’s often very interesting information in the tails of our distributions so we’d rather not willy nilly delete everything that seems extreme; however, we need to be very careful that we don’t let these outliers bias our models.</p>
@@ -1086,7 +1086,7 @@ dtype: int64
 <p class="admonition-title">Note</p>
 <p>Generally an outlier is consider to be 1.5x +/- the inner quartile range (IQR) of a feature.</p>
 </div>
-<p>What’s an inner quartile range you’re asking?  Glad you asked.  If we look at our descriptive table summary below, you’ll see the min and max values, and the 25th, 50th, and 75th percentiles.  These numbers encompass the entire range of values a feature takes in your dataset.  The inner quartile range is from the 25th to 75% percentile.  Therefore, to find the “fences” for the upper and lower outlier bounds, we need to calculate 1.5x the 25th and 75th percentile numbers, and then add and subtract them to get the outlier bounds.  Anything beyond these numbers can be thought of as a bit beyond the normal central tendencies of our data.</p>
+<p>What’s an inner quartile range you’re asking?  Glad you asked.  If we look at our descriptive table summary below, you’ll see the min and max values, and the 25th, 50th, and 75th percentiles.  These numbers encompass the entire range of values a feature takes in your dataset.  The inner quartile range is from the 25th to 75th percentile.  Therefore, to find the “fences” for the upper and lower outlier bounds, we need to calculate 1.5x the 25th and 75th percentile numbers, and then add and subtract them to get the outlier bounds.  Anything beyond these numbers can be thought of as a bit beyond the normal central tendencies of our data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -1201,12 +1201,12 @@ dtype: int64
 <span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">plt_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;factor(variable)&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;gender&#39;</span><span class="p">))</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Feature Distibutions - (All values)&#39;</span><span class="p">))</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Feature Distributions - (All values)&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/685257de57feaeef54cdcc8c21f90af43c2da34f273236aaecbd70a390b3e6a3.png" src="../_images/685257de57feaeef54cdcc8c21f90af43c2da34f273236aaecbd70a390b3e6a3.png" />
+<img alt="../_images/c514f5706f7280fbb5db3a9953fbb23d0802d351f15861eb856b6ab76b29dd37.png" src="../_images/c514f5706f7280fbb5db3a9953fbb23d0802d351f15861eb856b6ab76b29dd37.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1310,12 +1310,12 @@ dtype: int64
 </table>
 </div></div></div>
 </div>
-<p>We’ll start with the age feature and go from there.  How many people are we talking about less than 16 and great than 100 years of age?</p>
+<p>We’ll start with the age feature and go from there.  How many people are we talking about less than 16 and greater than 100 years of age?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter to less than 16 or greater than 100</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">)</span>
-<span class="n">dat</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+<span class="n">age_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">)</span>
+<span class="n">dat</span><span class="p">[</span><span class="n">age_mask</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1501,7 +1501,7 @@ dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check how many observations were in our filter mask</span>
-<span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="p">(</span><span class="n">age_mask</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1520,9 +1520,11 @@ dtype: int64
 </div>
 </div>
 </div>
+<p>Alright, now how many do we have left less than 16 or more than 100?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="p">[(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subset to see how many we have less than 16 or greater than 100</span>
+<span class="n">dat</span><span class="p">[(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -1855,7 +1857,7 @@ dtype: int64
 </div>
 </div>
 <p>Whew… all good there.</p>
-<p>Now let’s take a look at our boxplot now and see if our distributions make a little more sense.</p>
+<p>Now let’s take a look at our boxplot and see if our distributions make a little more sense.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape the data into a stacked-long format</span>
@@ -1870,19 +1872,19 @@ dtype: int64
      <span class="n">gg</span><span class="o">.</span><span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span> <span class="o">+</span> 
      <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Numeric Feature Distibutions&#39;</span><span class="p">))</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;Numeric Feature Distributions&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b4ddf5d82b96386baaadb405ec41ef7c574b9b72453e200f3dfdfbd077dd9fd3.png" src="../_images/b4ddf5d82b96386baaadb405ec41ef7c574b9b72453e200f3dfdfbd077dd9fd3.png" />
+<img alt="../_images/889a7ec5f836c9e9ff08ba0863afd80ba786aafc3f928a3bafd1d826e67f9c1c.png" src="../_images/889a7ec5f836c9e9ff08ba0863afd80ba786aafc3f928a3bafd1d826e67f9c1c.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>We definitely have a few remaining variables beyond our 1.5x inner quartile range fence, but for now I think we’ll leave them alone and deal with them when we get to the <a class="reference internal" href="feat_engineering.html"><span class="doc">Feature Engineering</span></a> and transformations section.  Hopefully they’ll get smoothed out then, or we may apply what’s known as a “clamp transformation” by imputing to the 1.5x IQR values.  Stay tuned.</p>
-<p>Lastley, don’t forget that we need to handle the categorical variables which shouldn’t take too long.  Let’s print them below.</p>
+<p>Great!  Removing the extreme values shortened up our ranges so now we can actually see what’s going on.  They way these box plots work is the dots you see are actually what we’ve labeled as outliers.  Those are the values past the 1.5x IQR +/- fences.  We definitely have a few remaining variables beyond those thresholds, but for now I think we’ll leave them alone and deal with them when we get to the <a class="reference internal" href="feat_engineering.html"><span class="doc">Feature Engineering</span></a> and transformations section.  Hopefully they’ll get smoothed out then, or we may apply what’s known as a “clamp transformation” by imputing to the 1.5x IQR values.  Stay tuned.</p>
+<p>Lastly, don’t forget that we need to handle the categorical variables which shouldn’t take too long.  Let’s print them below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print categorical summary stats</span>

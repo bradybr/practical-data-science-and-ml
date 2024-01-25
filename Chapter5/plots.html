@@ -396,13 +396,602 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="plots-graphs">
 <h1><span class="section-number">5.2.3. </span>Plots &amp; Graphs<a class="headerlink" href="#plots-graphs" title="Permalink to this heading">#</a></h1>
+<p>Time to unleash the right side of your brain!  Truthfuly, we should have been working with plots for the last few sections way more extensively than we have.  Instead of introducing too many topics at once, we intentionally paused delving into the the visual exploration side of things so we could focus on one thing at a time.  Now that the analytical side of EDA is behind us, it’s time to see how adding some visual creativity to your arsenal will pay huge dividends!</p>
+<figure class="align-default" id="right-brain-fig">
+<a class="reference internal image-reference" href="../_images/right_brain.png"><img alt="../_images/right_brain.png" src="../_images/right_brain.png" style="width: 600px;" /></a>
+</figure>
+<p>Plots and graphs will come into play at multiple stages during the course of your project.  First, they’ll aid in your EDA journey with the basic understanding of what you’re working with, investigating raw features, and helping to identify if there are any potential issues in the data.  Then once you start moving into feature engineering and transformations you’ll want to begin visualing the changes and relational effects between your variables.  After that, when you start getting into building models and iterating through versions, you’ll need some way to visualize the progress, tuning, and performance of your candidate models.</p>
+<p>Up to this point all of the visuals and graphs you’ve been building are purely for your benefit.  They can be as simple and utilitarian, or as pretty as you want them to be.  The main focus during the proof of concept stages is to find a viable solution that works, so they only need to help you in that pursuit.  The next layer of visualizations you’ll need to concern yourself with are external facing.</p>
+<p>During the course of a project you’ll have multiple and distinct groups of people you’ll need to communicate with, all at different levels of detail.  You’ll have data science peers that will need to understand the low-level and technical aspects of your program.  You’ll have business sponsors who just want to understand that you solved their problem in some way, and don’t need all of the gory math and technical details.  And finally, you’ll have executive leadership teams who want <em>very</em> simple and high-level details of your success story so they can understand the value you’re bringing to the organization.   As you’ll come to find out, visual graphics are often worth a thousand words, and can go a long way in selling your story to all of these different stakeholders.</p>
+<h3>Plotting In Python</h3><p>Before going too far, we need to lay out some of the most popular library options for plotting in Python.  There are many other popular ones you could choose from, but what follows is a pretty typical starting point for your foundational learning.  Expand from here and find out what works for you in practice.</p>
+<p>Take a look at the documentation and example galleries from the following to get a taste of what’s possible.</p>
+<p><strong><a href="https://matplotlib.org/">Matplotlib</a></strong> is the oldest and still the most popular plotting extension.  No question it works, and you’ll find lots of online support if you need it.  In my opinion, it’s a bit verbose to use as your top level administration though.  There are several packages offering better quality graphics with less code (interestingly enough, probably built on top of matplotlib…).  So the only time I’ll use matplotlib these days is if it’s something <em>extremely</em> simple and I just need one or two lines of code to make it happen.  Other than that, it’ll be one of these others that leverage matplotlib underneath the hood.  Your mileage may vary of course.</p>
+<p><strong><a href="https://seaborn.pydata.org/tutorial.html">Seaborn</a></strong> is a library package built on top of matplotlib that addresses most of my gripes with matplotlib.  It’s much more concise coding with better quality results.  I will absolutely use seaborn in my workflow depending on the graph I need, but it’s not my primary library.  I favor what’s known as the “Grammar of Graphics” <span id="id1">[<a class="reference internal" href="../zreferences.html#id15" title="Leland Wilkinson. Grammar of graphics. Springer, 2005.">Wil05</a>]</span>, which is an entirely novel approach to plotting that we’ll get to when we discuss plotnine below.  Having said of all that, seaborn is currently being updated as we speak from it’s core library to a grammar of graphics interface known as <a href="https://seaborn.pydata.org/tutorial/objects_interface.html">seaborn.objects</a>.  I guess the word is out that it’s a superior methodology.  I won’t cover the new seaborn.objects interface here, because frankly, I haven’t taken the time to learn it yet because my needs are met elsewhere.  I have a sneaking suspicion that this library is more actively being developed so I will likely check it out again after it’s fully built out.</p>
+<p><strong><a href="https://pandas.pydata.org/">Pandas</a></strong> should sound familiar to you if you’ve been beefing up your coding skills.  The extremely popular pandas library has plotting functionality that chains and works extremely well in any pandas workflow.  I will often use pandas plotting when I’m visualizing a single series or something very simple.  If it’s more than that, I’ll tend to default to my package of choice up next.</p>
+<p><strong><a href="https://plotnine.readthedocs.io/en/v0.12.4/#">Plotnine</a></strong> is the current standard for implementing the grammar of graphics for Python.  It’s modeled after the go-to R programming plotting library by Hadley Wickham, ggplot2 <span id="id2">[<a class="reference internal" href="../zreferences.html#id4" title="Hadley Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016. ISBN 978-3-319-24277-4. URL: https://ggplot2.tidyverse.org.">Wic16</a>]</span>.  Since I came to Python from R, this was a no-brainer for me.  The value Hadley and team introduced and gave to the analytics community by incorporating this standardized interface cannot be overstated.  It’s a super logical way to build up a plot layer by layer with exactly what you need.  It won’t always be the most concise code, especially for simple plots, but once you learn the syntax you won’t really mind.  Fair enough to say I’m a ggplot fan, and by extension, plotnine.  The only downsides I’ve run into with the plotnine implementation of the logic, is that it’s missing a few of the more advanced things that ggplot in R has, and if you’re looking for interactivity you may want to consider another option such as <a href="https://plotly.com/python/">Plotly</a>.</p>
+<p>What follows is not intended to be a tutorial on Python plotting code or techinques, but more generally about the application of plotting methodologies in various stages of your projects.  We will mostly use the plotnine design in this book, but feel free to use whatever works for you.  That’s what’s important.</p>
+<p>Ok, now that we have all of that out of the way, let’s talk about how we need to start thinking about plots and graphs.</p>
+<h3>Types of Plots</h3><p>First off, you’ll often see the words “plots” and “graphs” used interchangeably, but usually intended to mean the same thing.  These are simply visual graphics of some kind.  Plots more commonly refer to the techinical side of what we’re doing in our application environments, and serve as a catch-all to encompass all kinds of visuals, from proper graphs to images.  Graphs will mostly be referencing the visualization of numeric or categorical data in some way.</p>
+<p>Borrowing, and gently updating <a class="reference internal" href="#plot-types-fig"><span class="std std-numref">Fig. 5.3</span></a> below from the <a href="https://seaborn.pydata.org/tutorial.html">Seaborn User Guide and Tutorial</a>, is about as straight forward as I’ve ever seen an illustration laying out the most common graphs and their uses.  There are of course others and more exotic plot types, but these will cover the overwhelming majority of our needs.</p>
+<figure class="align-default" id="plot-types-fig">
+<a class="reference internal image-reference" href="../_images/plot_types.png"><img alt="../_images/plot_types.png" src="../_images/plot_types.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.3 </span><span class="caption-text">Source: <a class="reference external" href="https://seaborn.pydata.org/tutorial/function_overview.html">https://seaborn.pydata.org/tutorial/function_overview.html</a></span><a class="headerlink" href="#plot-types-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For each pillar of plot types, we’ll discuss in more detail when we get to each section, but for now hopefully you can see there are really only a few different reasons you might want to display data graphically, i.e. for Relational, Distributions, and Categorical data.  That’s pretty much it.</p>
+<p>You either want to compare some values in some way <strong>(relational)</strong>, investigate the dispersion of a data sample under study <strong>(distributions)</strong>, or you want to visualize <strong>categorical</strong> (non numeric) data some how.  And all of the plot types under each pillar simply give you options and flexibility to respond to the exact pecularities of your actual data.  Honestly, you could probably learn 3 or 4 different types of graphs and be all set for 95% of the analytics we need to perform.  Of course we love having the flexibility and options to really dial in our graphics, but you could get by nonetheless.</p>
+<p>We’ll use <a class="reference internal" href="#plot-types-fig"><span class="std std-numref">Fig. 5.3</span></a> as the reference to motivate our examples below.</p>
+<p>A couple of final thoughts before jumping in.</p>
+<ol class="arabic simple">
+<li><p>Begin by thinking about what data you have before worrying about graphs and types of plots</p>
+<ul class="simple">
+<li><p>What are your numeric variables?  Are there categorical ones (if so, as the main feature, or secondary data that you want to use to hightlight or separate your numeric values in some way)?  Etc.</p></li>
+</ul>
+</li>
+<li><p>Simple is <em>always</em> better</p>
+<ul class="simple">
+<li><p>It’s generally excepted that going overboard and adding too many dimensions in your graphics is not a good idea(data points, grouping, facetting, color, size, and shape aesthetics all at once)</p></li>
+<li><p>Reporting from personal experience, I can tell you it will overwhelm your non technical business people and does more harm than good</p></li>
+</ul>
+</li>
+<li><p>There’s a difference between working and exploratory, and presentation quality graphics</p>
+<ul class="simple">
+<li><p>For exploratory, if you tried something and it reveals interesting information great, if not that’s ok too, just move on</p></li>
+<li><p>For presentation, do not leave anything in your graph that does not add value</p></li>
+</ul>
+</li>
+</ol>
+<p>Enough words.  It’ll be easier if we get going with some examples.</p>
+<h3>Relational Plots</h3><p>These are probably the most common types of graphs we work with.  Relational means you have some variable of interest you’d like to compare with some other phenomenon, be it another variable(s) or time.  Sounds complicated, but it’s really pretty straightforward.</p>
+<p>At the risk of unoriginality, we’ll use the “tips” dataset to work through our examples below.  This popular dataset holds the record of tips received by a waiter over the course of several months.  The data shows the tip amount, bill total, sex/gender of the payer, if any smokers were present in the party, the day of the week, the time of day, and the size of the party.</p>
+<p>Let’s take a look.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PydataSet Library</span>
+<span class="kn">from</span> <span class="nn">pydataset</span> <span class="kn">import</span> <span class="n">data</span>
 
-<span class="c1">#sns.pairplot(dat.iloc[:,1:], hue = &#39;gender&#39;)</span>
+<span class="c1"># Read in the &quot;tips&quot; dataset</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;tips&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>sex</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>16.99</td>
+      <td>1.01</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.34</td>
+      <td>1.66</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>21.01</td>
+      <td>3.50</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>23.68</td>
+      <td>3.31</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>24.59</td>
+      <td>3.61</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>25.29</td>
+      <td>4.71</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8.77</td>
+      <td>2.00</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>26.88</td>
+      <td>3.12</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>15.04</td>
+      <td>1.96</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>14.78</td>
+      <td>3.23</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong><h5>Scatter Plots</h5></strong></p>
+<p>Scatter plots are excellent places to get started because they’re pretty simple, and usually only a couple of variables.  While these types of plots could be used with categorical data such as Week Day on the x axis, it makes much more sense to view the relationships between numeric features.  Here we have three continuous variables in “total_bill”, “tip”, and “size”.</p>
+<p>You’ll come to start thinking about your data in terms of primary and secondary, and/or aesthetic variables, meaning information you could use to segment or further subclassify your data to give further contextual information.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">plotnine</span> <span class="k">as</span> <span class="nn">gg</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plotnine</span>
+<span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/270938c9cef81c77766074ed922116223839abb5c8e94a9692b9fb4ae16a83ab.png" src="../_images/270938c9cef81c77766074ed922116223839abb5c8e94a9692b9fb4ae16a83ab.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Cool.  Our first exploratory plot!  We’re relating the size of each individual <em>tip</em> amount to the overall size of their <em>total bill</em>.  So what can we see?  Maybe you noticed a nice linear trend as the total bill gets larger, generally so does the size of the tip?  Maybe you noticed a few points that do <em>not</em> follow those same general patterns?  Like the anomaly of someone tipping over $5 on a $7 bill?</p>
+<p>Good start, but what else could we do here?  Maybe you thought about adding an additional segmentaiton <em>aesthetic</em> using color in some way?  How about if we highlight each point by whether or not it was a male or female?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a636e79a9dc7699055f12a87790ca988512bc4820252ab3f8a42e655f894f1c2.png" src="../_images/a636e79a9dc7699055f12a87790ca988512bc4820252ab3f8a42e655f894f1c2.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hmm… unfortunately looks like pretty uniform dispersion so it doesn’t appear to be too information.  What if we add linear fit trendlines for each gender?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f671e507a5ed4a00af8b7322c8b93bbd3a567f9b11042364645ea62c7fbc3ab8.png" src="../_images/f671e507a5ed4a00af8b7322c8b93bbd3a567f9b11042364645ea62c7fbc3ab8.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we first suspected.  Not much difference based on the sexes; however, the up sloping trendlines do confirm what we first observed in a general up trend of tipping more as the total bill increases.</p>
+<p>Let’s move on to segment, or facet, by whether or not each group was a “smoking” group or not, and also we’ll use a coloring aesthetic to highlight the size of each group.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;size&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;smoker&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/00ec6c1a8801121b14111351e7c9fde5affc29346b5050b5c59fca762b35ae07.png" src="../_images/00ec6c1a8801121b14111351e7c9fde5affc29346b5050b5c59fca762b35ae07.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Anything jump out at you?  There’s a ton of information in this one, but I’ll leave it to you to pick it apart.</p>
+<p>Ok, we can’t spend all day on scatterplots, but one more just for fun.  Maybe you had the thought to create a new variable to investigate the tip as a percentage of the total bill instead of just the raw dollar amount?  If so, nicely done.  Let’s try it and see what happens.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create tip % variable</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;tip_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">tip</span> <span class="o">/</span> <span class="n">dat</span><span class="o">.</span><span class="n">total_bill</span>
+
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip_pct&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;smoker&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/538510beadc3340b30d7e73abaea4f922617ff86c5328421647848aeb059b8ae.png" src="../_images/538510beadc3340b30d7e73abaea4f922617ff86c5328421647848aeb059b8ae.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Whoa… the sign of the slopes flipped to negative?!?!  I thought we said as the total bill goes up, so does the tip amount???  Well that’s true, it does, but as we can see the tip as a percentage of the total bill actually decreases as the bill gets larger.  So while yes it’s more money, it’s not keeping up on a linear scale.  Sad to see as I’m sure our waiter deserved better.</p>
+<p>Alright we need to move to some other types.  Next up, line plots.</p>
+<p><strong><h5>Line Plots</h5></strong></p>
+<p>Line plots are pretty straightforward.  These are the stuff of <em>time series</em> data that we discussed in our data types section.  It doesn’t really make sense to connect data point by point if they’re independent observations that have no dependency across time.  Let’s see what I mean.</p>
+<h3>Distribution Plots</h3><p>Plots that show the statistical moments of the data in a distribution, or spread, of the data can be extremely helpful in understanding the behavior of our sample under study.  We’ll start with the most common and cover a few lesser used as well.</p>
+<p>For this section we’ll use the “airquality” dataset of air quality measurements from the New York State Department of Conservation and the National Weather Service from May-September 1973.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;airquality&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Ozone</th>
+      <th>Solar.R</th>
+      <th>Wind</th>
+      <th>Temp</th>
+      <th>Month</th>
+      <th>Day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>41.0</td>
+      <td>190.0</td>
+      <td>7.4</td>
+      <td>67</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>36.0</td>
+      <td>118.0</td>
+      <td>8.0</td>
+      <td>72</td>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12.0</td>
+      <td>149.0</td>
+      <td>12.6</td>
+      <td>74</td>
+      <td>5</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18.0</td>
+      <td>313.0</td>
+      <td>11.5</td>
+      <td>62</td>
+      <td>5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>14.3</td>
+      <td>56</td>
+      <td>5</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>28.0</td>
+      <td>NaN</td>
+      <td>14.9</td>
+      <td>66</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>23.0</td>
+      <td>299.0</td>
+      <td>8.6</td>
+      <td>65</td>
+      <td>5</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19.0</td>
+      <td>99.0</td>
+      <td>13.8</td>
+      <td>59</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>8.0</td>
+      <td>19.0</td>
+      <td>20.1</td>
+      <td>61</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>NaN</td>
+      <td>194.0</td>
+      <td>8.6</td>
+      <td>69</td>
+      <td>5</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong><h5>Histograms</h5></strong></p>
+<p>Histograms are probably the most familiar, and the most common to visualize the frequency counts of data series.  These graphs show the frequency of numerical data in the form of vertical rectangles illustrating how many times that value range was observed in the data (higher = more frequent).</p>
+<p>Let’s see what the range of values looks like in our “Temp” variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;Temp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Temp</th>
+      <td>153.0</td>
+      <td>77.882353</td>
+      <td>9.46527</td>
+      <td>56.0</td>
+      <td>72.0</td>
+      <td>79.0</td>
+      <td>85.0</td>
+      <td>97.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can see that the average value is around 78 degrees, with the inner quartile range of 72-85.  Now let’s see what this looks like plotted in a historgram.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;Temp&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="mi">78</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="p">[</span><span class="mi">72</span><span class="p">,</span><span class="mi">85</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;maroon&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8a5411bdeaf81bb41dfe394e8fccf6e68ce2853fa73e0610c2386041e4b7bdf6.png" src="../_images/8a5411bdeaf81bb41dfe394e8fccf6e68ce2853fa73e0610c2386041e4b7bdf6.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nice!  That’s pretty much exactly what we see.  It’s a little hard to see that distribution because of the “coarseness” due to the number of chosen bins.  Histograms have a parameter called “bins” that you can adjust to increase or decrease the width of the discrete ranges on the x-axis.  Let’s try making it a little more spread out.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;Temp&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/706c39574038b1556636a9434452603d558e1abf40b23d02ff7eedb2e038d578.png" src="../_images/706c39574038b1556636a9434452603d558e1abf40b23d02ff7eedb2e038d578.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interesting.  See how we lost all of the aggregated groupings?  Historgrams are particular in the number of bins required to really see what’s going on.  When you start wanting to see this kind of granularity, maybe you want the next kind of plot we’ll look at call Density Plots.</p>
+<p><strong><h5>Density Plots</h5></strong></p>
+<p>If the aggregated coarseness of the historgram was too much for you, maybe you’re looking for a smoothed version that will nicely show the overall distribution of data.  Enter the density plot.  Here we lose the frequency counts in favor of the probability density funciton of a variable.  Sounds complicated, however the same idea applies as with the histogram where the larger more peaked areas occur more frequently.  Simple as that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;Temp&#39;</span><span class="p">),</span> <span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5084410a93be837773bf434af67a669529fd0664b1f9a9dcab2afbb29ae31530.png" src="../_images/5084410a93be837773bf434af67a669529fd0664b1f9a9dcab2afbb29ae31530.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s overlay our density curve on top of our histogram and see how they compliment each other.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Temp&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">after_stat</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">()</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">scale_fill_discrete</span><span class="p">(</span><span class="n">guide</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/25184cb7c9957dc3466c64a11a04517fd3499ff580515faeb49c7b8d616daf1e.png" src="../_images/25184cb7c9957dc3466c64a11a04517fd3499ff580515faeb49c7b8d616daf1e.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Very nice.  Sometimes you don’t need or want to see the frequency steps and jagged jumps, and would prefer to see the smooth curve.  Now, let’s take one last look by putting all of our numeric variables on the same graph plotting all of their individual density curves.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">melted_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Day&#39;</span><span class="p">,</span><span class="s1">&#39;Month&#39;</span><span class="p">])</span>
+
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">melted_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/30f647c6e8fe7b24e1dbbfb399fb2997043abba17a90ca4538b67e8e094842d6.png" src="../_images/30f647c6e8fe7b24e1dbbfb399fb2997043abba17a90ca4538b67e8e094842d6.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>These can get a little crowded if you try to plot too many features all at once, but at least here you can see that we have very different shapes of distributions.  To be fair, it’s a little misleading because all of these variables are on different scales and units of measurements, so take these readings with a grain of salt.  Normally you’d want to compare apples to apples on the same scale (e.g. only comparing temperature measured in degrees on the same plot).</p>
+<p><strong><h5>Empirical Cummulative Density Function</h5></strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">statsmodels.distributions.empirical_distribution</span> <span class="kn">import</span> <span class="n">ECDF</span>
+
+<span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.6</span><span class="p">,</span> <span class="mf">.4</span><span class="p">])</span>
+<span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span>
+
+<span class="n">ecdf</span> <span class="o">=</span> <span class="n">ECDF</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span>
+<span class="n">ecdf_plt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">ecdf</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">ecdf</span><span class="o">.</span><span class="n">y</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot CDF</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">ecdf_plt</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">stat_ecdf</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Max Tokens&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;Cummulative Probability&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/380dbd786d1d17b7e4ed1f58b97a31d89659e1be69f1e936f84e38df756e6447.png" src="../_images/380dbd786d1d17b7e4ed1f58b97a31d89659e1be69f1e936f84e38df756e6447.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>You quickly come to learn that there’s only so many dimensions we can force into a graph, and just because we can doesn’t mean we should.  Remember, <em>simple is always better</em>.  In most cases, our plots are only going to be bi-variate (only two variables), with possibly one or two more aesthetic layers like size, shape, or color added in.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#sns.pairplot(dat.iloc[:,1:], hue = &#39;gender&#39;)</span>
 </pre></div>
 </div>
 </div>
