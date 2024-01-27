@@ -412,7 +412,7 @@ document.write(`
 <p>What follows is not intended to be a tutorial on Python plotting code or techinques, but more generally about the application of plotting methodologies in various stages of your projects.  We will mostly use the plotnine design in this book, but feel free to use whatever works for you.  That’s what’s important.</p>
 <p>Ok, now that we have all of that out of the way, let’s talk about how we need to start thinking about plots and graphs.</p>
 <h3>Types of Plots</h3><p>First off, you’ll often see the words “plots” and “graphs” used interchangeably, but usually intended to mean the same thing.  These are simply visual graphics of some kind.  Plots more commonly refer to the techinical side of what we’re doing in our application environments, and serve as a catch-all to encompass all kinds of visuals, from proper graphs to images.  Graphs will mostly be referencing the visualization of numeric or categorical data in some way.</p>
-<p>Borrowing, and gently updating <a class="reference internal" href="#plot-types-fig"><span class="std std-numref">Fig. 5.3</span></a> below from the <a href="https://seaborn.pydata.org/tutorial.html">Seaborn User Guide and Tutorial</a>, is about as straight forward as I’ve ever seen an illustration laying out the most common graphs and their uses.  There are of course others and more exotic plot types, but these will cover the overwhelming majority of our needs.</p>
+<p>Borrowing, and gently updating <a class="reference internal" href="#plot-types-fig"><span class="std std-numref">Fig. 5.3</span></a> below from the <a href="https://seaborn.pydata.org/tutorial.html">Seaborn User Guide and Tutorial</a>, is about as straight forward as I’ve ever seen an illustration laying out the most common graphs and their uses.  There are of course others and more exotic plot types for specific purposes, such as heatmaps, area, autocorrelation plots, 3D graphs, graph networks, images, word clouds, animated/interactive, and so on, but what we’ll reveiw will cover the overwhelming majority of our needs for now.</p>
 <figure class="align-default" id="plot-types-fig">
 <a class="reference internal image-reference" href="../_images/plot_types.png"><img alt="../_images/plot_types.png" src="../_images/plot_types.png" style="width: 500px;" /></a>
 <figcaption>
@@ -431,7 +431,7 @@ document.write(`
 </li>
 <li><p>Simple is <em>always</em> better</p>
 <ul class="simple">
-<li><p>It’s generally excepted that going overboard and adding too many dimensions in your graphics is not a good idea(data points, grouping, facetting, color, size, and shape aesthetics all at once)</p></li>
+<li><p>It’s generally excepted that going overboard and adding too many dimensions in your graphics is not a good idea(data points, grouping, faceting, color, size, and shape aesthetics all at once)</p></li>
 <li><p>Reporting from personal experience, I can tell you it will overwhelm your non technical business people and does more harm than good</p></li>
 </ul>
 </li>
@@ -444,7 +444,7 @@ document.write(`
 </ol>
 <p>Enough words.  It’ll be easier if we get going with some examples.</p>
 <h3>Relational Plots</h3><p>These are probably the most common types of graphs we work with.  Relational means you have some variable of interest you’d like to compare with some other phenomenon, be it another variable(s) or time.  Sounds complicated, but it’s really pretty straightforward.</p>
-<p>At the risk of unoriginality, we’ll use the “tips” dataset to work through our examples below.  This popular dataset holds the record of tips received by a waiter over the course of several months.  The data shows the tip amount, bill total, sex/gender of the payer, if any smokers were present in the party, the day of the week, the time of day, and the size of the party.</p>
+<p>At the risk of unoriginality, we’ll use the “tips” dataset to work through our examples below.  This popular dataset holds the record of tips received by a waiter over the course of several months.  Features present are the tip amount, bill total, sex/gender of the payer, if any smokers were present in the party, the day of the week, the time of day, and the size of the party.</p>
 <p>Let’s take a look.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -600,7 +600,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">plotnine</span> <span class="k">as</span> <span class="nn">gg</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
-<span class="c1"># Plotnine</span>
+<span class="c1"># Plot scatterplot</span>
 <span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -616,7 +616,8 @@ document.write(`
 <p>Good start, but what else could we do here?  Maybe you thought about adding an additional segmentaiton <em>aesthetic</em> using color in some way?  How about if we highlight each point by whether or not it was a male or female?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot simple scatterplot with gender color aesthetic</span>
+<span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -627,10 +628,11 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Hmm… unfortunately looks like pretty uniform dispersion so it doesn’t appear to be too information.  What if we add linear fit trendlines for each gender?</p>
+<p>Hmm… unfortunately looks like pretty uniform dispersion so it doesn’t appear to be too informational.  What if we add linear fit trendlines for each gender?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot with lm fit</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
 </pre></div>
@@ -647,7 +649,8 @@ document.write(`
 <p>Let’s move on to segment, or facet, by whether or not each group was a “smoking” group or not, and also we’ll use a coloring aesthetic to highlight the size of each group.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;size&#39;</span><span class="p">))</span> <span class="o">+</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot with lm fit and standard errors</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;size&#39;</span><span class="p">))</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">)</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;smoker&#39;</span><span class="p">))</span>
@@ -668,6 +671,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create tip % variable</span>
 <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;tip_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">tip</span> <span class="o">/</span> <span class="n">dat</span><span class="o">.</span><span class="n">total_bill</span>
 
+<span class="c1"># Plot with &quot;smoker&quot; facet</span>
 <span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip_pct&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">))</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">)</span> <span class="o">+</span>
@@ -685,13 +689,23 @@ document.write(`
 <p>Whoa… the sign of the slopes flipped to negative?!?!  I thought we said as the total bill goes up, so does the tip amount???  Well that’s true, it does, but as we can see the tip as a percentage of the total bill actually decreases as the bill gets larger.  So while yes it’s more money, it’s not keeping up on a linear scale.  Sad to see as I’m sure our waiter deserved better.</p>
 <p>Alright we need to move to some other types.  Next up, line plots.</p>
 <p><strong><h5>Line Plots</h5></strong></p>
-<p>Line plots are pretty straightforward.  These are the stuff of <em>time series</em> data that we discussed in our data types section.  It doesn’t really make sense to connect data point by point if they’re independent observations that have no dependency across time.  Let’s see what I mean.</p>
-<h3>Distribution Plots</h3><p>Plots that show the statistical moments of the data in a distribution, or spread, of the data can be extremely helpful in understanding the behavior of our sample under study.  We’ll start with the most common and cover a few lesser used as well.</p>
-<p>For this section we’ll use the “airquality” dataset of air quality measurements from the New York State Department of Conservation and the National Weather Service from May-September 1973.</p>
+<p>Line plots are pretty straightforward.  These are the stuff of <em>time series</em> data that we discussed in our data types section.  It doesn’t really make sense to connect data point by point if they’re independent observations that have no dependency across time.  Let’s see what we’re talking about by reading in a dataset from the St. Louis Federal Reserve with the following features:</p>
+<ul class="simple">
+<li><p>DATE - Month</p></li>
+<li><p>CPI - Consumer Price Index</p></li>
+<li><p>PCE - Personal Consumption Expendature</p></li>
+<li><p>AHW - Average Hourly Wage</p></li>
+<li><p>CSI - Consumer Sentiment Index</p></li>
+</ul>
+<p>Recall from our discussion about time series data types, what you should notice straight away is that this data carries a <em>time</em> component.  This is what allows you to connect the points in time over the x-axis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;airquality&quot;</span><span class="p">)</span>
-<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read in FRED data from Github</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/bradybr/practical-data-science-and-ml/blob/main/datasets/FRED.csv?raw=true&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\,&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -714,104 +728,344 @@ document.write(`
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Ozone</th>
-      <th>Solar.R</th>
-      <th>Wind</th>
-      <th>Temp</th>
-      <th>Month</th>
-      <th>Day</th>
+      <th>DATE</th>
+      <th>CPI</th>
+      <th>PCE</th>
+      <th>AHW</th>
+      <th>CSI</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <th>0</th>
+      <td>1/1/2007</td>
+      <td>85.832240</td>
+      <td>9538.7</td>
+      <td>20.59</td>
+      <td>96.9</td>
+    </tr>
+    <tr>
       <th>1</th>
-      <td>41.0</td>
-      <td>190.0</td>
-      <td>7.4</td>
-      <td>67</td>
-      <td>5</td>
-      <td>1</td>
+      <td>2/1/2007</td>
+      <td>86.165127</td>
+      <td>9566.0</td>
+      <td>20.68</td>
+      <td>91.3</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>36.0</td>
-      <td>118.0</td>
-      <td>8.0</td>
-      <td>72</td>
-      <td>5</td>
-      <td>2</td>
+      <td>3/1/2007</td>
+      <td>86.613197</td>
+      <td>9611.7</td>
+      <td>20.73</td>
+      <td>88.4</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>12.0</td>
-      <td>149.0</td>
-      <td>12.6</td>
-      <td>74</td>
-      <td>5</td>
-      <td>3</td>
+      <td>4/1/2007</td>
+      <td>86.873093</td>
+      <td>9643.6</td>
+      <td>20.78</td>
+      <td>87.1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>18.0</td>
-      <td>313.0</td>
-      <td>11.5</td>
-      <td>62</td>
-      <td>5</td>
-      <td>4</td>
+      <td>5/1/2007</td>
+      <td>87.232139</td>
+      <td>9685.8</td>
+      <td>20.84</td>
+      <td>88.3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update DATE to datetime</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;DATE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;DATE&#39;</span><span class="p">])</span>
+
+<span class="c1"># Print statistical summaries</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+      <th>std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>DATE</th>
+      <td>204</td>
+      <td>2015-06-16 19:31:45.882352896</td>
+      <td>2007-01-01 00:00:00</td>
+      <td>2011-03-24 06:00:00</td>
+      <td>2015-06-16 00:00:00</td>
+      <td>2019-09-08 12:00:00</td>
+      <td>2023-12-01 00:00:00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>CPI</th>
+      <td>204.0</td>
+      <td>102.634476</td>
+      <td>85.83224</td>
+      <td>94.436791</td>
+      <td>100.202939</td>
+      <td>108.037504</td>
+      <td>130.307109</td>
+      <td>11.143778</td>
+    </tr>
+    <tr>
+      <th>PCE</th>
+      <td>204.0</td>
+      <td>12820.531373</td>
+      <td>9538.7</td>
+      <td>10644.0</td>
+      <td>12291.65</td>
+      <td>14299.025</td>
+      <td>19001.7</td>
+      <td>2616.071004</td>
+    </tr>
+    <tr>
+      <th>AHW</th>
+      <td>204.0</td>
+      <td>25.885931</td>
+      <td>20.59</td>
+      <td>22.9</td>
+      <td>24.985</td>
+      <td>28.1875</td>
+      <td>34.27</td>
+      <td>3.694348</td>
+    </tr>
+    <tr>
+      <th>CSI</th>
+      <td>203.0</td>
+      <td>79.699015</td>
+      <td>50.0</td>
+      <td>69.85</td>
+      <td>79.0</td>
+      <td>91.8</td>
+      <td>101.4</td>
+      <td>13.309146</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can see that some of these variables are indexes, and others are one very different range scales, so let’s start with just one series before getting too complicated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPI Time Series line plot</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;DATE&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;CPI&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#4E68EC&#39;</span><span class="p">)</span> <span class="o">+</span> 
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;CPI - Consumer Price Index&quot;</span><span class="p">)</span> <span class="o">+</span>  
+    <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a9a77997e2e06043374d1776f52bfe8f5a5b5470e69ea8523cf518b090acd96f.png" src="../_images/a9a77997e2e06043374d1776f52bfe8f5a5b5470e69ea8523cf518b090acd96f.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now what if we wanted to plot all 4 of the series together?  Could we do that?  Unfortunately no, not without normalizing or standardizing each individual series to be on the same scale.  Otherwise, the large values of the PCE series would overwhelm the smaller ones and you would not be able to see any variance.  There is another way we can get them all on one plot <em>without</em> adjusting the values though, and it’s called faceting.  Faceting essentially breaks out each series into it’s on plot and then we set the “scales” parameter to “free_y” which allows each plot to see it’s own y-axis range instead of sharing.</p>
+<p>See below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melt data from wide to long</span>
+<span class="n">melted_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="s1">&#39;DATE&#39;</span><span class="p">)</span>
+
+<span class="c1"># Facet Plot</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">melted_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;DATE&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_line</span><span class="p">()</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span> <span class="n">scales</span> <span class="o">=</span> <span class="s1">&#39;free_y&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/abe7ab53054fbfdd49b7645cd06347d430584c73c81556d21db262a61ee5d5ea.png" src="../_images/abe7ab53054fbfdd49b7645cd06347d430584c73c81556d21db262a61ee5d5ea.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>One more for good measure.  We’re jumping ahead a bit here to feature engineering and transformations, but let’s see how we’d normalize each series so we could get them all on one graph.</p>
+<p>There are several ways we could do this, but we’re going to keep it simple and create a normalized index out of each variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the variables to normalize</span>
+<span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CPI&#39;</span><span class="p">,</span><span class="s1">&#39;PCE&#39;</span><span class="p">,</span><span class="s1">&#39;AHW&#39;</span><span class="p">,</span><span class="s1">&#39;CSI&#39;</span><span class="p">]</span>
+
+<span class="c1"># Normalize by dividing by the first value of each series</span>
+<span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Melt data from wide to long</span>
+<span class="n">melted_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="s1">&#39;DATE&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Facet Plot</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">melted_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;DATE&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_line</span><span class="p">()</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Normalized Series&quot;</span><span class="p">)</span> <span class="o">+</span>  
+    <span class="n">gg</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/204794e9d7f1f8f8d9c5b3fd3c61b72caaa0bfcaa80136cd5a27a2af20967073.png" src="../_images/204794e9d7f1f8f8d9c5b3fd3c61b72caaa0bfcaa80136cd5a27a2af20967073.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<h3>Distribution Plots</h3><p>Plots that show the statistical moments of the data in a distribution, or spread, of the data can be extremely helpful in understanding the behavior of our sample under study.  We’ll start with the most common and cover a few lesser used as well.</p>
+<p>Continuing with the tips dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>DATE</th>
+      <th>CPI</th>
+      <th>PCE</th>
+      <th>AHW</th>
+      <th>CSI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2007-01-01</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2007-02-01</td>
+      <td>1.003878</td>
+      <td>1.002862</td>
+      <td>1.004371</td>
+      <td>0.942208</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2007-03-01</td>
+      <td>1.009099</td>
+      <td>1.007653</td>
+      <td>1.006799</td>
+      <td>0.912281</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2007-04-01</td>
+      <td>1.012127</td>
+      <td>1.010997</td>
+      <td>1.009228</td>
+      <td>0.898865</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2007-05-01</td>
+      <td>1.016310</td>
+      <td>1.015421</td>
+      <td>1.012142</td>
+      <td>0.911249</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>14.3</td>
-      <td>56</td>
-      <td>5</td>
-      <td>5</td>
+      <td>2007-06-01</td>
+      <td>1.018664</td>
+      <td>1.017623</td>
+      <td>1.017484</td>
+      <td>0.880289</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>28.0</td>
-      <td>NaN</td>
-      <td>14.9</td>
-      <td>66</td>
-      <td>5</td>
-      <td>6</td>
+      <td>2007-07-01</td>
+      <td>1.020478</td>
+      <td>1.022267</td>
+      <td>1.017484</td>
+      <td>0.932921</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>23.0</td>
-      <td>299.0</td>
-      <td>8.6</td>
-      <td>65</td>
-      <td>5</td>
-      <td>7</td>
+      <td>2007-08-01</td>
+      <td>1.020793</td>
+      <td>1.027278</td>
+      <td>1.019913</td>
+      <td>0.860681</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>19.0</td>
-      <td>99.0</td>
-      <td>13.8</td>
-      <td>59</td>
-      <td>5</td>
-      <td>8</td>
+      <td>2007-09-01</td>
+      <td>1.025118</td>
+      <td>1.032122</td>
+      <td>1.021855</td>
+      <td>0.860681</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>8.0</td>
-      <td>19.0</td>
-      <td>20.1</td>
-      <td>61</td>
-      <td>5</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>NaN</td>
-      <td>194.0</td>
-      <td>8.6</td>
-      <td>69</td>
-      <td>5</td>
-      <td>10</td>
+      <td>2007-10-01</td>
+      <td>1.028279</td>
+      <td>1.036064</td>
+      <td>1.022827</td>
+      <td>0.834881</td>
     </tr>
   </tbody>
 </table>
@@ -819,10 +1073,15 @@ document.write(`
 </div>
 <p><strong><h5>Histograms</h5></strong></p>
 <p>Histograms are probably the most familiar, and the most common to visualize the frequency counts of data series.  These graphs show the frequency of numerical data in the form of vertical rectangles illustrating how many times that value range was observed in the data (higher = more frequent).</p>
-<p>Let’s see what the range of values looks like in our “Temp” variable.</p>
+<p>Let’s see what the range of values looks like in our “total_bill” variable.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;Temp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-read in the tips data &amp; create tip % variable againi</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;tips&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;tip_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">tip</span> <span class="o">/</span> <span class="n">dat</span><span class="o">.</span><span class="n">total_bill</span>
+
+<span class="c1"># Print summary statistics</span>
+<span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;total_bill&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 </div>
 </div>
@@ -857,64 +1116,69 @@ document.write(`
   </thead>
   <tbody>
     <tr>
-      <th>Temp</th>
-      <td>153.0</td>
-      <td>77.882353</td>
-      <td>9.46527</td>
-      <td>56.0</td>
-      <td>72.0</td>
-      <td>79.0</td>
-      <td>85.0</td>
-      <td>97.0</td>
+      <th>total_bill</th>
+      <td>244.0</td>
+      <td>19.785943</td>
+      <td>8.902412</td>
+      <td>3.07</td>
+      <td>13.3475</td>
+      <td>17.795</td>
+      <td>24.1275</td>
+      <td>50.81</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>We can see that the average value is around 78 degrees, with the inner quartile range of 72-85.  Now let’s see what this looks like plotted in a historgram.</p>
+<p>We can see that the average value is around $20 dollars, with the inner quartile range of $13-24.  Now let’s see what this looks like plotted in a historgram.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;Temp&#39;</span><span class="p">))</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="mi">78</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="p">[</span><span class="mi">72</span><span class="p">,</span><span class="mi">85</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;maroon&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot histogram</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;total_bill&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">+</span> 
+     <span class="n">gg</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;rect&quot;</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mi">13</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8a5411bdeaf81bb41dfe394e8fccf6e68ce2853fa73e0610c2386041e4b7bdf6.png" src="../_images/8a5411bdeaf81bb41dfe394e8fccf6e68ce2853fa73e0610c2386041e4b7bdf6.png" />
+<img alt="../_images/f9e104d46922d922b6885e8e0cf2573140aaf1eaac11d954cf882701094a3f64.png" src="../_images/f9e104d46922d922b6885e8e0cf2573140aaf1eaac11d954cf882701094a3f64.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Nice!  That’s pretty much exactly what we see.  It’s a little hard to see that distribution because of the “coarseness” due to the number of chosen bins.  Histograms have a parameter called “bins” that you can adjust to increase or decrease the width of the discrete ranges on the x-axis.  Let’s try making it a little more spread out.</p>
+<p>Nice!  That’s pretty much exactly what we see.  It’s a little hard to see that distribution because of the “coarseness” due to the number of chosen bins.  Histograms have a parameter called “bins” that you can adjust to increase or decrease the width of the discrete ranges on the x-axis.  Let’s try making it a little more spread out by adjusting the “binwidth” parameter.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;Temp&#39;</span><span class="p">))</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot historgram with more granular &quot;binwidth&quot;</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;total_bill&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">+</span> 
+     <span class="n">gg</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;rect&quot;</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mi">13</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/706c39574038b1556636a9434452603d558e1abf40b23d02ff7eedb2e038d578.png" src="../_images/706c39574038b1556636a9434452603d558e1abf40b23d02ff7eedb2e038d578.png" />
+<img alt="../_images/de5e75569b36ad5588b265d329c0667d49f30c6db3d3705fb71dd2fa8013d8dd.png" src="../_images/de5e75569b36ad5588b265d329c0667d49f30c6db3d3705fb71dd2fa8013d8dd.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Interesting.  See how we lost all of the aggregated groupings?  Historgrams are particular in the number of bins required to really see what’s going on.  When you start wanting to see this kind of granularity, maybe you want the next kind of plot we’ll look at call Density Plots.</p>
+<p>Interesting.  See how we lost all of the aggregated groupings?  Historgrams are particular in the number of bins required to really see what’s going on.  When you start wanting to see this kind of granularity, maybe you want the next kind of plot we’ll look at called density plots.</p>
 <p><strong><h5>Density Plots</h5></strong></p>
 <p>If the aggregated coarseness of the historgram was too much for you, maybe you’re looking for a smoothed version that will nicely show the overall distribution of data.  Enter the density plot.  Here we lose the frequency counts in favor of the probability density funciton of a variable.  Sounds complicated, however the same idea applies as with the histogram where the larger more peaked areas occur more frequently.  Simple as that.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;Temp&#39;</span><span class="p">),</span> <span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Density plot</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="s1">&#39;total_bill&#39;</span><span class="p">),</span> <span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/5084410a93be837773bf434af67a669529fd0664b1f9a9dcab2afbb29ae31530.png" src="../_images/5084410a93be837773bf434af67a669529fd0664b1f9a9dcab2afbb29ae31530.png" />
+<img alt="../_images/90eb1750182c7f1bad9d3ad17c6dedb1be7dc9f461249cf1556f80a5a1d870c6.png" src="../_images/90eb1750182c7f1bad9d3ad17c6dedb1be7dc9f461249cf1556f80a5a1d870c6.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -923,7 +1187,8 @@ document.write(`
 <p>Let’s overlay our density curve on top of our histogram and see how they compliment each other.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Temp&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">after_stat</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)))</span> <span class="o">+</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot density curve over the histogram</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;total_bill&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">after_stat</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)))</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">()</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">)</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">scale_fill_discrete</span><span class="p">(</span><span class="n">guide</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
@@ -931,42 +1196,71 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/25184cb7c9957dc3466c64a11a04517fd3499ff580515faeb49c7b8d616daf1e.png" src="../_images/25184cb7c9957dc3466c64a11a04517fd3499ff580515faeb49c7b8d616daf1e.png" />
+<img alt="../_images/ab1b32bc24e8102b53db1af76b803d8fbc4faf87af6568bb156faaaa6ec0dd49.png" src="../_images/ab1b32bc24e8102b53db1af76b803d8fbc4faf87af6568bb156faaaa6ec0dd49.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Very nice.  Sometimes you don’t need or want to see the frequency steps and jagged jumps, and would prefer to see the smooth curve.  Now, let’s take one last look by putting all of our numeric variables on the same graph plotting all of their individual density curves.</p>
+<p>Very nice.  We can see the obvious differences between the two representations, but also where they share the same distributional shape.  Sometimes you don’t need or want to see the frequency steps and jagged jumps, and would prefer to see the smooth curve.</p>
+<p>Now, let’s take one last look by visualizing tips and total bill amounts on the same graph overlaying their individual density curves.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">melted_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Day&#39;</span><span class="p">,</span><span class="s1">&#39;Month&#39;</span><span class="p">])</span>
 
-<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">melted_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
+<span class="c1"># Melt dataset from wide to long</span>
+<span class="n">melted_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span><span class="s1">&#39;smoker&#39;</span><span class="p">,</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
+
+<span class="c1"># Plot multiple density plots</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">melted_dat</span><span class="p">[</span><span class="o">~</span><span class="n">melted_dat</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;tip_pct&#39;</span><span class="p">,</span><span class="s1">&#39;size&#39;</span><span class="p">])],</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
      <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/30f647c6e8fe7b24e1dbbfb399fb2997043abba17a90ca4538b67e8e094842d6.png" src="../_images/30f647c6e8fe7b24e1dbbfb399fb2997043abba17a90ca4538b67e8e094842d6.png" />
+<img alt="../_images/ae5352cf8c8c5f21dcb596f53a12c4062e0c1f2a107ff7251ebfe5fbbd260b60.png" src="../_images/ae5352cf8c8c5f21dcb596f53a12c4062e0c1f2a107ff7251ebfe5fbbd260b60.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>These can get a little crowded if you try to plot too many features all at once, but at least here you can see that we have very different shapes of distributions.  To be fair, it’s a little misleading because all of these variables are on different scales and units of measurements, so take these readings with a grain of salt.  Normally you’d want to compare apples to apples on the same scale (e.g. only comparing temperature measured in degrees on the same plot).</p>
-<p><strong><h5>Empirical Cummulative Density Function</h5></strong></p>
+<p><strong><h5>Empirical Cumulative Density Function (ECDF)</h5></strong></p>
+<p>On to another distribution function that calculates the fraction of observations that are less than or equal to a specific point in the distribution of the sample.  Probability density curves are extremely beneficial when you need to model or simulate from an observed sample because a theoretical distribution will not work.</p>
+<p>This one is easier to show than to explain so we’ll illustrate by simulating playing a fair coin flipping game that either wins 1 token or losses 1 token with each flip, governed by a 50/50 bernouli distribution.</p>
+<p>Each game we’ll start with 10 tokens and will consist of flipping a coin 1,000 times.  We’ll simulate playing the game 100 times.  Each game will terminate either by running out of tokens if we hit zero, or by hitting the maximum number of flips set to 1,000.  For each game, we’ll run a cumulative sum over all of the outcomes, then find the maximum total tokens we held at any one point in each game, and finally we’ll calculate the ECDF on the maximums to understand the probabilty curve of what you could have expected to walk away with on average at your highest point.</p>
+<p>Sounds complicated, but it’s actually pretty straight forward in practice.  Check it out below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">statsmodels.distributions.empirical_distribution</span> <span class="kn">import</span> <span class="n">ECDF</span>
 
-<span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.6</span><span class="p">,</span> <span class="mf">.4</span><span class="p">])</span>
-<span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span>
+<span class="c1"># Game function that wins +1 or costs us -1 token with each flip of a coin</span>
+<span class="k">def</span> <span class="nf">play_fun</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">plays</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">win_prob</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">):</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span> <span class="o">=</span> <span class="n">plays</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_prob</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">win_prob</span><span class="p">)])</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
-<span class="n">ecdf</span> <span class="o">=</span> <span class="n">ECDF</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span>
-<span class="n">ecdf_plt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">ecdf</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+    <span class="c1"># Truncate the series if we hit 0 and ran out of tokens</span>
+    <span class="n">lost</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lost</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">flips</span> <span class="o">=</span> <span class="n">flips</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">lost</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span>
+
+<span class="c1"># Play the game n times and find the maximum cumulative total from each time we played the game</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">tokens_seq</span> <span class="o">=</span> <span class="p">[</span><span class="n">play_fun</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
+<span class="n">max_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tokens_seq</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.distributions.empirical_distribution</span> <span class="kn">import</span> <span class="n">ECDF</span>
+
+<span class="c1"># Calculate the empirical cummulative density function &amp; create a dataframe</span>
+<span class="n">ecdf</span> <span class="o">=</span> <span class="n">ECDF</span><span class="p">(</span><span class="n">max_tokens</span><span class="p">)</span>
+<span class="n">ecdf_dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">ecdf</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
                          <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">ecdf</span><span class="o">.</span><span class="n">y</span><span class="p">})</span>
 </pre></div>
 </div>
@@ -975,27 +1269,598 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot CDF</span>
-<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">ecdf_plt</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">stat_ecdf</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">)</span> <span class="o">+</span>
-     <span class="n">gg</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Max Tokens&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;Cummulative Probability&quot;</span><span class="p">))</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">ecdf_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">stat_ecdf</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Tokens&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;Cummulative Probability&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;ECDF for the Maximum Tokens Held from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Simulations&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/380dbd786d1d17b7e4ed1f58b97a31d89659e1be69f1e936f84e38df756e6447.png" src="../_images/380dbd786d1d17b7e4ed1f58b97a31d89659e1be69f1e936f84e38df756e6447.png" />
+<img alt="../_images/4089b37273c3bbbc3c5ea9b2091991b41986f5d6f9cfff273e1e348556bfbcc2.png" src="../_images/4089b37273c3bbbc3c5ea9b2091991b41986f5d6f9cfff273e1e348556bfbcc2.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>You quickly come to learn that there’s only so many dimensions we can force into a graph, and just because we can doesn’t mean we should.  Remember, <em>simple is always better</em>.  In most cases, our plots are only going to be bi-variate (only two variables), with possibly one or two more aesthetic layers like size, shape, or color added in.</p>
+<p>Beautiful shape.  What’s so cool about this distribution is that now we can begin to ask some questions about expected outcomes.  Want to know where you should have walked away if you wanted to make a profit?  Given some loss tolerance percentage what you could have won?  Etc.</p>
+<p>For example, what if I am pretty risk adverse and wanted to know the probability of actually staying above where we started with 10 tokens?  Easy enough.  Just call our <code class="docutils literal notranslate"><span class="pre">ecdf()</span></code> object with the value you want to know the cummulative probability for.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#sns.pairplot(dat.iloc[:,1:], hue = &#39;gender&#39;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Retrieve the cumulative probability of the ecdf at the value of 10 tokens</span>
+<span class="n">ecdf</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.11
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<p>Ouch.  Looks like 11% of the time we went straight down and never sat on a profit.  I don’t know about you, but that’s not a game I want to play</p>
+</div>
+</div>
+<p>How do we interpret the graph then?  It’s actually pretty simple.  The cumulative probability shows where some % of the observations were less than that value on the x-axis, and the inverse percentage is how much of the time the observations were greater than that number.</p>
+<p>Say you’re actually pretty risk tolerant and you would like to know where you might want to start thinking about cashing out given a 50% chance of reaching that amount?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set container for the cumulative probability we want, and find the token value that corresponds to it</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="mf">.5</span>
+<span class="n">x_val</span> <span class="o">=</span> <span class="n">ecdf_dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ecdf_dat</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">y_prob</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">]</span>
+
+<span class="c1"># Plot CDF with 50% line indicators</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">ecdf_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">stat_ecdf</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_segment</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                           <span class="n">xend</span> <span class="o">=</span> <span class="n">x_val</span><span class="p">,</span>
+                           <span class="n">y</span> <span class="o">=</span> <span class="n">y_prob</span><span class="p">,</span>
+                           <span class="n">yend</span> <span class="o">=</span> <span class="n">y_prob</span><span class="p">),</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;maroon&#39;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_segment</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x_val</span><span class="p">,</span>
+                           <span class="n">xend</span> <span class="o">=</span> <span class="n">x_val</span><span class="p">,</span>
+                           <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                           <span class="n">yend</span> <span class="o">=</span> <span class="n">y_prob</span><span class="p">),</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;maroon&#39;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Max Tokens&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;Cummulative Probability&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;ECDF for the Maximum Tokens Held from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Simulations&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/89f0919fd1f743f32ccfd6b26d69bc3a38acf6e61a40923b86550cb4e21e2b07.png" src="../_images/89f0919fd1f743f32ccfd6b26d69bc3a38acf6e61a40923b86550cb4e21e2b07.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<p>Above we can see above that 50% of the time you would fail to reach 17 tokens, and 50% of the time you could expect to exceed it.  Definitely a game of chance, and not one of skill.</p>
+</div>
+</div>
+<p>Which makes sense if you think about it, because we started with 10 tokens and we’re flipping a fair coin, so we should have approximately the same chance of losing 10 tokens as we do gaining 10!</p>
+<h3>Categorical Plots</h3><p>And finally, our last grouping of plot types:  Categorical Plots.</p>
+<p>These are exactly as they sound, plots for visualizing categorical data in some way.  Some of these will look very familiar to what we’ve seen already, while others may be a little new.  What they’ll all have in common though is categorical aggregation or faceting in some way that allows us to segment by these non numeric groups.</p>
+<p>I see no reason to break from using the tips data at this point, so we’ll carry on as we have been.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>sex</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>16.99</td>
+      <td>1.01</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.059447</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.34</td>
+      <td>1.66</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.160542</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>21.01</td>
+      <td>3.50</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.166587</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>23.68</td>
+      <td>3.31</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.139780</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>24.59</td>
+      <td>3.61</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.146808</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>25.29</td>
+      <td>4.71</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.186240</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8.77</td>
+      <td>2.00</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.228050</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>26.88</td>
+      <td>3.12</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.116071</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>15.04</td>
+      <td>1.96</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.130319</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>14.78</td>
+      <td>3.23</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.218539</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong><h5>Bar Plots</h5></strong></p>
+<p>Bar plots look very similar to histograms, the difference being here we’re not spreading the frequencies of a numeric variable out by its range of values across the x-axis, but rather showing the categorical levels of a feature on the x-axis and the counts on the y-axis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Counts of categorical levels contained in the &quot;day&quot; feature</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;day&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_bar</span><span class="p">()</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Frequency Counts by Day&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3192012b74255c021ae8b89e324df8755d5d4b2a9245bafa269055c27e2889d9.png" src="../_images/3192012b74255c021ae8b89e324df8755d5d4b2a9245bafa269055c27e2889d9.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Of course we can also use the aggregation funtionality within the barplot to show numeric values <em>by</em> these same levels contained within a categorical feature.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total summed values for &quot;total_bill&quot; by &quot;day&quot;</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;total_bill&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;identity&#39;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Total Bill Amounts by Day&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/11a36626b8fd9f7941a1fc89c1cb9530dc5bb54d53841daaba68090b8a57da71.png" src="../_images/11a36626b8fd9f7941a1fc89c1cb9530dc5bb54d53841daaba68090b8a57da71.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><h5>Boxplots</h5></strong></p>
+<p>Boxplots are again similar to some others we’ve seen, namely bar plots and density plots.  We’re essentially using a bar plot layout to view the statistical distribution of the values contained within a feature.  Recall the numeric quantile summaries we’ve been working with?  Well, these are graphical representations of these summaries laid out in a barchart.</p>
+<p>How might this work?</p>
+<p>Curious if there’s a statistical difference in tipping by day of the week?  We can use boxplots to nicely visualize the differences!  However, before we do, let’s print out the numeric summaries for reference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print summary statistics for tips by day </span>
+<span class="n">dat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">)[</span><span class="s1">&#39;tip&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fri</th>
+      <td>19.0</td>
+      <td>2.734737</td>
+      <td>1.019577</td>
+      <td>1.00</td>
+      <td>1.9600</td>
+      <td>3.000</td>
+      <td>3.3650</td>
+      <td>4.73</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <td>87.0</td>
+      <td>2.993103</td>
+      <td>1.631014</td>
+      <td>1.00</td>
+      <td>2.0000</td>
+      <td>2.750</td>
+      <td>3.3700</td>
+      <td>10.00</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <td>76.0</td>
+      <td>3.255132</td>
+      <td>1.234880</td>
+      <td>1.01</td>
+      <td>2.0375</td>
+      <td>3.150</td>
+      <td>4.0000</td>
+      <td>6.50</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>62.0</td>
+      <td>2.771452</td>
+      <td>1.240223</td>
+      <td>1.25</td>
+      <td>2.0000</td>
+      <td>2.305</td>
+      <td>3.3625</td>
+      <td>6.70</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boxplot for tips by day</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0eaeaf6080e76af499b551b37dc8401a66a4129a73ee8f122c886ba4809f5165.png" src="../_images/0eaeaf6080e76af499b551b37dc8401a66a4129a73ee8f122c886ba4809f5165.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nice.  The minimums and maximums are easily identifiable.  Now, remember the discussion about inner quartile range (25th-75th percentiles)?  Well those are observable in the plot as the outer horizontal lines of the boxes.  The thickest line in the middle of the box is the median value.  And see those vertical lines sticking out above and below each box?  Those are the 1.5x the IQR range we’ve also been discussing as an indication of the upper and lower limits for outliers.  Which leaves the dots beyond those outlier limits.  Can you guess what those are?  Outliers!  Good guess.</p>
+<p>We could also do some coloring and additional grouping and faceting if we’d like to get a little more information in one graphic, just don’t forget that <em>simple is always better</em>, as things can get overly complicated super quickly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot boxplot with size facet and color aesthetic by gender</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;sex&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Tips by Day, Party Size, and Gender&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">gg</span><span class="o">.</span><span class="n">facet_wrap</span><span class="p">(</span><span class="s1">&#39;size&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9a4d6d297d7ddcf8e98541cf1a6b79b2396c015e1aa50f597952b4e8b78716ad.png" src="../_images/9a4d6d297d7ddcf8e98541cf1a6b79b2396c015e1aa50f597952b4e8b78716ad.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong><h5>Violin Plots</h5></strong></p>
+<p>Next up is one of my favorite types of plots, but also unfortunately one of the least used by others.  Sad, because it’s really an informative one.</p>
+<p>Let’s start with throwing boxplots under the bus first.  Did you happen to notice a potential issue with boxplots?  It’s ok if you did’t catch it.  Yes, these plots show a graphical representation of the numeric distribution of a variable, but they can easily obsfucate the real underlying spread.  Let’s show an example to make this clear.</p>
+<p>First, we’ll simulate a bimodal distribution and see what it looks like in a histogram and density curve.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a bimodal distribution</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span> <span class="s1">&#39;x&#39;</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">])</span> <span class="p">})</span> 
+
+<span class="c1"># Plot density curve over histogram</span>
+<span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">after_stat</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)))</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="mf">.1</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;#4E68EC&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">gg</span><span class="o">.</span><span class="n">scale_fill_discrete</span><span class="p">(</span><span class="n">guide</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/baa621fb187a0b2fcbdef0289b066a9bdd7f772be30f33a1b2d608afd66f6b87.png" src="../_images/baa621fb187a0b2fcbdef0289b066a9bdd7f772be30f33a1b2d608afd66f6b87.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, let’s use the same data and print the numeric summary statistics, and then plot a boxplot and violin plot side by side to visualize.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print summary statistics</span>
+<span class="n">X</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>x</th>
+      <td>200.0</td>
+      <td>0.501773</td>
+      <td>0.290584</td>
+      <td>0.019809</td>
+      <td>0.231881</td>
+      <td>0.492791</td>
+      <td>0.771949</td>
+      <td>0.990667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="c1"># Plot a boxplot and violin plot sharing the same y-axis</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">split</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">inner</span> <span class="o">=</span> <span class="s2">&quot;quart&quot;</span><span class="p">,</span> <span class="n">cut</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;x&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/d8d40794cf31b901979d29a62d0d56c5bb632ccb6848aba7fccd6855c9963591.png" src="../_images/d8d40794cf31b901979d29a62d0d56c5bb632ccb6848aba7fccd6855c9963591.png" />
+</div>
+</div>
+<p>Very very interesting.  Hopefully you can see the clear differences.  Would you really have been able to understand the distribution of data from the boxplot by itself?  The new violin plot clearly shows the underlying distribution much better than the boxplot does.  It’s essentially a density plot turned on it’s side with the quartiles overlaid.  Super informative.</p>
+<p>This example is just a simple caution.  While boxplots are awesome and super helpful, they can also easily hide distributional information if the data is non-normal.  And this isn’t to say violin plots are infallable either.  Simply understand every plot type has its strengths and weaknesses, and try not to fall in love with just one type and you’ll be fine.</p>
+<p>Back to violin plots.  We can do some very cool things with these by splitting, coloring, and faceting.  Here’s just a taste below if you wanted to see the difference in tipping percentage by gender, and whether or not they were in a party with a smoker.  It would be nearly impossible to see this same amount of information in such a succient way in a boxplot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot split violin plot</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">dat</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;smoker&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;tip_pct&quot;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="n">inner</span> <span class="o">=</span> <span class="s2">&quot;quart&quot;</span><span class="p">,</span> <span class="n">split</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;smoker&#39;, ylabel=&#39;tip_pct&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/23c90d28bba71062f40143828bc4132fd424c0c77224d92fdbb7ac9d443359ef.png" src="../_images/23c90d28bba71062f40143828bc4132fd424c0c77224d92fdbb7ac9d443359ef.png" />
+</div>
+</div>
+<p><strong><h5>Mosaic Plots</h5></strong></p>
+<p>And now our final plot type we’re going to show: Mosiac Plots.</p>
+<p>Mosaic plots are awesome and simple ways to plot multiple categorical variables against each other.  Under the hood, mosiac plots are leveraging what’s known as <em>crosstabs</em>, which caluclate the overlapping percentages amongst the categorical groups.</p>
+<p>Let’s see how it works using the sex and day variables in the tips data.  First, we show a crosstab table to illustrate the actual numbers behind the graph.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the crosstab table for sex and day</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">],</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>day</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Sun</th>
+      <th>Thur</th>
+    </tr>
+    <tr>
+      <th>sex</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Female</th>
+      <td>9</td>
+      <td>28</td>
+      <td>18</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>Male</th>
+      <td>10</td>
+      <td>59</td>
+      <td>58</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>And now the mosaic plot, which is just a graphical representation of the crosstable counts above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.graphics.mosaicplot</span> <span class="kn">import</span> <span class="n">mosaic</span>
+
+<span class="c1"># Plot 2 feature mosaic plot</span>
+<span class="n">mosaic</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/230f4af8be94caa8e21830bd0e069da45fcf7c078077ecaff533b4c1161b9d3e.png" src="../_images/230f4af8be94caa8e21830bd0e069da45fcf7c078077ecaff533b4c1161b9d3e.png" />
+</div>
+</div>
+<h3>What Did We Learn?</h3><p>Another long one, I know.  But there’s so many different ways to visualize your data and we wanted to try to expose you to as many useful methodologies as possible.  You’ll start to get comfortable with a plotting library and syntax you prefer over time, and with practice you’ll be able to quickly associate different plot types with the specifics of your data at hand.  And as you being trying these out for yourself, you’ll run across problems and new details you’d like to dial in and tweak.  Google, Stack Overflow, and the library documentations will again come to your rescue.</p>
+<p>The last thought to leave you with is that you’ll quickly come to realize there are many dimensions we can force into a graph, but just because we can doesn’t mean we should.  Graphs should not be complicated or confusing.  The point you’re trying to make should jump off the image at the viewer, and rarely should require any outside explanation.</p>
+<p>Remember, <em>simple is always better</em>.</p>
+<p>Happy plotting.</p>
 </section>
 
     <script type="text/x-thebe-config">
