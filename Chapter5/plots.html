@@ -897,7 +897,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Now what if we wanted to plot all 4 of the series together?  Could we do that?  Unfortunately no, not without normalizing or standardizing each individual series to be on the same scale.  Otherwise, the large values of the PCE series would overwhelm the smaller ones and you would not be able to see any variance.  There is another way we can get them all on one plot <em>without</em> adjusting the values though, and it’s called faceting.  Faceting essentially breaks out each series into it’s on plot and then we set the “scales” parameter to “free_y” which allows each plot to see it’s own y-axis range instead of sharing.</p>
+<p>Now what if we wanted to plot all 4 of the series together?  Could we do that?  Unfortunately no, not without normalizing or standardizing each individual series to be on the same scale.  Otherwise, the large values of the PCE series would overwhelm the smaller ones and you would not be able to see any variance.  There is another way we can get them all on one plot <em>without</em> adjusting the values though, and it’s called faceting.  Faceting essentially breaks out each series into it’s own plot and then we set the “scales” parameter to “free_y” which allows each plot to set its own y-axis range instead of sharing.</p>
 <p>See below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -937,7 +937,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Facet Plot</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Normalized Series Plot</span>
 <span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">melted_dat</span><span class="p">,</span> <span class="n">gg</span><span class="o">.</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;DATE&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">))</span> <span class="o">+</span>
     <span class="n">gg</span><span class="o">.</span><span class="n">geom_line</span><span class="p">()</span> <span class="o">+</span>
     <span class="n">gg</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;Normalized Series&quot;</span><span class="p">)</span> <span class="o">+</span>  
@@ -1148,7 +1148,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Nice!  That’s pretty much exactly what we see.  It’s a little hard to see that distribution because of the “coarseness” due to the number of chosen bins.  Histograms have a parameter called “bins” that you can adjust to increase or decrease the width of the discrete ranges on the x-axis.  Let’s try making it a little more spread out by adjusting the “binwidth” parameter.</p>
+<p>Nice!  That’s pretty much exactly what we see.  Our data is right (positive) skewed, shown in that sweeping tail out to the right of our histogram.  It’s a little hard to see the nuances of the full distribution though because of the “coarseness”.  This is due to the number of chosen bins in the plotting function.  Histograms have a parameter called “bins” that you can adjust to increase or decrease the width of the discrete ranges on the x-axis.  Let’s try making it a little more spread out by adjusting the “binwidth” parameter.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot historgram with more granular &quot;binwidth&quot;</span>
@@ -1225,7 +1225,7 @@ document.write(`
 </div>
 </div>
 <p><strong><h5>Empirical Cumulative Density Function (ECDF)</h5></strong></p>
-<p>On to another distribution function that calculates the fraction of observations that are less than or equal to a specific point in the distribution of the sample.  Probability density curves are extremely beneficial when you need to model or simulate from an observed sample because a theoretical distribution will not work.</p>
+<p>On to another distribution function that calculates the fraction of observations that are less than or equal to a specific point in the distribution of the sample.  Probability density curves are extremely beneficial when you need to model or simulate from an observed sample (empirical) because a theoretical distribution will not fit or work.</p>
 <p>This one is easier to show than to explain so we’ll illustrate by simulating playing a fair coin flipping game that either wins 1 token or losses 1 token with each flip, governed by a 50/50 bernouli distribution.</p>
 <p>Each game we’ll start with 10 tokens and will consist of flipping a coin 1,000 times.  We’ll simulate playing the game 100 times.  Each game will terminate either by running out of tokens if we hit zero, or by hitting the maximum number of flips set to 1,000.  For each game, we’ll run a cumulative sum over all of the outcomes, then find the maximum total tokens we held at any one point in each game, and finally we’ll calculate the ECDF on the maximums to understand the probabilty curve of what you could have expected to walk away with on average at your highest point.</p>
 <p>Sounds complicated, but it’s actually pretty straight forward in practice.  Check it out below.</p>
@@ -1234,9 +1234,9 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1"># Game function that wins +1 or costs us -1 token with each flip of a coin</span>
-<span class="k">def</span> <span class="nf">play_fun</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">plays</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">win_prob</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">):</span>
-    <span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span> <span class="o">=</span> <span class="n">plays</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_prob</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">win_prob</span><span class="p">)])</span>
-    <span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">play_fun</span><span class="p">(</span><span class="n">start_amt</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n_flips</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">win_prob</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">):</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span> <span class="o">=</span> <span class="n">n_flips</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_prob</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">win_prob</span><span class="p">)])</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span> <span class="o">+</span> <span class="n">start_amt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">start_amt</span><span class="p">)</span>
 
     <span class="c1"># Truncate the series if we hit 0 and ran out of tokens</span>
     <span class="n">lost</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">flips</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
@@ -1277,7 +1277,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4089b37273c3bbbc3c5ea9b2091991b41986f5d6f9cfff273e1e348556bfbcc2.png" src="../_images/4089b37273c3bbbc3c5ea9b2091991b41986f5d6f9cfff273e1e348556bfbcc2.png" />
+<img alt="../_images/f889569b0bf07a1c197c2ff598c9657a46606bbf5a7adb626fc4d62ffe2ad420.png" src="../_images/f889569b0bf07a1c197c2ff598c9657a46606bbf5a7adb626fc4d62ffe2ad420.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1330,7 +1330,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/89f0919fd1f743f32ccfd6b26d69bc3a38acf6e61a40923b86550cb4e21e2b07.png" src="../_images/89f0919fd1f743f32ccfd6b26d69bc3a38acf6e61a40923b86550cb4e21e2b07.png" />
+<img alt="../_images/77057de7dfc1e96597d6f3e4bffa2008561d38c308b2bfe72fb18f7e1c31a111.png" src="../_images/77057de7dfc1e96597d6f3e4bffa2008561d38c308b2bfe72fb18f7e1c31a111.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1338,7 +1338,7 @@ document.write(`
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<p>Above we can see above that 50% of the time you would fail to reach 17 tokens, and 50% of the time you could expect to exceed it.  Definitely a game of chance, and not one of skill.</p>
+<p>Above we can see above that 50% of the time you would fail to reach 22 tokens, and 50% of the time you could expect to exceed it.  Definitely a game of chance, and not one of skill.</p>
 </div>
 </div>
 <p>Which makes sense if you think about it, because we started with 10 tokens and we’re flipping a fair coin, so we should have approximately the same chance of losing 10 tokens as we do gaining 10!</p>
@@ -1684,7 +1684,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/baa621fb187a0b2fcbdef0289b066a9bdd7f772be30f33a1b2d608afd66f6b87.png" src="../_images/baa621fb187a0b2fcbdef0289b066a9bdd7f772be30f33a1b2d608afd66f6b87.png" />
+<img alt="../_images/19ba8b476a4a45f74f49cbc3fbd06bd08c8d46c9f1911965fa694c68e2cfd7ff.png" src="../_images/19ba8b476a4a45f74f49cbc3fbd06bd08c8d46c9f1911965fa694c68e2cfd7ff.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1731,13 +1731,13 @@ document.write(`
     <tr>
       <th>x</th>
       <td>200.0</td>
-      <td>0.501773</td>
-      <td>0.290584</td>
-      <td>0.019809</td>
-      <td>0.231881</td>
-      <td>0.492791</td>
-      <td>0.771949</td>
-      <td>0.990667</td>
+      <td>0.479215</td>
+      <td>0.306793</td>
+      <td>0.002909</td>
+      <td>0.198798</td>
+      <td>0.5053</td>
+      <td>0.757951</td>
+      <td>0.989481</td>
     </tr>
   </tbody>
 </table>
@@ -1760,7 +1760,7 @@ document.write(`
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;x&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/d8d40794cf31b901979d29a62d0d56c5bb632ccb6848aba7fccd6855c9963591.png" src="../_images/d8d40794cf31b901979d29a62d0d56c5bb632ccb6848aba7fccd6855c9963591.png" />
+<img alt="../_images/ab80b9f23efc050c2f2f56df4ebdb63ebc6b6b26bff7c0cdc4f172b841a4505f.png" src="../_images/ab80b9f23efc050c2f2f56df4ebdb63ebc6b6b26bff7c0cdc4f172b841a4505f.png" />
 </div>
 </div>
 <p>Very very interesting.  Hopefully you can see the clear differences.  Would you really have been able to understand the distribution of data from the boxplot by itself?  The new violin plot clearly shows the underlying distribution much better than the boxplot does.  It’s essentially a density plot turned on it’s side with the quartiles overlaid.  Super informative.</p>
