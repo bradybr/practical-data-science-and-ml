@@ -453,7 +453,7 @@ document.write(`
 
 <span class="c1"># Read in the &quot;tips&quot; dataset</span>
 <span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;tips&quot;</span><span class="p">)</span>
-<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -535,56 +535,6 @@ document.write(`
       <td>Sun</td>
       <td>Dinner</td>
       <td>4</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>25.29</td>
-      <td>4.71</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>8.77</td>
-      <td>2.00</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>26.88</td>
-      <td>3.12</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>15.04</td>
-      <td>1.96</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>14.78</td>
-      <td>3.23</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>2</td>
     </tr>
   </tbody>
 </table>
@@ -956,7 +906,11 @@ document.write(`
 <p>Continuing with the tips dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-read in the tips data &amp; create tip % variable againi</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;tips&quot;</span><span class="p">)</span>
+<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;tip_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">tip</span> <span class="o">/</span> <span class="n">dat</span><span class="o">.</span><span class="n">total_bill</span>
+
+<span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -979,93 +933,71 @@ document.write(`
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>DATE</th>
-      <th>CPI</th>
-      <th>PCE</th>
-      <th>AHW</th>
-      <th>CSI</th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>sex</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>2007-01-01</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
       <th>1</th>
-      <td>2007-02-01</td>
-      <td>1.003878</td>
-      <td>1.002862</td>
-      <td>1.004371</td>
-      <td>0.942208</td>
+      <td>16.99</td>
+      <td>1.01</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.059447</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2007-03-01</td>
-      <td>1.009099</td>
-      <td>1.007653</td>
-      <td>1.006799</td>
-      <td>0.912281</td>
+      <td>10.34</td>
+      <td>1.66</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.160542</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2007-04-01</td>
-      <td>1.012127</td>
-      <td>1.010997</td>
-      <td>1.009228</td>
-      <td>0.898865</td>
+      <td>21.01</td>
+      <td>3.50</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.166587</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2007-05-01</td>
-      <td>1.016310</td>
-      <td>1.015421</td>
-      <td>1.012142</td>
-      <td>0.911249</td>
+      <td>23.68</td>
+      <td>3.31</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.139780</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>2007-06-01</td>
-      <td>1.018664</td>
-      <td>1.017623</td>
-      <td>1.017484</td>
-      <td>0.880289</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>2007-07-01</td>
-      <td>1.020478</td>
-      <td>1.022267</td>
-      <td>1.017484</td>
-      <td>0.932921</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>2007-08-01</td>
-      <td>1.020793</td>
-      <td>1.027278</td>
-      <td>1.019913</td>
-      <td>0.860681</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>2007-09-01</td>
-      <td>1.025118</td>
-      <td>1.032122</td>
-      <td>1.021855</td>
-      <td>0.860681</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>2007-10-01</td>
-      <td>1.028279</td>
-      <td>1.036064</td>
-      <td>1.022827</td>
-      <td>0.834881</td>
+      <td>24.59</td>
+      <td>3.61</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.146808</td>
     </tr>
   </tbody>
 </table>
@@ -1076,11 +1008,7 @@ document.write(`
 <p>Let’s see what the range of values looks like in our “total_bill” variable.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-read in the tips data &amp; create tip % variable againi</span>
-<span class="n">dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="s2">&quot;tips&quot;</span><span class="p">)</span>
-<span class="n">dat</span><span class="p">[</span><span class="s1">&#39;tip_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">tip</span> <span class="o">/</span> <span class="n">dat</span><span class="o">.</span><span class="n">total_bill</span>
-
-<span class="c1"># Print summary statistics</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print summary statistics</span>
 <span class="n">dat</span><span class="p">[[</span><span class="s1">&#39;total_bill&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 </div>
@@ -1277,7 +1205,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/f889569b0bf07a1c197c2ff598c9657a46606bbf5a7adb626fc4d62ffe2ad420.png" src="../_images/f889569b0bf07a1c197c2ff598c9657a46606bbf5a7adb626fc4d62ffe2ad420.png" />
+<img alt="../_images/74462443a8e56c147716cbb06b97c1051677d2eff3c86edcb9120bfd28d891d1.png" src="../_images/74462443a8e56c147716cbb06b97c1051677d2eff3c86edcb9120bfd28d891d1.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1293,14 +1221,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.11
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.060000000000000005
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<p>Ouch.  Looks like 11% of the time we went straight down and never sat on a profit.  I don’t know about you, but that’s not a game I want to play</p>
+<p>Ouch.  Looks like 6% of the time we went straight down and never sat on a profit.  I don’t know about you, but that’s not a game I want to play</p>
 </div>
 </div>
 <p>How do we interpret the graph then?  It’s actually pretty simple.  The cumulative probability shows where some % of the observations were less than that value on the x-axis, and the inverse percentage is how much of the time the observations were greater than that number.</p>
@@ -1330,7 +1258,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/77057de7dfc1e96597d6f3e4bffa2008561d38c308b2bfe72fb18f7e1c31a111.png" src="../_images/77057de7dfc1e96597d6f3e4bffa2008561d38c308b2bfe72fb18f7e1c31a111.png" />
+<img alt="../_images/71ae76978423ca2cb0cfd41d1ce8134d8848bdcd30b82841a168c5280b70bba3.png" src="../_images/71ae76978423ca2cb0cfd41d1ce8134d8848bdcd30b82841a168c5280b70bba3.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1338,7 +1266,7 @@ document.write(`
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<p>Above we can see above that 50% of the time you would fail to reach 22 tokens, and 50% of the time you could expect to exceed it.  Definitely a game of chance, and not one of skill.</p>
+<p>Above we can see above that 50% of the time you would fail to reach 20 tokens, and 50% of the time you could expect to exceed it.  Definitely a game of chance, and not one of skill.</p>
 </div>
 </div>
 <p>Which makes sense if you think about it, because we started with 10 tokens and we’re flipping a fair coin, so we should have approximately the same chance of losing 10 tokens as we do gaining 10!</p>
@@ -1347,7 +1275,7 @@ document.write(`
 <p>I see no reason to break from using the tips data at this point, so we’ll carry on as we have been.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1435,61 +1363,6 @@ document.write(`
       <td>Dinner</td>
       <td>4</td>
       <td>0.146808</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>25.29</td>
-      <td>4.71</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>4</td>
-      <td>0.186240</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>8.77</td>
-      <td>2.00</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>2</td>
-      <td>0.228050</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>26.88</td>
-      <td>3.12</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>4</td>
-      <td>0.116071</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>15.04</td>
-      <td>1.96</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>2</td>
-      <td>0.130319</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>14.78</td>
-      <td>3.23</td>
-      <td>Male</td>
-      <td>No</td>
-      <td>Sun</td>
-      <td>Dinner</td>
-      <td>2</td>
-      <td>0.218539</td>
     </tr>
   </tbody>
 </table>
@@ -1684,7 +1557,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/19ba8b476a4a45f74f49cbc3fbd06bd08c8d46c9f1911965fa694c68e2cfd7ff.png" src="../_images/19ba8b476a4a45f74f49cbc3fbd06bd08c8d46c9f1911965fa694c68e2cfd7ff.png" />
+<img alt="../_images/83cd01ad9bafd88350abff9d2256e54c9dc1ece1d15c038a64d2d82e31d06d71.png" src="../_images/83cd01ad9bafd88350abff9d2256e54c9dc1ece1d15c038a64d2d82e31d06d71.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (640 x 480)&gt;
 </pre></div>
 </div>
@@ -1731,13 +1604,13 @@ document.write(`
     <tr>
       <th>x</th>
       <td>200.0</td>
-      <td>0.479215</td>
-      <td>0.306793</td>
-      <td>0.002909</td>
-      <td>0.198798</td>
-      <td>0.5053</td>
-      <td>0.757951</td>
-      <td>0.989481</td>
+      <td>0.494851</td>
+      <td>0.295294</td>
+      <td>0.016507</td>
+      <td>0.227229</td>
+      <td>0.534721</td>
+      <td>0.759221</td>
+      <td>0.987804</td>
     </tr>
   </tbody>
 </table>
@@ -1760,7 +1633,7 @@ document.write(`
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;x&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/ab80b9f23efc050c2f2f56df4ebdb63ebc6b6b26bff7c0cdc4f172b841a4505f.png" src="../_images/ab80b9f23efc050c2f2f56df4ebdb63ebc6b6b26bff7c0cdc4f172b841a4505f.png" />
+<img alt="../_images/437f4456de36f12834dccd3c09810190a3995de4a53b92f16c8ff80097d35991.png" src="../_images/437f4456de36f12834dccd3c09810190a3995de4a53b92f16c8ff80097d35991.png" />
 </div>
 </div>
 <p>Very very interesting.  Hopefully you can see the clear differences.  Would you really have been able to understand the distribution of data from the boxplot by itself?  The new violin plot clearly shows the underlying distribution much better than the boxplot does.  It’s essentially a density plot turned on it’s side with the quartiles overlaid.  Super informative.</p>
